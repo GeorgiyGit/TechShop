@@ -1,0 +1,233 @@
+.create-order-main {
+    min-height: 70vh;
+}
+
+.create-order-section {
+    padding: 0rem;
+}
+
+.create-order-title {
+    margin: 0 0 2rem;
+    text-align: center;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 700;
+    color: var(--black);
+}
+
+.create-order-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.create-order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.create-order-item-card {
+    background: var(--gray-soft);
+    border: 1px solid var(--gray-blue-2);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.create-order-item-image {
+    width: 92px;
+    height: 92px;
+    object-fit: contain;
+    background: white;
+    border: 1px solid var(--gray-blue-2);
+    border-radius: var(--radius-sm);
+    padding: 0.2rem;
+    flex-shrink: 0;
+}
+
+.create-order-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.create-order-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.45rem;
+}
+
+.create-order-item-name {
+    margin: 0;
+    font-size: clamp(1.15rem, 2vw, 2rem);
+    font-weight: 500;
+    color: var(--black);
+}
+
+.create-order-item-total {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.45vw, 1.45rem);
+    color: var(--black);
+    white-space: nowrap;
+}
+
+.create-order-item-math {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+    font-weight: 700;
+    color: var(--black);
+}
+
+.create-order-details-panel {
+    padding: 0.1rem 0.2rem;
+}
+
+.create-order-details-title {
+    margin: 0 0 0.8rem;
+    text-align: center;
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    font-weight: 500;
+    color: var(--black);
+}
+
+.create-order-group {
+    margin-bottom: 0.75rem;
+}
+
+.create-order-group-title {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1rem, 1.5vw, 1.7rem);
+    font-weight: 500;
+    color: var(--black);
+}
+
+.create-order-grid {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.create-order-grid.two-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.create-order-grid.one-col {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.create-order-delivery-options {
+    margin-bottom: 0.45rem;
+}
+
+.create-order-input {
+    width: 100%;
+    height: 42px;
+    border: 1px solid var(--gray-blue-2);
+    border-radius: 0;
+    background: var(--gray-soft);
+    color: var(--black);
+    padding: 0 0.9rem;
+    font-size: 1.25rem;
+}
+
+.create-order-input:focus {
+    border-color: var(--blue);
+    outline: none;
+    box-shadow: 0 0 0 0.15rem rgba(74, 112, 169, 0.18);
+}
+
+.create-order-input::placeholder {
+    color: var(--text-muted);
+}
+
+.create-order-choice {
+    height: 44px;
+    border: 1px solid var(--gray-blue-2);
+    border-radius: 0;
+    background: #d6d6d6;
+    color: var(--black);
+    font-size: 1.25rem;
+    font-weight: 500;
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.create-order-delivery-btn {
+    background: #d6d6d6;
+    border-color: var(--gray-blue-2);
+    color: var(--black);
+}
+
+.create-order-payment-btn {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+}
+
+.create-order-choice:hover:not(:disabled),
+.create-order-choice:focus-visible:not(:disabled) {
+    background: var(--blue-dark);
+    border-color: var(--blue-dark);
+    color: white;
+    outline: none;
+}
+
+.create-order-summary {
+    margin-top: 0.45rem;
+}
+
+.create-order-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.1rem;
+    font-size: clamp(0.95rem, 1.35vw, 1.45rem);
+    color: var(--black);
+}
+
+.create-order-dots {
+    flex: 1;
+    border-bottom: 2px dotted var(--text-muted);
+}
+
+.create-order-row>span:last-child {
+    text-align: right;
+    max-width: 56%;
+}
+
+@media (max-width: 1100px) {
+    .create-order-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .create-order-section {
+        padding: 1.2rem 0.8rem;
+    }
+
+    .create-order-item-card {
+        align-items: flex-start;
+    }
+
+    .create-order-item-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+
+    .create-order-grid.two-cols {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .create-order-input,
+    .create-order-choice {
+        font-size: 0.95rem;
+    }
+
+    .create-order-row {
+        font-size: 1rem;
+    }
+}
