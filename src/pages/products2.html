@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechShop — Products</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="../styles/products2.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ================================================================
+       NAVBAR
+       ================================================================ -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-brand-bg sticky-top shadow-sm">
+    <div class="container-xl">
+
+      <a class="navbar-brand fw-bold fs-4 me-4" href="#">TechShop</a>
+
+      <!-- Mobile toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Search bar (centre) -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="d-flex flex-grow-1 mx-2 mx-lg-4">
+          <div class="input-group navbar-search">
+            <input type="text" class="form-control navbar-search-input" placeholder="Search for products, brands and more…">
+            <button class="btn navbar-search-btn" type="button" aria-label="Search">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Auth + cart -->
+        <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+          <a href="#" class="btn btn-nav-icon" aria-label="Cart">
+            <i class="bi bi-cart3 fs-5"></i>
+          </a>
+          <button class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</button>
+          <button class="btn btn-light btn-sm px-3 text-primary-brand fw-500">Log In</button>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <!-- ================================================================
+       HERO CAROUSEL
+       ================================================================ -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <div class="carousel-slide carousel-slide-1">
+          <div class="carousel-slide-content">
+            <span class="badge badge-carousel mb-3">New Arrivals</span>
+            <h1 class="display-5 fw-bold text-white">The Future of Tech<br>Starts Here</h1>
+            <p class="lead text-white-75 mb-4">Explore the latest smartphones, laptops, and more.</p>
+            <a href="#products" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div class="carousel-slide carousel-slide-2">
+          <div class="carousel-slide-content">
+            <span class="badge badge-carousel mb-3">Limited Time</span>
+            <h1 class="display-5 fw-bold text-white">Best Deals<br>of the Season</h1>
+            <p class="lead text-white-75 mb-4">Save up to 50% on selected electronics.</p>
+            <a href="#products" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">View Deals</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div class="carousel-slide carousel-slide-3">
+          <div class="carousel-slide-content">
+            <span class="badge badge-carousel mb-3">Top Brands</span>
+            <h1 class="display-5 fw-bold text-white">Your Favourite Brands,<br>All in One Place</h1>
+            <p class="lead text-white-75 mb-4">Apple, Samsung, Sony, and many more.</p>
+            <a href="#products" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Explore</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+
+  </div>
+
+
+  <!-- ================================================================
+       MAIN CONTENT
+       ================================================================ -->
+  <main id="products" class="main-bg py-4">
+    <div class="container-xl">
+
+      <!-- Toolbar: Pagination + Sort -->
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+        <nav aria-label="Product pages">
+          <ul class="pagination pagination-brand mb-0">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <i class="bi bi-chevron-left"></i>
+              </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">…</a></li>
+            <li class="page-item"><a class="page-link" href="#">10</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <i class="bi bi-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="d-flex align-items-center gap-2">
+          <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
+          <select class="form-select form-select-sm select-brand" id="orderBy" style="min-width:160px">
+            <option value="">Relevance</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="newest">Newest First</option>
+            <option value="popular">Most Popular</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Filters + Products -->
+      <div class="row g-4 align-items-start">
+
+        <!-- ============================================================
+             FILTER SIDEBAR
+             ============================================================ -->
+        <aside class="col-lg-3 col-md-4">
+          <div class="filter-sidebar">
+
+            <h6 class="filter-sidebar-title">
+              <i class="bi bi-sliders2 me-2"></i>Filters
+            </h6>
+
+            <div class="accordion accordion-flush" id="filterAccordion">
+
+              <!-- Categories -->
+              <div class="accordion-item filter-accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button filter-btn" type="button"
+                          data-bs-toggle="collapse" data-bs-target="#catCollapse"
+                          aria-expanded="true">
+                    Categories
+                  </button>
+                </h2>
+                <div id="catCollapse" class="accordion-collapse collapse show">
+                  <div class="accordion-body filter-body">
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catPhone">
+                      <label class="form-check-label" for="catPhone">Smartphones</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catLaptop">
+                      <label class="form-check-label" for="catLaptop">Laptops</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catTablet">
+                      <label class="form-check-label" for="catTablet">Tablets</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catAudio">
+                      <label class="form-check-label" for="catAudio">Headphones &amp; Audio</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catCamera">
+                      <label class="form-check-label" for="catCamera">Cameras</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catGaming">
+                      <label class="form-check-label" for="catGaming">Gaming</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="catWearables">
+                      <label class="form-check-label" for="catWearables">Wearables</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Brands -->
+              <div class="accordion-item filter-accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button filter-btn collapsed" type="button"
+                          data-bs-toggle="collapse" data-bs-target="#brandCollapse"
+                          aria-expanded="false">
+                    Brands
+                  </button>
+                </h2>
+                <div id="brandCollapse" class="accordion-collapse collapse">
+                  <div class="accordion-body filter-body">
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandApple">
+                      <label class="form-check-label" for="brandApple">Apple</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandSamsung">
+                      <label class="form-check-label" for="brandSamsung">Samsung</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandSony">
+                      <label class="form-check-label" for="brandSony">Sony</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandLenovo">
+                      <label class="form-check-label" for="brandLenovo">Lenovo</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandLG">
+                      <label class="form-check-label" for="brandLG">LG</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandBose">
+                      <label class="form-check-label" for="brandBose">Bose</label>
+                    </div>
+                    <div class="form-check filter-check">
+                      <input class="form-check-input" type="checkbox" id="brandAsus">
+                      <label class="form-check-label" for="brandAsus">Asus</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price -->
+              <div class="accordion-item filter-accordion-item border-bottom-0">
+                <h2 class="accordion-header">
+                  <button class="accordion-button filter-btn collapsed" type="button"
+                          data-bs-toggle="collapse" data-bs-target="#priceCollapse"
+                          aria-expanded="false">
+                    Price
+                  </button>
+                </h2>
+                <div id="priceCollapse" class="accordion-collapse collapse">
+                  <div class="accordion-body filter-body">
+                    <div class="d-flex gap-2 mb-3">
+                      <input type="number" class="form-control form-control-sm price-input" placeholder="Min €" value="0" min="0">
+                      <span class="text-muted align-self-center">—</span>
+                      <input type="number" class="form-control form-control-sm price-input" placeholder="Max €" value="5000" min="0">
+                    </div>
+                    <input type="range" class="form-range range-brand" min="0" max="5000" value="5000" id="priceRange"
+                           aria-label="Maximum price">
+                    <div class="d-flex justify-content-between">
+                      <small class="text-muted">€0</small>
+                      <small class="text-muted">€5,000</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Apply button -->
+            <button class="btn btn-primary-brand w-100 mt-3 fw-600">
+              <i class="bi bi-search me-2"></i>Apply Filters
+            </button>
+            <button class="btn btn-clear-filters w-100 mt-2">
+              Clear Filters
+            </button>
+
+          </div>
+        </aside>
+
+
+        <!-- ============================================================
+             PRODUCT GRID
+             ============================================================ -->
+        <section class="col-lg-9 col-md-8">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
+
+            <!-- 1 -->
+            <div class="col" id="productItemContainer">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper">
+                  <div class="product-img-icon"><i class="bi bi-phone"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Samsung</small>
+                  <h6 class="card-title product-name mt-1">Galaxy S24 Ultra</h6>
+                  <p class="card-text product-desc text-muted">200MP camera, built-in S Pen, titanium frame</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,299.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="col" id="productItemContainer1">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper">
+                  <div class="product-img-icon"><i class="bi bi-phone"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Apple</small>
+                  <h6 class="card-title product-name mt-1">iPhone 15 Pro</h6>
+                  <p class="card-text product-desc text-muted">A17 Pro chip, Action Button, titanium design</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€999.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="col" id="productItemContainer2">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--audio">
+                  <div class="product-img-icon"><i class="bi bi-headphones"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Sony</small>
+                  <h6 class="card-title product-name mt-1">WH-1000XM5</h6>
+                  <p class="card-text product-desc text-muted">Industry-leading noise cancelling, 30h battery</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€349.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="col" id="productItemContainer3">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--laptop">
+                  <div class="product-img-icon"><i class="bi bi-laptop"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Dell</small>
+                  <h6 class="card-title product-name mt-1">XPS 15 (2024)</h6>
+                  <p class="card-text product-desc text-muted">Intel Core i9, 64GB RAM, RTX 4070 GPU</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,799.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="col" id="productItemContainer4">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--tablet">
+                  <div class="product-img-icon"><i class="bi bi-tablet"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Apple</small>
+                  <h6 class="card-title product-name mt-1">iPad Pro 12.9"</h6>
+                  <p class="card-text product-desc text-muted">M2 chip, Liquid Retina XDR display, 5G</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,099.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="col" id="productItemContainer5">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--tv">
+                  <div class="product-img-icon"><i class="bi bi-tv"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">LG</small>
+                  <h6 class="card-title product-name mt-1">OLED TV 55" C4</h6>
+                  <p class="card-text product-desc text-muted">4K OLED, 120Hz, Dolby Vision &amp; Atmos</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,499.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="col" id="productItemContainer6">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--camera">
+                  <div class="product-img-icon"><i class="bi bi-camera"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Canon</small>
+                  <h6 class="card-title product-name mt-1">EOS R6 Mark II</h6>
+                  <p class="card-text product-desc text-muted">40fps burst, 6K RAW video, advanced IBIS</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€2,499.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="col" id="productItemContainer7">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--audio">
+                  <div class="product-img-icon"><i class="bi bi-earbuds"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Apple</small>
+                  <h6 class="card-title product-name mt-1">AirPods Pro 2nd Gen</h6>
+                  <p class="card-text product-desc text-muted">Adaptive Transparency, H2 chip, USB-C case</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€249.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="col" id="productItemContainer8">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--laptop">
+                  <div class="product-img-icon"><i class="bi bi-laptop"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Lenovo</small>
+                  <h6 class="card-title product-name mt-1">ThinkPad X1 Carbon</h6>
+                  <p class="card-text product-desc text-muted">Ultra-light 1.12kg, Intel vPro, military-grade</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,599.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="col" id="productItemContainer9">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--gaming">
+                  <div class="product-img-icon"><i class="bi bi-controller"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Sony</small>
+                  <h6 class="card-title product-name mt-1">PlayStation 5</h6>
+                  <p class="card-text product-desc text-muted">825GB SSD, 4K 120fps, DualSense included</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€499.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="col" id="productItemContainer10">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--gaming">
+                  <div class="product-img-icon"><i class="bi bi-joystick"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Nintendo</small>
+                  <h6 class="card-title product-name mt-1">Switch OLED Model</h6>
+                  <p class="card-text product-desc text-muted">7" OLED screen, enhanced audio, dock included</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€349.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="col" id="productItemContainer11">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--tablet">
+                  <div class="product-img-icon"><i class="bi bi-tablet-landscape"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Microsoft</small>
+                  <h6 class="card-title product-name mt-1">Surface Pro 10</h6>
+                  <p class="card-text product-desc text-muted">Snapdragon X Elite, OLED display, Copilot+ PC</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,299.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="col" id="productItemContainer12">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper">
+                  <div class="product-img-icon"><i class="bi bi-phone"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Google</small>
+                  <h6 class="card-title product-name mt-1">Pixel 9 Pro</h6>
+                  <p class="card-text product-desc text-muted">Google Tensor G4, 50MP triple camera, AI features</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€999.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="col" id="productItemContainer13">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--audio">
+                  <div class="product-img-icon"><i class="bi bi-headset"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Sony</small>
+                  <h6 class="card-title product-name mt-1">InZone H9 Headset</h6>
+                  <p class="card-text product-desc text-muted">360 Spatial Sound, AI noise cancellation, 32h</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€149.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="col" id="productItemContainer14">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--laptop">
+                  <div class="product-img-icon"><i class="bi bi-laptop"></i></div>
+                  <div class="badge badge-sale">Sale</div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Asus</small>
+                  <h6 class="card-title product-name mt-1">ROG Zephyrus G16</h6>
+                  <p class="card-text product-desc text-muted">RTX 4090, 240Hz QHD+, AMD Ryzen 9</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,899.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 16 -->
+            <div class="col" id="productItemContainer15">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper">
+                  <div class="product-img-icon"><i class="bi bi-phone"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Xiaomi</small>
+                  <h6 class="card-title product-name mt-1">14 Ultra</h6>
+                  <p class="card-text product-desc text-muted">Leica Summilux optics, Snapdragon 8 Gen 3</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€899.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 17 -->
+            <div class="col" id="productItemContainer16">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--audio">
+                  <div class="product-img-icon"><i class="bi bi-speaker"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Bose</small>
+                  <h6 class="card-title product-name mt-1">SoundLink Max</h6>
+                  <p class="card-text product-desc text-muted">360° sound, IP67 waterproof, 20h playtime</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€279.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 18 -->
+            <div class="col" id="productItemContainer17">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--camera">
+                  <div class="product-img-icon"><i class="bi bi-camera-video"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">GoPro</small>
+                  <h6 class="card-title product-name mt-1">Hero 13 Black</h6>
+                  <p class="card-text product-desc text-muted">5.3K60 video, HyperSmooth 7.0, waterproof 10m</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€399.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 19 -->
+            <div class="col" id="productItemContainer18">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--wearable">
+                  <div class="product-img-icon"><i class="bi bi-smartwatch"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Apple</small>
+                  <h6 class="card-title product-name mt-1">Apple Watch Series 10</h6>
+                  <p class="card-text product-desc text-muted">Thinnest ever, 18h battery, health sensors</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€399.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 20 -->
+            <div class="col" id="productItemContainer19">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--tablet">
+                  <div class="product-img-icon"><i class="bi bi-tablet"></i></div>
+                  <div class="badge badge-new">New</div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Samsung</small>
+                  <h6 class="card-title product-name mt-1">Galaxy Tab S10 Ultra</h6>
+                  <p class="card-text product-desc text-muted">14.6" AMOLED, S Pen, Snapdragon 8 Gen 3</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€999.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 21 -->
+            <div class="col" id="productItemContainer20">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--gaming">
+                  <div class="product-img-icon"><i class="bi bi-phone"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Asus</small>
+                  <h6 class="card-title product-name mt-1">ROG Phone 8 Pro</h6>
+                  <p class="card-text product-desc text-muted">Snapdragon 8 Gen 3, 165Hz AMOLED, 65W charge</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€1,099.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 22 -->
+            <div class="col" id="productItemContainer21">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--peripheral">
+                  <div class="product-img-icon"><i class="bi bi-mouse"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Logitech</small>
+                  <h6 class="card-title product-name mt-1">MX Master 3S</h6>
+                  <p class="card-text product-desc text-muted">8K DPI, ultra-fast MagSpeed scroll, Bluetooth</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€99.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 23 -->
+            <div class="col" id="productItemContainer22">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--peripheral">
+                  <div class="product-img-icon"><i class="bi bi-keyboard"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Razer</small>
+                  <h6 class="card-title product-name mt-1">BlackWidow V4 Pro</h6>
+                  <p class="card-text product-desc text-muted">Chroma RGB, Razer Green switches, wireless</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€139.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 24 -->
+            <div class="col" id="productItemContainer23">
+              <div class="product-card card h-100">
+                <div class="product-img-wrapper product-img-wrapper--peripheral">
+                  <div class="product-img-icon"><i class="bi bi-plug"></i></div>
+                  <button class="btn btn-wishlist-float" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <small class="text-muted product-brand">Anker</small>
+                  <h6 class="card-title product-name mt-1">Prime 100W GaN Charger</h6>
+                  <p class="card-text product-desc text-muted">4-port GaN, charge 3 devices simultaneously</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                    <span class="product-price">€59.99</span>
+                    <button class="btn btn-add-cart btn-sm">
+                      <i class="bi bi-cart-plus me-1"></i>Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.row (products) -->
+        </section>
+      </div><!-- /.row (layout) -->
+    </div><!-- /.container-xl -->
+  </main>
+
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="footer py-5">
+    <div class="container-xl">
+      <div class="row gy-4 text-center text-md-start align-items-center">
+
+        <!-- Social icons -->
+        <div class="col-md-4 d-flex justify-content-center justify-content-md-start gap-3">
+          <a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+
+        <!-- Nav links -->
+        <div class="col-md-4 d-flex justify-content-center gap-4">
+          <a href="#" class="footer-link">Home</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">About</a>
+        </div>
+
+        <!-- Emails -->
+        <div class="col-md-4 text-center text-md-end">
+          <p class="footer-email mb-1">xsladkovskyi@stuba.sk</p>
+          <p class="footer-email mb-0">xsorochynskyi@stuba.sk</p>
+        </div>
+
+      </div>
+
+      <hr class="footer-divider my-4">
+
+      <p class="text-center footer-copy mb-0">
+        &copy; 2026 TechShop. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Product card click handlers
+    document.querySelectorAll('[id^="productItemContainer"]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        // Navigate to product detail page
+      });
+    });
+
+    // Prevent Add to Cart click from bubbling to card
+    document.querySelectorAll('.btn-add-cart, .btn-wishlist-float').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+
+    // Price range label sync
+    const priceRange = document.getElementById('priceRange');
+    if (priceRange) {
+      priceRange.addEventListener('input', function () {
+        const maxInput = this.closest('.accordion-body').querySelector('input[placeholder="Max €"]');
+        if (maxInput) maxInput.value = this.value;
+      });
+    }
+  </script>
+
+</body>
+</html>

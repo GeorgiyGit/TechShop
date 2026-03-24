@@ -585,6 +585,10 @@ textarea.admin-form-control {
 }
 
 @media (max-width: 768px) {
+    .admin-wrapper {
+        flex-direction: column;
+    }
+
     .admin-sidebar {
         width: 100%;
         border-right: none;
