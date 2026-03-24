@@ -41,11 +41,10 @@
 .cart-item-image {
     width: 100px;
     height: 100px;
-    object-fit: contain;
+    object-fit: cover;
     background: white;
     border: 1px solid var(--gray-blue-2);
     border-radius: var(--radius-sm);
-    padding: 0.2rem;
     flex-shrink: 0;
 }
 
