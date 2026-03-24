@@ -283,6 +283,7 @@ main {
     overflow: hidden;
     cursor: pointer;
     background: white;
+    position: relative;
 }
 
 .product-card:hover {
@@ -290,8 +291,8 @@ main {
     border-color: var(--blue-light);
 }
 
-.product-img-wrap {
-    position: relative;
+.product-card .card-body .d-flex.justify-content-between.align-items-center {
+    margin-top: auto;
 }
 
 .product-img {
@@ -331,6 +332,8 @@ main {
     border-color: var(--blue);
     color: white;
     border-radius: var(--radius-sm);
+    position: relative;
+    z-index: 2;
 }
 
 .btn-add-cart:hover {
