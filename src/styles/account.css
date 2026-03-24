@@ -1,3 +1,15 @@
+:root {
+    --blue-border: rgba(74, 112, 169, 0.12);
+    --red: #dc3545;
+    --red-bg: rgba(220, 53, 69, 0.09);
+    --green: #16a34a;
+    --green-bg: rgba(22, 163, 74, 0.10);
+    --amber: #b45309;
+    --amber-bg: rgba(202, 138, 4, 0.12);
+    --indigo: #4338ca;
+    --indigo-bg: rgba(79, 70, 229, 0.10);
+}
+
 .account-main {
     min-height: 70vh;
 }
@@ -52,8 +64,40 @@
 
 .account-order-status {
     margin: 0;
-    font-size: clamp(1rem, 1.7vw, 1.45rem);
-    color: #2d3748;
+}
+
+.order-status-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.order-status-pending {
+    background: var(--amber-bg);
+    color: var(--amber);
+}
+
+.order-status-processing {
+    background: var(--blue-border);
+    color: var(--blue-dark);
+}
+
+.order-status-shipped {
+    background: var(--indigo-bg);
+    color: var(--indigo);
+}
+
+.order-status-delivered {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.order-status-cancelled {
+    background: var(--red-bg);
+    color: var(--red);
 }
 
 .account-order-date {
