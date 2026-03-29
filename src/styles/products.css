@@ -162,9 +162,118 @@ header>nav {
     border: 1px solid white;
 }
 
+.home-banner {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2rem);
+    padding-inline: clamp(10rem, 8vw, 15rem);
+}
+
+.home-banner-content {
+    flex: 0 1 50%;
+    width: min(560px, 100%);
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.home-banner-content .display-5 {
+    font-size: clamp(1.9rem, 3.2vw, 3.15rem);
+}
+
+.home-banner-content .lead {
+    max-width: 46ch;
+}
+
+.home-banner-content .tag {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+}
+
+.home-banner-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.home-banner-product-card {
+    width: clamp(175px, 22vw, 270px);
+    height: clamp(175px, 22vw, 270px);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.95);
+    border: 4px solid #ffffff;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+}
+
+.home-banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.home-banner-image-phone {
+    width: 100%;
+}
+
+.home-banner-image-laptop {
+    width: 100%;
+}
+
+.home-banner-image-watch {
+    width: 100%;
+}
+
+.home-banner-image-appliance {
+    width: 100%;
+}
+
 main {
     background-color: var(--cream);
     padding: 2rem;
+}
+
+@media (max-width: 991.98px) {
+    .home-banner {
+        padding-inline: clamp(7rem, 6vw, 10rem);
+    }
+
+    .home-banner-content {
+        width: 100%;
+        flex-basis: 60%;
+    }
+
+    .home-banner-media {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .home-banner-media {
+        display: none;
+    }
+
+    .home-banner {
+        justify-content: stretch;
+    }
+
+    .home-banner-content {
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none;
+        margin-inline: 0;
+    }
+
+    .home-banner-content .lead {
+        max-width: 100%;
+    }
 }
 
 .my-pagination .page-link {
