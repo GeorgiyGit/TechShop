@@ -1,4 +1,11 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .create-order-main {
+    flex: 1 0 auto;
     min-height: 70vh;
 }
 
