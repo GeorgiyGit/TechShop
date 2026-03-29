@@ -440,10 +440,14 @@ footer>.socials a {
 
 body.signup-screen {
     background: var(--cream);
+    min-height: 100vh;
+    overflow: hidden;
 }
 
 .signup-page-content {
     filter: saturate(0.92);
+    height: 100vh;
+    overflow: hidden;
 }
 
 .signup-overlay {
@@ -611,3 +615,4 @@ body.signup-screen {
         font-size: 1.1rem;
     }
 }
+
