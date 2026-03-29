@@ -48,9 +48,59 @@ header>nav {
     row-gap: 0.4rem;
 }
 
+.home-header-nav {
+    display: grid;
+    grid-template-columns: auto minmax(420px, 760px) auto;
+    grid-template-areas: "logo search actions";
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.home-header-left {
+    grid-area: logo;
+}
+
+.home-header-center {
+    grid-area: search;
+    width: 100%;
+}
+
+.home-header-right {
+    grid-area: actions;
+    justify-self: end;
+}
+
+.home-header-nav .home-navbar-search {
+    max-width: 760px;
+    width: 100%;
+}
+
+.home-header-nav .navbar-search-input {
+    font-size: 1rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+}
+
+.home-header-nav .navbar-search-btn {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 @media (max-width: 991.98px) {
     header > nav {
         padding: 0.65rem 1.25rem;
+    }
+
+    .home-header-nav {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "logo actions"
+            "search search";
+        row-gap: 0.65rem;
+    }
+
+    .home-header-right {
+        margin-top: 0 !important;
     }
 }
 
@@ -69,7 +119,7 @@ header>nav {
     }
     header > nav > div:last-child {
         width: 100%;
-        justify-content: flex-end;
+        justify-content: center;
     }
 }
 
