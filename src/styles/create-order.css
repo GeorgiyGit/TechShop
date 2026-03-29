@@ -263,6 +263,19 @@
     opacity: 0.7;
 }
 
+.create-order-readonly {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--gray-blue-2);
+    border-radius: var(--radius-sm);
+    background: var(--gray-soft);
+    color: var(--black);
+    padding: 0.55rem 0.9rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
 .delivery-method-group {
     display: flex;
     flex-direction: column;
