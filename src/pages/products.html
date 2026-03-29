@@ -1,0 +1,535 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoWorld - Products</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../styles/products.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav class="home-header-nav">
+            <div class="d-flex align-items-center gap-3 home-header-left">
+                <a href="../../index.html" class="logo">TechnoWorld</a>
+            </div>
+            <div class="home-header-center">
+                <div class="input-group navbar-search home-navbar-search">
+                    <input type="text" class="form-control navbar-search-input"
+                        placeholder="Search for products, brands and more...">
+                    <button class="btn navbar-search-btn" type="button" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0 home-header-right">
+                <a href="cart.html" class="btn btn-nav-icon" aria-label="Cart">
+                    <i class="bi bi-cart3 fs-5"></i>
+                </a>
+                <a href="signup.html" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
+                <a href="login.html" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
+            </div>
+        </nav>
+    </header>
+
+    <div id="featuredProductsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide-to="0" class="active"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="carousel-slide carousel-slide-1 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">This Week Only</span>
+                        <h2 class="display-5 fw-bold white-text">Saeco Royal Professional<br>Flash Price</h2>
+                        <p class="lead white-text mb-4">Bring cafe-level espresso home with this premium automatic coffee maker.</p>
+                        <a href="product.html" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Grab Saeco Deal</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="../../assets/products/coffee-maker/saeco-royal-professional/image.png" alt="Saeco Royal Professional coffee maker" class="home-banner-image home-banner-image-appliance">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="carousel-slide carousel-slide-2 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">Fast Delivery</span>
+                        <h2 class="display-5 fw-bold white-text">Apple Watch 6<br>Delivered Fast</h2>
+                        <p class="lead white-text mb-4">Order today and get this smartwatch quickly with express shipping options.</p>
+                        <a href="product.html" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Shop Apple Watch 6</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="../../assets/products/watch/apple-watch-6/image.png" alt="Apple Watch Series 6" class="home-banner-image home-banner-image-watch">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="carousel-slide carousel-slide-3 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">Just Landed</span>
+                        <h2 class="display-5 fw-bold white-text">Miele C3 Vacuum<br>Now in Store</h2>
+                        <p class="lead white-text mb-4">A new stock of the Miele Complete C3 with powerful cleaning performance.</p>
+                        <a href="product.html" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">See New Miele Stock</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="../../assets/products/vacuum-cleaner/miele-c3/image.png" alt="Miele Complete C3 vacuum cleaner" class="home-banner-image home-banner-image-appliance">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <main>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
+                <select class="form-select form-select-sm select-brand" id="orderBy" style="min-width:160px">
+                    <option value="">Relevance</option>
+                    <option value="price-asc">Low Price First</option>
+                    <option value="price-desc">High Price First</option>
+                    <option value="newest">New First</option>
+                    <option value="popular">Most Popular</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <aside class="col-lg-3 col-md-4">
+                <div class="filter-sidebar">
+                    <h6 class="filter-sidebar-title">
+                        <i class="bi bi-sliders2 me-2"></i>Filters
+                    </h6>
+                    <div class="accordion accordion-flush" id="filterAccordion">
+                        <div class="accordion-item filter-accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button filter-btn" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#catCollapse" aria-expanded="true">
+                                    Categories
+                                </button>
+                            </h2>
+                            <div id="catCollapse" class="accordion-collapse collapse show">
+                                <div class="accordion-body filter-body">
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="catPhone">
+                                        <label class="form-check-label" for="catPhone">Smartphones</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="catLaptop">
+                                        <label class="form-check-label" for="catLaptop">Laptops</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="catTablet">
+                                        <label class="form-check-label" for="catTablet">Tablets</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="catAudio">
+                                        <label class="form-check-label" for="catAudio">Headphones And Audio</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="catCamera">
+                                        <label class="form-check-label" for="catCamera">Cameras</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="catGaming">
+                                        <label class="form-check-label" for="catGaming">Gaming</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item filter-accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button filter-btn collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#brandCollapse" aria-expanded="false">
+                                    Brands
+                                </button>
+                            </h2>
+                            <div id="brandCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body filter-body">
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandApple">
+                                        <label class="form-check-label" for="brandApple">Apple</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandSamsung">
+                                        <label class="form-check-label" for="brandSamsung">Samsung</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandSony">
+                                        <label class="form-check-label" for="brandSony">Sony</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandLenovo">
+                                        <label class="form-check-label" for="brandLenovo">Lenovo</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandLG">
+                                        <label class="form-check-label" for="brandLG">LG</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandBose">
+                                        <label class="form-check-label" for="brandBose">Bose</label>
+                                    </div>
+                                    <div class="form-check filter-check">
+                                        <input class="form-check-input" type="checkbox" id="brandAsus">
+                                        <label class="form-check-label" for="brandAsus">Asus</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item filter-accordion-item border-bottom-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button filter-btn collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#priceCollapse" aria-expanded="false">
+                                    Price
+                                </button>
+                            </h2>
+                            <div id="priceCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body filter-body">
+                                    <div class="d-flex gap-2 mb-3">
+                                        <input type="number" class="form-control form-control-sm price-input"
+                                            placeholder="Min €" value="0" min="0">
+                                        <span class="text-muted align-self-center">-</span>
+                                        <input type="number" class="form-control form-control-sm price-input"
+                                            placeholder="Max €" value="5000" min="0">
+                                    </div>
+                                    <input type="range" class="form-range range-brand" min="0" max="5000" value="5000"
+                                        id="priceRange" aria-label="Maximum price">
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">€0</small>
+                                        <small class="text-muted">€5,000</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary-brand w-100 mt-3 fw-600">
+                        <i class="bi bi-search me-2"></i>Apply Filters
+                    </button>
+                    <button class="btn btn-clear-filters w-100 mt-2">
+                        Clear Filters
+                    </button>
+
+                </div>
+            </aside>
+
+            <section id="products" class="col-lg-9 col-md-8">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/coffee-maker/saeco-royal-professional/image.png"
+                                    class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Saeco</small>
+                                    <h6 class="card-title mt-1">Royal Professional Coffee Maker</h6>
+                                    <p class="card-text text-muted">Automatic espresso machine with built-in grinder and
+                                        milk frother</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>899.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/laptop/microsoft-surface-go-3/image.png"
+                                    class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Microsoft</small>
+                                    <h6 class="card-title mt-1">Surface Go 3</h6>
+                                    <p class="card-text text-muted">10.5-inch touchscreen laptop with Intel processor
+                                        and lightweight design</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>629.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/microwave-oven/panasonic/image.png" class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Panasonic</small>
+                                    <h6 class="card-title mt-1">Panasonic Microwave Oven</h6>
+                                    <p class="card-text text-muted">25L capacity with inverter heating and quick defrost
+                                        programs</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>219.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/mouse/logitech-wireless-mouse-m510-black/image.png"
+                                    class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Logitech</small>
+                                    <h6 class="card-title mt-1">Wireless Mouse M510 Black</h6>
+                                    <p class="card-text text-muted">Ergonomic wireless mouse with precision tracking and
+                                        long battery life</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>34.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <div class="product-img-wrap">
+                                    <img src="../../assets/products/phone/iphone-11/image.png" class="product-img">
+                                    <span class="product-stock-badge out-of-stock">Out of Stock</span>
+                                </div>
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Apple</small>
+                                    <h6 class="card-title mt-1">iPhone 11</h6>
+                                    <p class="card-text text-muted">6.1-inch Liquid Retina display with A13 Bionic chip
+                                        and dual cameras</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>449.99 €</span>
+                                        <button class="btn btn-add-cart btn-sm" disabled>
+                                            <i class="bi bi-cart-x me-1"></i>Unavailable
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/phone/motorola-g86/image.png" class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Motorola</small>
+                                    <h6 class="card-title mt-1">Motorola G86</h6>
+                                    <p class="card-text text-muted">5G smartphone with 120Hz display and all-day 5000mAh
+                                        battery</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>329.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <div class="product-img-wrap">
+                                    <img src="../../assets/products/phone/motorola-razr-50-ultra/image.png"
+                                        class="product-img">
+                                    <span class="product-stock-badge low-stock">Only 3 left</span>
+                                </div>
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Motorola</small>
+                                    <h6 class="card-title mt-1">Motorola Razr 50 Ultra</h6>
+                                    <p class="card-text text-muted">Premium foldable phone with vivid pOLED screen and
+                                        flagship performance</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>1,199.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <div class="product-img-wrap">
+                                    <img src="../../assets/products/power-bank/20000-mah/image.png" class="product-img">
+                                    <span class="product-stock-badge low-stock">Only 5 left</span>
+                                </div>
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Anker</small>
+                                    <h6 class="card-title mt-1">Power Bank 20000 mAh</h6>
+                                    <p class="card-text text-muted">High-capacity portable charger with USB-C fast
+                                        charging and dual ports</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>59.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/refrigerator/snaige/image.png" class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Snaigė</small>
+                                    <h6 class="card-title mt-1">Snaigė Refrigerator</h6>
+                                    <p class="card-text text-muted">Energy-efficient refrigerator with spacious storage
+                                        and low-noise operation</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>549.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/vacuum-cleaner/electrolux-zb-2951-ergorapido/image.png"
+                                    class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Electrolux</small>
+                                    <h6 class="card-title mt-1">ZB 2951 Ergorapido</h6>
+                                    <p class="card-text text-muted">Cordless 2-in-1 vacuum cleaner for quick floor and
+                                        handheld cleaning</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>189.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/vacuum-cleaner/miele-c3/image.png" class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Miele</small>
+                                    <h6 class="card-title mt-1">Miele Complete C3</h6>
+                                    <p class="card-text text-muted">Bagged canister vacuum with powerful suction and
+                                        advanced HEPA filtration</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>329.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="product.html" class="text-decoration-none text-reset">
+                            <div class="product-card card h-100">
+                                <img src="../../assets/products/watch/apple-watch-6/image.png" class="product-img">
+                                <div class="card-body d-flex flex-column p-3">
+                                    <small class="text-muted">Apple</small>
+                                    <h6 class="card-title mt-1">Apple Watch Series 6</h6>
+                                    <p class="card-text text-muted">Smartwatch with blood oxygen sensor, GPS, and
+                                        always-on Retina display</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <span>379.99 €</span>
+                                        <a href="cart.html" class="btn btn-add-cart btn-sm">
+                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <div class="d-flex justify-content-end mt-4">
+                <nav>
+                    <ul class="pagination my-pagination mb-0">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">10</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="socials">
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+        <div class="pages">
+            <a href="../../index.html" class="footer-link">Home</a>
+            <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+            <a href="../../index.html#about" class="footer-link">About</a>
+        </div>
+        <div class="emails">
+            <p class="footer-email mb-1">xsladkovskyi@stuba.sk</p>
+            <p class="footer-email mb-0">xsorochynskyi@stuba.sk</p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+

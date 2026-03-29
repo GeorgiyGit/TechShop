@@ -1,0 +1,437 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoWorld - Log In</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../styles/products.css" rel="stylesheet">
+</head>
+
+<body class="signup-screen">
+    <div class="signup-page-content">
+        <header>
+        <nav class="home-header-nav">
+            <div class="d-flex align-items-center gap-3 home-header-left">
+                <a href="../../index.html" class="logo">TechnoWorld</a>
+            </div>
+            <div class="home-header-center">
+                <div class="input-group navbar-search home-navbar-search">
+                    <input type="text" class="form-control navbar-search-input"
+                        placeholder="Search for products, brands and more...">
+                    <button class="btn navbar-search-btn" type="button" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0 home-header-right">
+                <a href="cart.html" class="btn btn-nav-icon" aria-label="Cart">
+                    <i class="bi bi-cart3 fs-5"></i>
+                </a>
+                <a href="products-auth.html" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
+                <a href="products-auth.html" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
+            </div>
+        </nav>
+    </header>
+
+        <div id="mainCarousel" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"
+                    aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-slide carousel-slide-1">
+                        <div class="carousel-slide-content">
+                            <span class="tag">New Arrivals</span>
+                            <h2 class="display-5 fw-bold white-text">The Future of Tech<br>Starts Here</h2>
+                            <p class="lead white-text mb-4">Explore the latest smartphones, laptops, and more</p>
+                            <a href="products.html" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="carousel-slide carousel-slide-2">
+                        <div class="carousel-slide-content">
+                            <span class="tag">Limited Time</span>
+                            <h2 class="display-5 fw-bold white-text">Best Deals<br>of the Season</h2>
+                            <p class="lead white-text mb-4">Save up to 50% on selected electronics</p>
+                            <a href="products.html" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">View Deals</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="carousel-slide carousel-slide-3">
+                        <div class="carousel-slide-content">
+                            <span class="tag">Top Brands</span>
+                            <h2 class="display-5 fw-bold white-text">Your Favorite Brands,<br>All in One Place</h2>
+                            <p class="lead white-text mb-4">Apple, Samsung, Sony, and many more</p>
+                            <a href="products.html" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <main>
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                <nav>
+                    <ul class="pagination my-pagination mb-0">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">10</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="d-flex align-items-center gap-2">
+                    <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
+                    <select class="form-select form-select-sm select-brand" id="orderBy" style="min-width:160px">
+                        <option value="">Relevance</option>
+                        <option value="price-asc">Low Price First</option>
+                        <option value="price-desc">High Price First</option>
+                        <option value="newest">New First</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-4 align-items-start">
+                <aside class="col-lg-3 col-md-4">
+                    <div class="filter-sidebar">
+                        <h6 class="filter-sidebar-title">
+                            <i class="bi bi-sliders2 me-2"></i>Filters
+                        </h6>
+                        <div class="accordion accordion-flush" id="filterAccordion">
+                            <div class="accordion-item filter-accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button filter-btn" type="button" aria-expanded="true">
+                                        Categories
+                                    </button>
+                                </h2>
+                                <div class="accordion-collapse collapse show">
+                                    <div class="accordion-body filter-body">
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginCatPhone">
+                                            <label class="form-check-label" for="loginCatPhone">Smartphones</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginCatLaptop">
+                                            <label class="form-check-label" for="loginCatLaptop">Laptops</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginCatTablet">
+                                            <label class="form-check-label" for="loginCatTablet">Tablets</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginCatAudio">
+                                            <label class="form-check-label" for="loginCatAudio">Headphones And Audio</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginCatCamera">
+                                            <label class="form-check-label" for="loginCatCamera">Cameras</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginCatGaming">
+                                            <label class="form-check-label" for="loginCatGaming">Gaming</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item filter-accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button filter-btn collapsed" type="button" aria-expanded="false">
+                                        Brands
+                                    </button>
+                                </h2>
+                                <div class="accordion-collapse collapse show">
+                                    <div class="accordion-body filter-body">
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandApple">
+                                            <label class="form-check-label" for="loginBrandApple">Apple</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandSamsung">
+                                            <label class="form-check-label" for="loginBrandSamsung">Samsung</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandSony">
+                                            <label class="form-check-label" for="loginBrandSony">Sony</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandLenovo">
+                                            <label class="form-check-label" for="loginBrandLenovo">Lenovo</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandLG">
+                                            <label class="form-check-label" for="loginBrandLG">LG</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandBose">
+                                            <label class="form-check-label" for="loginBrandBose">Bose</label>
+                                        </div>
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="loginBrandAsus">
+                                            <label class="form-check-label" for="loginBrandAsus">Asus</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item filter-accordion-item border-bottom-0">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button filter-btn collapsed" type="button" aria-expanded="false">
+                                        Price
+                                    </button>
+                                </h2>
+                                <div class="accordion-collapse collapse show">
+                                    <div class="accordion-body filter-body">
+                                        <div class="d-flex gap-2 mb-3">
+                                            <input type="number" class="form-control form-control-sm price-input"
+                                                placeholder="Min €" value="0" min="0">
+                                            <span class="text-muted align-self-center">-</span>
+                                            <input type="number" class="form-control form-control-sm price-input"
+                                                placeholder="Max €" value="5000" min="0">
+                                        </div>
+                                        <input type="range" class="form-range range-brand" min="0" max="5000" value="5000"
+                                            id="loginPriceRange" aria-label="Maximum price">
+                                        <div class="d-flex justify-content-between">
+                                            <small class="text-muted">€0</small>
+                                            <small class="text-muted">€5,000</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary-brand w-100 mt-3 fw-600">
+                            <i class="bi bi-search me-2"></i>Apply Filters
+                        </button>
+                        <button class="btn btn-clear-filters w-100 mt-2">
+                            Clear Filters
+                        </button>
+                    </div>
+                </aside>
+
+                <section id="products" class="col-lg-9 col-md-8">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="Galaxy S24 Ultra">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Samsung</small>
+                                        <h6 class="card-title mt-1">Galaxy S24 Ultra</h6>
+                                        <p class="card-text text-muted">200MP camera, built-in S Pen, titanium frame</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€1,299.99</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="MacBook Air M3">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Apple</small>
+                                        <h6 class="card-title mt-1">MacBook Air M3</h6>
+                                        <p class="card-text text-muted">13-inch Retina display, all-day battery, Apple silicon</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€1,499.00</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="Sony WH-1000XM5">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Sony</small>
+                                        <h6 class="card-title mt-1">WH-1000XM5</h6>
+                                        <p class="card-text text-muted">Adaptive noise canceling, 30-hour battery, fast charging</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€399.99</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="Lenovo Legion 5">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Lenovo</small>
+                                        <h6 class="card-title mt-1">Legion 5</h6>
+                                        <p class="card-text text-muted">Ryzen 7, RTX graphics, 165Hz gaming display</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€1,699.00</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="iPad Pro">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Apple</small>
+                                        <h6 class="card-title mt-1">iPad Pro</h6>
+                                        <p class="card-text text-muted">Ultra Retina XDR display, M4 chip, Apple Pencil Pro</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€1,099.00</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="Canon EOS R8">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Canon</small>
+                                        <h6 class="card-title mt-1">EOS R8</h6>
+                                        <p class="card-text text-muted">24.2MP full-frame sensor, 4K video, lightweight body</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€1,599.00</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="Bose Smart Soundbar">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Bose</small>
+                                        <h6 class="card-title mt-1">Smart Soundbar</h6>
+                                        <p class="card-text text-muted">Dolby Atmos, voice control, room calibration</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€549.00</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="product.html" class="text-decoration-none text-reset">
+                                <div class="product-card card h-100">
+                                    <img src="../../assets/images/iphone.png" class="product-img" alt="Asus ROG Ally">
+                                    <div class="card-body d-flex flex-column p-3">
+                                        <small class="text-muted">Asus</small>
+                                        <h6 class="card-title mt-1">ROG Ally</h6>
+                                        <p class="card-text text-muted">Portable gaming, high refresh display, AMD Ryzen Z1</p>
+                                        <div class="d-flex justify-content-between align-items-center pt-2">
+                                            <span>€799.00</span>
+                                            <button class="btn btn-add-cart btn-sm">
+                                                <i class="bi bi-cart-plus me-1"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div class="socials">
+                <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+                <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+            </div>
+            <div class="pages">
+                <a href="../../index.html" class="footer-link">Home</a>
+                <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+                <a href="../../index.html#about" class="footer-link">About</a>
+            </div>
+            <div class="emails">
+                <p class="footer-email mb-1">xsladkovskyi@stuba.sk</p>
+                <p class="footer-email mb-0">xsorochynskyi@stuba.sk</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="signup-overlay" aria-hidden="true"></div>
+
+    <section class="signup-modal-shell" aria-labelledby="login-title">
+        <div class="signup-modal-card">
+            <div class="signup-modal-header">
+                <div class="signup-close-row">
+                    <a href="products.html" class="signup-close" aria-label="Close log in window">
+                        <i class="bi bi-x-lg fs-3"></i>
+                    </a>
+                </div>
+                <h1 class="signup-title" id="login-title">Log In</h1>
+            </div>
+
+            <form class="signup-form" action="products-auth.html" method="get">
+                <input type="email" class="signup-input" name="email" placeholder="Email" aria-label="Email" required>
+                <input type="password" class="signup-input" name="password" placeholder="Password" aria-label="Password" required>
+                <button type="submit" class="signup-submit">Log In</button>
+            </form>
+
+            <p class="signup-footer-text">Don`t have an account? <a href="signup.html">Create Account</a></p>
+        </div>
+    </section>
+</body>
+
+</html>
+

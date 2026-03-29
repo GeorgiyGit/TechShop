@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoWorld Admin - Products</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../../styles/products.css" rel="stylesheet">
+    <link href="../../styles/admin.css" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+    <header>
+        <nav class="home-header-nav">
+            <div class="d-flex align-items-center gap-3 home-header-left">
+                <a href="../../../index.html" class="logo">TechnoWorld</a>
+            </div>
+            <div class="home-header-center">
+                <div class="input-group navbar-search home-navbar-search">
+                    <input type="text" class="form-control navbar-search-input"
+                        placeholder="Search for products, brands and more...">
+                    <button class="btn navbar-search-btn" type="button" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0 home-header-right">
+                <a href="../cart.html" class="btn btn-nav-icon" aria-label="Cart">
+                    <i class="bi bi-cart3 fs-5"></i>
+                </a>
+                <a href="../signup.html" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
+                <a href="../login.html" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <p class="admin-nav-section">Catalog</p>
+            <nav class="admin-nav">
+                <a href="categories.html" class="admin-nav-link">
+                    <i class="bi bi-grid-3x3-gap-fill"></i>Categories
+                </a>
+                <a href="brands.html" class="admin-nav-link">
+                    <i class="bi bi-tag"></i>Brands
+                </a>
+                <a href="products.html" class="admin-nav-link active">
+                    <i class="bi bi-box-seam"></i>Products
+                </a>
+            </nav>
+            <p class="admin-nav-section">Sales</p>
+            <nav class="admin-nav">
+                <a href="orders.html" class="admin-nav-link">
+                    <i class="bi bi-receipt"></i>Orders
+                </a>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <div class="admin-page-header">
+                <div>
+                    <h1 class="admin-page-title">Products</h1>
+                    <p class="admin-breadcrumb"><a href="#">Admin</a> / Products</p>
+                </div>
+                <a href="product-form.html" class="btn btn-primary-brand fw-600">
+                    <i class="bi bi-plus-lg me-2"></i>Add New Product
+                </a>
+            </div>
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2 class="admin-card-title">
+                        All Products <span class="admin-badge ms-1">97</span>
+                    </h2>
+                    <div class="admin-filter-bar">
+                        <input type="text" class="admin-search-input" placeholder="Search products..."
+                            aria-label="Search products">
+                        <select class="admin-filter-select" aria-label="Filter by category">
+                            <option value="">All Categories</option>
+                            <option value="1">Smartphones</option>
+                            <option value="2">Laptops</option>
+                            <option value="3">Tablets</option>
+                            <option value="4">Headphones &amp; Audio</option>
+                            <option value="5">Cameras</option>
+                            <option value="6">Gaming</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table admin-table mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width:48px">#</th>
+                                <th style="width:62px">Image</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                                <th style="width:140px">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-muted small">1</td>
+                                <td>
+                                    <img src="../../../assets/products/coffee-maker/saeco-royal-professional/image.png" class="admin-product-thumb"
+                                        alt="Saeco Royal Professional">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Saeco Royal Professional</div>
+                                    <div class="text-muted small">Automatic espresso machine</div>
+                                </td>
+                                <td><span class="text-muted small">Coffee Makers</span></td>
+                                <td><span class="text-muted small">Saeco</span></td>
+                                <td class="fw-500">899.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">2</td>
+                                <td>
+                                    <img src="../../../assets/products/laptop/microsoft-surface-go-3/image.png" class="admin-product-thumb"
+                                        alt="Microsoft Surface Go 3">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Microsoft Surface Go 3</div>
+                                    <div class="text-muted small">10.5-inch touchscreen, Windows 11</div>
+                                </td>
+                                <td><span class="text-muted small">Laptops</span></td>
+                                <td><span class="text-muted small">Microsoft</span></td>
+                                <td class="fw-500">629.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">3</td>
+                                <td>
+                                    <img src="../../../assets/products/microwave-oven/panasonic/image.png" class="admin-product-thumb"
+                                        alt="Panasonic Microwave Oven">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Panasonic Microwave Oven</div>
+                                    <div class="text-muted small">25L capacity, 900W power</div>
+                                </td>
+                                <td><span class="text-muted small">Kitchen Appliances</span></td>
+                                <td><span class="text-muted small">Panasonic</span></td>
+                                <td class="fw-500">219.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">4</td>
+                                <td>
+                                    <img src="../../../assets/products/mouse/logitech-wireless-mouse-m510-black/image.png" class="admin-product-thumb"
+                                        alt="Logitech Wireless Mouse M510">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Logitech Wireless Mouse M510</div>
+                                    <div class="text-muted small">2.4GHz wireless, ergonomic design</div>
+                                </td>
+                                <td><span class="text-muted small">Peripherals</span></td>
+                                <td><span class="text-muted small">Logitech</span></td>
+                                <td class="fw-500">34.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">5</td>
+                                <td>
+                                    <img src="../../../assets/products/phone/iphone-11/image.png" class="admin-product-thumb"
+                                        alt="Apple iPhone 11">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Apple iPhone 11</div>
+                                    <div class="text-muted small">128GB, dual camera system</div>
+                                </td>
+                                <td><span class="text-muted small">Smartphones</span></td>
+                                <td><span class="text-muted small">Apple</span></td>
+                                <td class="fw-500">449.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">6</td>
+                                <td>
+                                    <img src="../../../assets/products/phone/motorola-g86/image.png" class="admin-product-thumb"
+                                        alt="Motorola G86">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Motorola G86</div>
+                                    <div class="text-muted small">128GB, 50MP camera, 120Hz</div>
+                                </td>
+                                <td><span class="text-muted small">Smartphones</span></td>
+                                <td><span class="text-muted small">Motorola</span></td>
+                                <td class="fw-500">329.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">7</td>
+                                <td>
+                                    <img src="../../../assets/products/phone/motorola-razr-50-ultra/image.png" class="admin-product-thumb"
+                                        alt="Motorola Razr 50 Ultra">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Motorola Razr 50 Ultra</div>
+                                    <div class="text-muted small">512GB, foldable, 50MP camera</div>
+                                </td>
+                                <td><span class="text-muted small">Smartphones</span></td>
+                                <td><span class="text-muted small">Motorola</span></td>
+                                <td class="fw-500">1199.99 €</td>
+                                <td><span class="stock-badge stock-badge-low">Low Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">8</td>
+                                <td>
+                                    <img src="../../../assets/products/power-bank/20000-mah/image.png" class="admin-product-thumb"
+                                        alt="Anker Power Bank 20000mAh">
+                                </td>
+                                <td>
+                                    <div class="fw-500">Anker Power Bank 20000mAh</div>
+                                    <div class="text-muted small">Fast charging, 2 USB ports</div>
+                                </td>
+                                <td><span class="text-muted small">Accessories</span></td>
+                                <td><span class="text-muted small">Anker</span></td>
+                                <td class="fw-500">59.99 €</td>
+                                <td><span class="stock-badge stock-badge-in">In Stock</span></td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="product-form.html" class="btn btn-admin-edit btn-sm">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <button type="button" class="btn btn-admin-delete btn-sm">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-table-footer">
+                    <small class="text-muted">Showing 8 of 97 products</small>
+                    <nav>
+                        <ul class="pagination my-pagination mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">13</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="socials">
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+        <div class="pages">
+            <a href="../../../index.html" class="footer-link">Home</a>
+            <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a>
+            <a href="../../../index.html#about" class="footer-link">About</a>
+        </div>
+        <div class="emails">
+            <p class="footer-email mb-1">xsladkovskyi@stuba.sk</p>
+            <p class="footer-email mb-0">xsorochynskyi@stuba.sk</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
