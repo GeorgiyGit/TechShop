@@ -411,6 +411,25 @@ footer>.socials a {
     object-fit: contain;
 }
 
+.product-detail-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--blue);
+    background: rgba(74, 112, 169, 0.09);
+    border: 1px solid rgba(74, 112, 169, 0.18);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
+}
+
+.product-detail-tag:hover {
+    background: var(--blue);
+    color: white;
+}
+
 .breadcrumb-item a {
     transition: var(--transition);
 }
