@@ -627,4 +627,18 @@ body {
     .stepper-connector {
         margin-bottom: 0;
     }
+
+    .step-nav {
+        flex-direction: column;
+    }
+
+    .step-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .step-btn-next,
+    .step-btn-submit {
+        margin-left: 0;
+    }
 }

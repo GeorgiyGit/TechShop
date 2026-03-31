@@ -93,6 +93,7 @@
 
     .home-banner {
         justify-content: stretch;
+        padding-inline: clamp(1rem, 5vw, 4rem);
     }
 
     .home-banner-content {
@@ -104,6 +105,20 @@
 
     .home-banner-content .lead {
         max-width: 100%;
+    }
+}
+
+@media (max-width: 420px) {
+    .home-banner {
+        padding-inline: 0.75rem;
+    }
+
+    .home-banner-content .display-5 {
+        font-size: clamp(1.3rem, 7vw, 1.9rem);
+    }
+
+    .home-banner-content .lead {
+        font-size: 0.9rem;
     }
 }
 
