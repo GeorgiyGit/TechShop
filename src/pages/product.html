@@ -83,9 +83,16 @@
 
                 <div class="product-detail-action d-flex align-items-center justify-content-between mt-auto pt-4">
                     <span class="display-5 fw-bold mb-0">219.99 €</span>
-                    <a href="cart.html" class="btn btn-primary-brand btn-lg px-5 py-3 fw-600 fs-5 d-flex align-items-center gap-2">
-                        Add to cart
-                    </a>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="product-item-qty">
+                            <button class="product-qty-btn" aria-label="Decrease quantity">&#8722;</button>
+                            <input type="number" class="product-qty-value" value="1" min="1" max="999" aria-label="Quantity">
+                            <button class="product-qty-btn" aria-label="Increase quantity">+</button>
+                        </div>
+                        <a href="cart.html" class="btn btn-primary-brand btn-lg px-5 py-3 fw-600 fs-5 d-flex align-items-center gap-2">
+                            Add to cart
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
