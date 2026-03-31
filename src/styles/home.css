@@ -1,4 +1,3 @@
-/* Home banner enhancements */
 .home-banner {
     display: flex;
     justify-content: flex-start;
@@ -72,7 +71,7 @@
     width: 100%;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 992px) {
     .home-banner {
         padding-inline: clamp(7rem, 6vw, 10rem);
     }
@@ -87,7 +86,7 @@
     }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
     .home-banner-media {
         display: none;
     }

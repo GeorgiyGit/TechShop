@@ -23,8 +23,6 @@ body {
     color: var(--black);
 }
 
-/* ── Stepper ── */
-
 .stepper {
     margin-bottom: 2rem;
 }
@@ -110,8 +108,6 @@ body {
     background: var(--blue);
 }
 
-/* ── Step Panels ── */
-
 .step-heading {
     font-size: clamp(1.35rem, 2.2vw, 1.8rem);
     font-weight: 600;
@@ -125,8 +121,6 @@ body {
     color: var(--black);
     margin: 1.5rem 0 0.8rem;
 }
-
-/* ── Order Items (Step 1) ── */
 
 .create-order-items-list {
     display: flex;
@@ -194,8 +188,6 @@ body {
     border-top: 1px solid var(--gray-blue-2);
 }
 
-/* ── Shared summary rows ── */
-
 .create-order-row {
     display: flex;
     align-items: center;
@@ -222,8 +214,6 @@ body {
     padding-top: 0.5rem;
     border-top: 2px solid var(--gray-blue-2);
 }
-
-/* ── Form fields (Steps 2 & 3) ── */
 
 .step-form-grid {
     display: grid;
@@ -450,8 +440,6 @@ body {
 .step-btn-submit:hover {
     background: #15803d;
 }
-
-/* ── Success Page ── */
 
 .success-card {
     max-width: 560px;
