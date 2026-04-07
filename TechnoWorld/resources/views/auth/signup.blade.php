@@ -24,10 +24,8 @@
                     </a>
                 </div>
                 <h1 class="signup-title" id="signup-title">Sign Up</h1>
-                <p
-                    class="signup-status-message @if ($errors->any()) signup-error-message @else signup-success-message @endif"
-                    @if (!session('status') && !$errors->any()) hidden @endif
-                >
+                <p class="signup-status-message @if ($errors->any()) signup-error-message @else signup-success-message @endif"
+                    @if (!session('status') && !$errors->any()) hidden @endif>
                     @if ($errors->any())
                         {{ $errors->first() }}
                     @else

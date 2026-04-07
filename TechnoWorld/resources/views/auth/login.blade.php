@@ -24,8 +24,7 @@
                     </a>
                 </div>
                 <h1 class="login-title" id="login-title">Log In</h1>
-                <p
-                    class="login-status-message @if ($errors->any()) login-error-message @else login-success-message @endif"
+                <p class="login-status-message @if ($errors->any()) login-error-message @else login-success-message @endif"
                     @if (!session('status') && !$errors->any()) hidden @endif>
                     @if ($errors->any())
                         {{ $errors->first() }}
