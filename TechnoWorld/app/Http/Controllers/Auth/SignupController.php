@@ -48,6 +48,6 @@ class SignupController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('signup.create')->with('status', 'Signup successful.');
+        return redirect()->route('dashboard');
     }
 }
