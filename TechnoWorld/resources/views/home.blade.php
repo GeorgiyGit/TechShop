@@ -1,116 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechnoWorld - Account</title>
+    <title>TechnoWorld - Home</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-    <style>
-        :root {
-            --blue: #4A70A9;
-            --blue-dark: #2f538a;
-            --text: #172033;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #eef4fb 0%, #f9fbfe 100%);
-            color: var(--text);
-        }
-
-        .home-shell {
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: 2rem;
-        }
-
-        .home-card {
-            width: min(640px, 100%);
-            background: rgba(255, 255, 255, 0.94);
-            border: 1px solid rgba(74, 112, 169, 0.14);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(47, 83, 138, 0.16);
-            padding: 2rem;
-        }
-
-        .home-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.45rem 0.8rem;
-            border-radius: 999px;
-            background: rgba(74, 112, 169, 0.08);
-            color: var(--blue-dark);
-            font-weight: 600;
-        }
-
-        .home-card h1 {
-            margin: 1rem 0 0.75rem;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-        }
-
-        .home-card p {
-            margin: 0;
-            color: #5f6b82;
-            line-height: 1.7;
-        }
-
-        .home-actions {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .home-button {
-            border-radius: 999px;
-            padding: 0.75rem 1.15rem;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .home-button-primary {
-            background: var(--blue);
-            color: white;
-        }
-
-        .home-button-secondary {
-            border: 1px solid rgba(74, 112, 169, 0.2);
-            color: var(--blue-dark);
-            background: white;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/products.css', 'resources/css/home.css'])
 </head>
-<body>
-    <main class="home-shell">
-        <section class="home-card">
-            <div class="home-badge">
-                <i class="bi bi-check2-circle"></i>
-                Account ready
-            </div>
-            <h1>Welcome, {{ auth()->user()->name }}</h1>
-            <p>Your TechnoWorld account has been created and you are signed in now.</p>
 
-            <div class="home-actions">
-                <a href="{{ route('signup.create') }}" class="home-button home-button-primary">Create another account</a>
-                <a href="{{ route('signup.create') }}" class="home-button home-button-secondary">Back to sign up</a>
+<body class="home-page">
+    <header>
+        <nav class="home-header-nav">
+            <div class="d-flex align-items-center gap-3 home-header-left">
+                <a href="/" class="logo">TechnoWorld</a>
             </div>
-        </section>
-    </main>
+            <div class="home-header-center">
+                <div class="input-group navbar-search home-navbar-search">
+                    <input type="text" class="form-control navbar-search-input"
+                        placeholder="Search for products, brands and more...">
+                    <button class="btn navbar-search-btn" type="button" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0 home-header-right">
+                <a href="/login" class="btn btn-nav-icon" aria-label="Cart">
+                    <i class="bi bi-cart3 fs-5"></i>
+                </a>
+                <a href="/signup" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
+                <a href="/login" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
+            </div>
+        </nav>
+    </header>
+
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="carousel-slide carousel-slide-1 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">New Arrival</span>
+                        <h2 class="display-5 fw-bold white-text">Motorola Razr 50 Ultra<br>Has Just Arrived</h2>
+                        <p class="lead white-text mb-4">Experience a premium foldable design and flagship-level camera performance.</p>
+                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Discover Razr 50 Ultra</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="/assets/products/phone/motorola-razr-50-ultra/image.png" alt="Motorola Razr 50 Ultra" class="home-banner-image home-banner-image-phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="carousel-slide carousel-slide-2 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">Limited Time</span>
+                        <h2 class="display-5 fw-bold white-text">Surface Go 3 Deal<br>Ends This Week</h2>
+                        <p class="lead white-text mb-4">Save now on a compact laptop designed for daily work and studies.</p>
+                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">View Surface Go 3 Deal</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="/assets/products/laptop/microsoft-surface-go-3/image.png" alt="Microsoft Surface Go 3" class="home-banner-image home-banner-image-laptop">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="carousel-slide carousel-slide-3 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">Top Pick</span>
+                        <h2 class="display-5 fw-bold white-text">Apple iPhone 11<br>Still a Bestseller</h2>
+                        <p class="lead white-text mb-4">Reliable performance, smooth camera system, and excellent value.</p>
+                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Explore iPhone 11</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="/assets/products/phone/iphone-11/image.png" alt="Apple iPhone 11" class="home-banner-image home-banner-image-phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <section id="about" class="home-about">
+        <h2 class="home-quote">Where Innovation Meets Everyday Life</h2>
+
+        <p class="home-text-left">
+            At TechnoWorld, we believe great technology should be accessible to everyone. Founded by a team of passionate
+            tech enthusiasts, we have carefully curated a premium selection of the latest smartphones, laptops, tablets,
+            audio gear, cameras, and much more - all under one roof. Every product in our catalogue is hand-picked and
+            reviewed to ensure it meets our standards for quality, performance, and value. We partner with the world's
+            leading brands - Apple, Samsung, Sony, Lenovo, and beyond - to bring you cutting-edge technology at
+            competitive prices. Whether you are upgrading your current setup, searching for the perfect gift, or simply
+            keeping up with the latest innovations, TechnoWorld is your trusted destination for all things tech.
+        </p>
+
+        <p class="home-text-right">
+            Shopping at TechnoWorld is more than just a transaction - it is an experience built around you. We offer
+            fast and secure delivery straight to your door, hassle-free returns, and a dedicated support team ready to
+            assist you at every step of your journey. Our platform is designed to make finding the right product
+            effortless, with detailed specifications, genuine customer reviews, and personalised expert recommendations.
+            From first-time buyers taking their first steps into the world of technology to seasoned professionals
+            seeking the highest-performance tools - we are here for everyone. Join thousands of satisfied customers who
+            trust TechnoWorld to power their digital lives, day after day.
+        </p>
+    </section>
+
+    <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="0" class="active"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="carousel-slide carousel-slide-1 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">This Week Only</span>
+                        <h2 class="display-5 fw-bold white-text">Saeco Royal Professional<br>Flash Price</h2>
+                        <p class="lead white-text mb-4">Bring cafe-level espresso home with this premium automatic coffee maker.</p>
+                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Grab Saeco Deal</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="/assets/products/coffee-maker/saeco-royal-professional/image.png" alt="Saeco Royal Professional coffee maker" class="home-banner-image home-banner-image-appliance">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="carousel-slide carousel-slide-2 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">Fast Delivery</span>
+                        <h2 class="display-5 fw-bold white-text">Apple Watch 6<br>Delivered Fast</h2>
+                        <p class="lead white-text mb-4">Order today and get this smartwatch quickly with express shipping options.</p>
+                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Shop Apple Watch 6</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="/assets/products/watch/apple-watch-6/image.png" alt="Apple Watch Series 6" class="home-banner-image home-banner-image-watch">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="carousel-slide carousel-slide-3 home-banner">
+                    <div class="carousel-slide-content home-banner-content">
+                        <span class="tag">Just Landed</span>
+                        <h2 class="display-5 fw-bold white-text">Miele C3 Vacuum<br>Now in Store</h2>
+                        <p class="lead white-text mb-4">A new stock of the Miele Complete C3 with powerful cleaning performance.</p>
+                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">See New Miele Stock</a>
+                    </div>
+                    <div class="home-banner-media">
+                        <div class="home-banner-product-card">
+                            <img src="/assets/products/vacuum-cleaner/miele-c3/image.png" alt="Miele Complete C3 vacuum cleaner" class="home-banner-image home-banner-image-appliance">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <section class="home-categories-section">
+        <h2 class="home-categories-title">Categories</h2>
+
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+            @foreach ($categories as $category)
+                <div class="col">
+                    <a href="/login" class="home-category-card">
+                        <div class="home-category-icon"><i class="bi {{ $category->icon }}"></i></div>
+                        <span class="home-category-name">{{ $category->name }}</span>
+                    </a>
+                </div>
+            @endforeach
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="socials">
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.linkedin.com/in/george-sladkovsky-537a27257/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+        <div class="pages">
+            <a href="/" class="footer-link">Home</a>
+            <a href="/login" class="footer-link">Privacy Policy</a>
+            <a href="#about" class="footer-link">About</a>
+        </div>
+        <div class="emails">
+            <p class="footer-email mb-1">xsladkovskyi@stuba.sk</p>
+            <p class="footer-email mb-0">xsorochynskyi@stuba.sk</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
