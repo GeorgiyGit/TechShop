@@ -117,7 +117,7 @@
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
             @foreach ($categories as $category)
                 <div class="col">
-                    <a href="{{ route('login') }}" data-auth-modal-target="login" class="home-category-card">
+                    <a href="{{ route('products') }}" class="home-category-card">
                         <div class="home-category-icon"><i class="bi {{ $category->icon }}"></i></div>
                         <span class="home-category-name">{{ $category->name }}</span>
                     </a>

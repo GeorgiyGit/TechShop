@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Banner;
+use App\Models\Product;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SignupController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,23 @@ Route::get('/', function () {
 
     return view('home', compact('categories', 'heroBanners', 'featuredBanners'));
 })->name('home');
+
+Route::get('/products', function () {
+    $featuredBanners = Banner::query()
+        ->where('carousel', 'featured')
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->get();
+
+    $products = Product::query()
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->get();
+
+    return view('products', compact('featuredBanners', 'products'));
+})->name('products');
 
 Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 
