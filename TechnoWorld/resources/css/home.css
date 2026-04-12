@@ -71,6 +71,10 @@
     width: 100%;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 @media (max-width: 992px) {
     .home-banner {
         padding-inline: clamp(7rem, 6vw, 10rem);

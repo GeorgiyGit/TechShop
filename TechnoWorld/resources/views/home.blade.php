@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.storefront', ['title' => 'TechnoWorld - Home'])
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechnoWorld - Home</title>
+@section('bodyClass', 'home-page')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/products.css', 'resources/css/home.css'])
-</head>
-
-<body class="home-page">
+@section('content')
     <header>
         <nav class="home-header-nav">
             <div class="d-flex align-items-center gap-3 home-header-left">
@@ -28,11 +18,11 @@
                 </div>
             </div>
             <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0 home-header-right">
-                <a href="/login" class="btn btn-nav-icon" aria-label="Cart">
+                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-nav-icon" aria-label="Cart">
                     <i class="bi bi-cart3 fs-5"></i>
                 </a>
-                <a href="/signup" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
-                <a href="/login" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
+                <a href="{{ route('signup.create') }}" data-auth-modal-target="signup" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
+                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
             </div>
         </nav>
     </header>
@@ -52,7 +42,7 @@
                         <span class="tag">New Arrival</span>
                         <h2 class="display-5 fw-bold white-text">Motorola Razr 50 Ultra<br>Has Just Arrived</h2>
                         <p class="lead white-text mb-4">Experience a premium foldable design and flagship-level camera performance.</p>
-                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Discover Razr 50 Ultra</a>
+                        <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Discover Razr 50 Ultra</a>
                     </div>
                     <div class="home-banner-media">
                         <div class="home-banner-product-card">
@@ -68,7 +58,7 @@
                         <span class="tag">Limited Time</span>
                         <h2 class="display-5 fw-bold white-text">Surface Go 3 Deal<br>Ends This Week</h2>
                         <p class="lead white-text mb-4">Save now on a compact laptop designed for daily work and studies.</p>
-                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">View Surface Go 3 Deal</a>
+                        <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">View Surface Go 3 Deal</a>
                     </div>
                     <div class="home-banner-media">
                         <div class="home-banner-product-card">
@@ -84,7 +74,7 @@
                         <span class="tag">Top Pick</span>
                         <h2 class="display-5 fw-bold white-text">Apple iPhone 11<br>Still a Bestseller</h2>
                         <p class="lead white-text mb-4">Reliable performance, smooth camera system, and excellent value.</p>
-                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Explore iPhone 11</a>
+                        <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Explore iPhone 11</a>
                     </div>
                     <div class="home-banner-media">
                         <div class="home-banner-product-card">
@@ -144,7 +134,7 @@
                         <span class="tag">This Week Only</span>
                         <h2 class="display-5 fw-bold white-text">Saeco Royal Professional<br>Flash Price</h2>
                         <p class="lead white-text mb-4">Bring cafe-level espresso home with this premium automatic coffee maker.</p>
-                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Grab Saeco Deal</a>
+                        <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Grab Saeco Deal</a>
                     </div>
                     <div class="home-banner-media">
                         <div class="home-banner-product-card">
@@ -160,7 +150,7 @@
                         <span class="tag">Fast Delivery</span>
                         <h2 class="display-5 fw-bold white-text">Apple Watch 6<br>Delivered Fast</h2>
                         <p class="lead white-text mb-4">Order today and get this smartwatch quickly with express shipping options.</p>
-                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Shop Apple Watch 6</a>
+                        <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">Shop Apple Watch 6</a>
                     </div>
                     <div class="home-banner-media">
                         <div class="home-banner-product-card">
@@ -176,7 +166,7 @@
                         <span class="tag">Just Landed</span>
                         <h2 class="display-5 fw-bold white-text">Miele C3 Vacuum<br>Now in Store</h2>
                         <p class="lead white-text mb-4">A new stock of the Miele Complete C3 with powerful cleaning performance.</p>
-                        <a href="/login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">See New Miele Stock</a>
+                        <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">See New Miele Stock</a>
                     </div>
                     <div class="home-banner-media">
                         <div class="home-banner-product-card">
@@ -203,7 +193,7 @@
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
             @foreach ($categories as $category)
                 <div class="col">
-                    <a href="/login" class="home-category-card">
+                    <a href="{{ route('login') }}" data-auth-modal-target="login" class="home-category-card">
                         <div class="home-category-icon"><i class="bi {{ $category->icon }}"></i></div>
                         <span class="home-category-name">{{ $category->name }}</span>
                     </a>
@@ -222,7 +212,7 @@
         </div>
         <div class="pages">
             <a href="/" class="footer-link">Home</a>
-            <a href="/login" class="footer-link">Privacy Policy</a>
+            <a href="{{ route('privacy-policy') }}" class="footer-link">Privacy Policy</a>
             <a href="#about" class="footer-link">About</a>
         </div>
         <div class="emails">
@@ -231,7 +221,4 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+@endsection

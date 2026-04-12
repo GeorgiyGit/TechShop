@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('home', compact('categories'));
 })->name('home');
 
+Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
+
 Route::middleware('guest')->group(function () {
     Route::get('/signup', [SignupController::class, 'create'])->name('signup.create');
     Route::post('/signup', [SignupController::class, 'store'])->name('signup.store');
