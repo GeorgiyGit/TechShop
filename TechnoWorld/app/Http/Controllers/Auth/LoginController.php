@@ -37,12 +37,14 @@ class LoginController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
+        $redirectTo = $this->resolveReturnTo($request, $request->input('return_to'));
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->to($redirectTo);
     }
 
     private function resolveReturnTo(Request $request, ?string $candidate = null): string

@@ -43,6 +43,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const clearModalState = (modal) => {
+        if (!modal) {
+            return;
+        }
+
+        modal.querySelectorAll('input').forEach((input) => {
+            if (input.type === 'hidden' || input.type === 'submit' || input.type === 'button') {
+                return;
+            }
+
+            input.value = '';
+        });
+
+        modal.querySelectorAll('input[type="hidden"]').forEach((hiddenInput) => {
+            if (hiddenInput.name !== 'return_to' && hiddenInput.name !== '_token') {
+                hiddenInput.value = '';
+            }
+        });
+
+        modal.querySelectorAll('.login-status-message, .signup-status-message').forEach((statusMessage) => {
+            statusMessage.setAttribute('hidden', 'hidden');
+            statusMessage.textContent = '';
+        });
+    };
+
     const openModal = (modalName) => {
         const modal = modals.get(modalName);
 
@@ -70,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modal.setAttribute('hidden', 'hidden');
         modal.setAttribute('aria-hidden', 'true');
+        clearModalState(modal);
 
         if (activeModal === modal) {
             activeModal = null;
@@ -88,7 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-auth-modal-switch]').forEach((trigger) => {
         trigger.addEventListener('click', (event) => {
             event.preventDefault();
-            openModal(trigger.dataset.authModalSwitch);
+
+            const targetModalName = trigger.dataset.authModalSwitch;
+            const targetModal = modals.get(targetModalName);
+
+            clearModalState(targetModal);
+            openModal(targetModalName);
         });
     });
 
