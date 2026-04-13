@@ -154,7 +154,7 @@ class ProductController extends Controller
         $product = Product::query()
             ->where('slug', $slug)
             ->where('is_active', true)
-            ->with('category')
+            ->with(['category', 'characteristics'])
             ->firstOrFail();
 
         $similarProducts = Product::query()

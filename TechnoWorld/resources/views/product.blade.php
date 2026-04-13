@@ -84,6 +84,24 @@
             </section>
         @endif
 
+        @if ($product->characteristics->isNotEmpty())
+            <section class="mb-5">
+                <h2 class="text-center fw-bold mb-4">Characteristics</h2>
+                <div class="table-responsive bg-transparent">
+                    <table class="table table-bordered table-transparent mb-0 align-middle border-dark" style="background-color: transparent; --bs-table-bg: transparent; --bs-table-border-color: #000;">
+                        <tbody>
+                            @foreach ($product->characteristics as $characteristic)
+                                <tr>
+                                    <th class="w-50 p-3 fs-5" style="background-color: transparent; border-color: #000;">{{ $characteristic->name }}</th>
+                                    <td class="w-50 p-3 fs-5" style="background-color: transparent; border-color: #000;">{{ $characteristic->value }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        @endif
+
         @if ($similarProducts->isNotEmpty())
             <section class="mb-5">
                 <h2 class="text-center fw-bold mb-4">Similar products</h2>
