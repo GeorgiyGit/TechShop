@@ -46,9 +46,8 @@
         </div>
     @endif
 
-    <main class="products-main container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <h1 class="products-title mb-0">Products</h1>
+    <main class="products-main">
+        <div class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
             <div class="d-flex align-items-center gap-2">
                 <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
                 <select class="form-select form-select-sm select-brand" id="orderBy" style="min-width: 180px">
@@ -95,8 +94,8 @@
                                     </div>
                                     <input type="range" class="form-range range-brand" min="0" max="5000" value="5000" id="priceRange" aria-label="Maximum price">
                                     <div class="d-flex justify-content-between">
-                                        <small class="text-muted">EUR0</small>
-                                        <small class="text-muted">EUR5,000</small>
+                                        <small class="text-muted">0 EUR</small>
+                                        <small class="text-muted">5,000 EUR</small>
                                     </div>
                                 </div>
                             </div>

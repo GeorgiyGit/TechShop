@@ -901,16 +901,14 @@ body.signup-screen {
     }
 }
 
-/* Products page-specific styles merged from products-page.css */
-.products-page .products-main {
-    padding: 2rem 2.2rem;
-    background: linear-gradient(180deg, #f6f7fb 0%, #eef2f9 100%);
+body.products-page {
+    background: var(--cream);
 }
 
-.products-title {
-    color: #1f3764;
-    font-weight: 700;
-    letter-spacing: 0.01em;
+/* Products page-specific styles */
+.products-page .products-main {
+    padding: 2rem;
+    background: transparent;
 }
 
 .products-page .filter-sidebar {
@@ -991,10 +989,10 @@ body.signup-screen {
 
 .products-page .product-img {
     width: 100%;
-    height: 180px;
-    object-fit: contain;
-    background: radial-gradient(circle at 30% 20%, #f7f9ff 0%, #eef3fb 60%, #e6edf8 100%);
-    padding: 0.75rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: #f8fbff;
 }
 
 .products-page .card-title {
@@ -1025,11 +1023,17 @@ body.signup-screen {
 
 @media (max-width: 991px) {
     .products-page .products-main {
-        padding: 1.35rem 1rem;
+        padding: 1.25rem 1rem 1.75rem;
     }
 
     .products-page .filter-sidebar {
         position: static;
+    }
+}
+
+@media (max-width: 767px) {
+    .products-page .products-main {
+        padding: 1rem 0.75rem 1.5rem;
     }
 }
 

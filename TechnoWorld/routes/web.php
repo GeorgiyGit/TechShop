@@ -1,71 +1,20 @@
 <?php
 
-use App\Models\Category;
-use App\Models\Banner;
-use App\Models\Product;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SignupController;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-Route::get('/', function () {
-    $heroBanners = Banner::query()
-        ->where('carousel', 'hero')
-        ->where('is_active', true)
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
-
-    $featuredBanners = Banner::query()
-        ->where('carousel', 'featured')
-        ->where('is_active', true)
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
-
-    $categories = Category::query()
-        ->where('is_active', true)
-        ->orderBy('sort_order')
-        ->orderBy('name')
-        ->get();
-
-    return view('home', compact('categories', 'heroBanners', 'featuredBanners'));
-})->name('home');
-
-Route::get('/products', function () {
-    $featuredBanners = Banner::query()
-        ->where('carousel', 'featured')
-        ->where('is_active', true)
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
-
-    $products = Product::query()
-        ->where('is_active', true)
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
-
-    return view('products', compact('featuredBanners', 'products'));
-})->name('products');
-
-Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
-
-Route::get('/images/products/{path}', function (string $path): BinaryFileResponse {
-    $basePath = realpath(resource_path('images/products'));
-    $requestedPath = realpath(resource_path('images/products/' . $path));
-
-    if (
-        $basePath === false
-        || $requestedPath === false
-        || ! str_starts_with($requestedPath, $basePath . DIRECTORY_SEPARATOR)
-        || ! is_file($requestedPath)
-    ) {
-        abort(404);
-    }
-
-    return response()->file($requestedPath);
-})->where('path', '.*')->name('images.products');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/images/products/{path}', [AssetController::class, 'productImage'])
+    ->where('path', '.*')
+    ->name('images.products');
 
 Route::middleware('guest')->group(function () {
     Route::get('/signup', [SignupController::class, 'create'])->name('signup.create');
@@ -76,13 +25,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/account', function () {
-        return view('dashboard');
-    })->name('account');
-
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/account', [AccountController::class, 'account'])->name('account');
+    Route::get('/dashboard', [AccountController::class, 'dashboard'])->name('dashboard');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
