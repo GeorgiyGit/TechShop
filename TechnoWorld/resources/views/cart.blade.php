@@ -18,7 +18,7 @@
                         @foreach ($cart->items as $item)
                             <article class="cart-item-card">
                                 <a href="{{ route('product.show', $item->product->slug) }}">
-                                    <img src="{{ url('/images/products/' . ltrim($item->product->image_path, '/')) }}" alt="{{ $item->product->name }}" class="cart-item-image">
+                                    <img src="{{ $item->product->firstImage ? url('/images/products/' . $item->product->firstImage->image_path) : '' }}" alt="{{ $item->product->name }}" class="cart-item-image">
                                 </a>
                                 <div class="cart-item-content">
                                     <div class="cart-item-top">

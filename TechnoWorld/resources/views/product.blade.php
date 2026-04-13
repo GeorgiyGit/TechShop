@@ -21,13 +21,32 @@
 
         <section class="product-detail-hero row g-4 mb-5">
             <div class="col-12 col-md-6 d-flex gap-3">
-                <div class="d-flex flex-column gap-2" style="width: 80px;">
-                    <button class="btn btn-light p-0 border"><i class="bi bi-chevron-up"></i></button>
-                    <img src="{{ url('/images/products/' . ltrim($product->image_path, '/')) }}" class="gallery-thumb active border rounded" alt="{{ $product->name }}">
-                    <button class="btn btn-light p-0 border"><i class="bi bi-chevron-down"></i></button>
+                @php($galleryImages = $product->images)
+                @php($firstSrc = $galleryImages->isNotEmpty() ? url('/images/products/' . $galleryImages->first()->image_path) : '')
+                @php($thumbHeight = 80)
+                @php($thumbGap = 8)
+                @php($visibleThumbs = 5)
+                @php($stripHeight = $thumbHeight * $visibleThumbs + $thumbGap * ($visibleThumbs - 1))
+
+                <div style="width: 80px; flex-shrink: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <button class="btn btn-light p-0 border" id="thumbScrollUp" type="button"><i class="bi bi-chevron-up"></i></button>
+                    <div id="thumbWrapper" style="overflow: hidden; height: {{ $stripHeight }}px;">
+                        <div id="thumbList" style="display: flex; flex-direction: column; gap: {{ $thumbGap }}px; transition: transform 0.2s ease; will-change: transform;">
+                            @foreach ($galleryImages as $i => $image)
+                                @php($src = url('/images/products/' . $image->image_path))
+                                <img src="{{ $src }}"
+                                     class="gallery-thumb border rounded{{ $i === 0 ? ' active' : '' }}"
+                                     alt="{{ $product->name }} image {{ $i + 1 }}"
+                                     data-gallery-src="{{ $src }}"
+                                     style="cursor: pointer; flex-shrink: 0; height: {{ $thumbHeight }}px; width: 100%; object-fit: cover;">
+                            @endforeach
+                        </div>
+                    </div>
+                    <button class="btn btn-light p-0 border" id="thumbScrollDown" type="button"><i class="bi bi-chevron-down"></i></button>
                 </div>
-                <div class="flex-grow-1 border rounded bg-white d-flex align-items-center justify-content-center p-4">
-                    <img src="{{ url('/images/products/' . ltrim($product->image_path, '/')) }}" class="img-fluid product-main-image" alt="{{ $product->name }}">
+
+                <div class="flex-grow-1 border rounded bg-white d-flex align-items-center justify-content-center p-4" style="min-height: 360px;">
+                    <img src="{{ $firstSrc }}" class="img-fluid product-main-image" id="galleryMain" alt="{{ $product->name }}">
                 </div>
             </div>
 
@@ -46,7 +65,7 @@
                 <p class="text-muted fs-5 mb-4">Code: #{{ $product->id }}</p>
 
                 <div class="flex-grow-1">
-                    <p class="fs-5 mb-4 text-dark">{{ $product->description }}</p>
+                    <p class="fs-5 mb-4 text-dark">{{ $product->short_description }}</p>
                 </div>
 
                 <div class="product-detail-action d-flex align-items-center justify-content-between mt-auto pt-4">
@@ -108,7 +127,7 @@
                         <div class="col">
                             <article class="product-card card h-100">
                                 <div class="product-img-wrap">
-                                    <img src="{{ url('/images/products/' . ltrim($similar->image_path, '/')) }}" class="product-img" alt="{{ $similar->name }}">
+                                    <img src="{{ $similar->firstImage ? url('/images/products/' . $similar->firstImage->image_path) : '' }}" class="product-img" alt="{{ $similar->name }}">
                                     @if (($similar->stock_left ?? 0) <= 0)
                                         <span class="product-stock-badge out-of-stock">Out of Stock</span>
                                     @elseif (($similar->stock_left ?? 0) <= 5)
@@ -119,7 +138,7 @@
                                     <small class="text-muted">{{ $similar->brand }}</small>
                                     <h6 class="card-title mt-1">{{ $similar->name }}</h6>
                                     <a href="{{ route('product.show', $similar->slug) }}" class="stretched-link" aria-label="Open {{ $similar->name }}"></a>
-                                    <p class="card-text text-muted">{{ $similar->description }}</p>
+                                    <p class="card-text text-muted">{{ $similar->short_description }}</p>
                                     <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
                                         <span class="product-price">{{ number_format((float) $similar->price, 2) }} €</span>
                                         @if (($similar->stock_left ?? 0) <= 0)
@@ -144,4 +163,41 @@
     </main>
 
     @include('partials.storefront-footer')
+
+    <script>
+        (function () {
+            const THUMB_H = {{ $thumbHeight }};
+            const THUMB_GAP = {{ $thumbGap }};
+            const STEP = THUMB_H + THUMB_GAP;
+            const VISIBLE = {{ $visibleThumbs }};
+
+            const mainImg = document.getElementById('galleryMain');
+            const thumbList = document.getElementById('thumbList');
+            const thumbs = thumbList ? Array.from(thumbList.querySelectorAll('.gallery-thumb')) : [];
+            let offset = 0;
+
+            function applyOffset() {
+                thumbList.style.transform = `translateY(-${offset * STEP}px)`;
+            }
+
+            function updateActive(src) {
+                thumbs.forEach(t => t.classList.toggle('active', t.dataset.gallerySrc === src));
+            }
+
+            thumbs.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    mainImg.src = thumb.dataset.gallerySrc;
+                    updateActive(thumb.dataset.gallerySrc);
+                });
+            });
+
+            document.getElementById('thumbScrollUp')?.addEventListener('click', () => {
+                if (offset > 0) { offset--; applyOffset(); }
+            });
+
+            document.getElementById('thumbScrollDown')?.addEventListener('click', () => {
+                if (offset < thumbs.length - VISIBLE) { offset++; applyOffset(); }
+            });
+        })();
+    </script>
 @endsection

@@ -123,6 +123,7 @@ class ProductController extends Controller
         }
 
         $products = $productsQuery
+            ->with('firstImage')
             ->paginate(12)
             ->appends($request->except(['page', 'partial']));
 
@@ -154,7 +155,7 @@ class ProductController extends Controller
         $product = Product::query()
             ->where('slug', $slug)
             ->where('is_active', true)
-            ->with(['category', 'characteristics'])
+            ->with(['category', 'characteristics', 'images'])
             ->firstOrFail();
 
         $similarProducts = Product::query()
@@ -166,6 +167,7 @@ class ProductController extends Controller
             })
             ->orderByDesc('popularity_score')
             ->limit(5)
+            ->with('firstImage')
             ->get();
 
         return view('product', compact('product', 'similarProducts'));

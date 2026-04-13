@@ -64,13 +64,13 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'Battery', 'value' => '5000 mAh'],
                 ['name' => 'Camera', 'value' => '50 MP OIS'],
             ],
-            'motorola-razr-50' => [
-                ['name' => 'Display', 'value' => '6.9" pOLED 120Hz'],
-                ['name' => 'External Display', 'value' => '3.6" pOLED'],
-                ['name' => 'Processor', 'value' => 'MediaTek Dimensity 7300X'],
-                ['name' => 'RAM', 'value' => '8 GB'],
-                ['name' => 'Storage', 'value' => '256 GB'],
-                ['name' => 'Camera', 'value' => '50 MP + 13 MP'],
+            'electrolux-zb-2951' => [
+                ['name' => 'Type', 'value' => '2-in-1 Cordless Stick & Handheld'],
+                ['name' => 'Power', 'value' => '18 V'],
+                ['name' => 'Runtime', 'value' => 'Up to 30 min'],
+                ['name' => 'Dustbin Capacity', 'value' => '0.4 L'],
+                ['name' => 'Weight', 'value' => '1.4 kg'],
+                ['name' => 'Filter', 'value' => 'Washable'],
             ],
             'power-bank-20000' => [
                 ['name' => 'Capacity', 'value' => '20000 mAh'],

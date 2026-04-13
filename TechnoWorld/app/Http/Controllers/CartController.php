@@ -15,7 +15,7 @@ class CartController extends Controller
     public function index(Request $request): View
     {
         $cart = $this->resolveCart($request);
-        $cart?->load('items.product');
+        $cart?->load('items.product.firstImage');
         return view('cart', compact('cart'));
     }
 
