@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
@@ -16,6 +17,11 @@ Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('p
 Route::get('/images/products/{path}', [AssetController::class, 'productImage'])
     ->where('path', '.*')
     ->name('images.products');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::middleware('guest')->group(function () {
     Route::get('/signup', [SignupController::class, 'create'])->name('signup.create');

@@ -55,20 +55,18 @@
                         @if (($product->stock_left ?? 0) <= 0)
                             <span class="badge bg-danger fs-6 px-3 py-2">Out of Stock</span>
                         @else
-                            <div class="product-item-qty">
-                                <button class="product-qty-btn" aria-label="Decrease quantity">&#8722;</button>
-                                <input type="number" class="product-qty-value" value="1" min="1" max="{{ $product->stock_left }}" aria-label="Quantity">
-                                <button class="product-qty-btn" aria-label="Increase quantity">+</button>
-                            </div>
-                            @auth
-                                <button type="button" class="btn btn-primary-brand btn-lg px-5 py-3 fw-600 fs-5 d-flex align-items-center gap-2">
+                            <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <div class="product-item-qty">
+                                    <button type="button" class="product-qty-btn" aria-label="Decrease quantity" onclick="this.parentNode.querySelector('input[name=quantity]').stepDown()">&#8722;</button>
+                                    <input type="number" name="quantity" class="product-qty-value" value="1" min="1" max="{{ $product->stock_left }}" aria-label="Quantity">
+                                    <button type="button" class="product-qty-btn" aria-label="Increase quantity" onclick="this.parentNode.querySelector('input[name=quantity]').stepUp()">+</button>
+                                </div>
+                                <button type="submit" class="btn btn-primary-brand btn-lg px-5 py-3 fw-600 fs-5 d-flex align-items-center gap-2">
                                     Add to cart
                                 </button>
-                            @else
-                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-primary-brand btn-lg px-5 py-3 fw-600 fs-5 d-flex align-items-center gap-2">
-                                    Add to cart
-                                </a>
-                            @endauth
+                            </form>
                         @endif
                     </div>
                 </div>
