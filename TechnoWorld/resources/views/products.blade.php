@@ -23,7 +23,7 @@
                                 <span class="tag">{{ $banner->tag }}</span>
                                 <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
                                 <p class="lead white-text mb-4">{{ $banner->description }}</p>
-                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                                <a href="{{ $banner->product_slug ? route('product.show', $banner->product_slug) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
                             </div>
                             <div class="home-banner-media">
                                 <div class="home-banner-product-card">
@@ -48,6 +48,14 @@
 
     <main class="products-main">
         <form id="productsFiltersForm" method="GET" action="{{ route('products') }}">
+            @if ($search)
+                <input type="hidden" name="search" value="{{ $search }}">
+                <div class="mb-3">
+                    <span class="text-muted">Search results for: </span>
+                    <strong>{{ $search }}</strong>
+                    <a href="{{ route('products') }}" class="ms-2 small text-danger"><i class="bi bi-x-circle"></i> Clear</a>
+                </div>
+            @endif
             <div class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-2">
                     <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>

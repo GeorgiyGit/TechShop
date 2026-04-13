@@ -23,7 +23,7 @@
                                 <span class="tag">{{ $banner->tag }}</span>
                                 <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
                                 <p class="lead white-text mb-4">{{ $banner->description }}</p>
-                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                                <a href="{{ $banner->product_slug ? route('product.show', $banner->product_slug) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
                             </div>
                             <div class="home-banner-media">
                                 <div class="home-banner-product-card">
@@ -88,7 +88,7 @@
                                 <span class="tag">{{ $banner->tag }}</span>
                                 <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
                                 <p class="lead white-text mb-4">{{ $banner->description }}</p>
-                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                                <a href="{{ $banner->product_slug ? route('product.show', $banner->product_slug) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
                             </div>
                             <div class="home-banner-media">
                                 <div class="home-banner-product-card">

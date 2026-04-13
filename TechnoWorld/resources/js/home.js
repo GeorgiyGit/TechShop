@@ -160,10 +160,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const productsList = container.querySelector('[data-search-products-list]');
         const brandsList = container.querySelector('[data-search-brands-list]');
         const toggleButton = container.querySelector('[data-search-toggle]');
+        const productsUrl = container.dataset.searchProductsUrl || '/products';
 
         if (!input || !dropdown || !productsList || !brandsList) {
             return;
         }
+
+        const navigateToSearch = () => {
+            const query = input.value.trim();
+            if (query) {
+                window.location.href = productsUrl + '?search=' + encodeURIComponent(query);
+            }
+        };
 
         const renderItems = (items, targetList) => {
             targetList.innerHTML = '';
@@ -223,8 +231,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (toggleButton) {
             toggleButton.addEventListener('click', () => {
-                updateDropdown();
-                input.focus();
+                if (input.value.trim()) {
+                    navigateToSearch();
+                } else {
+                    updateDropdown();
+                    input.focus();
+                }
             });
         }
 
@@ -237,6 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 closeDropdown();
+            } else if (event.key === 'Enter') {
+                navigateToSearch();
             }
         });
     };

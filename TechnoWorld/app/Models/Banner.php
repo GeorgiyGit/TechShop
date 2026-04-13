@@ -9,11 +9,9 @@ class Banner extends Model
 {
     use HasFactory;
 
-    /**
-     * @var list<string>
-     */
     protected $fillable = [
         'slug',
+        'product_slug',
         'carousel',
         'tag',
         'title',
@@ -27,9 +25,6 @@ class Banner extends Model
         'is_active',
     ];
 
-    /**
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [

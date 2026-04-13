@@ -35,12 +35,12 @@ class AppServiceProvider extends ServiceProvider
             'products' => Product::query()
                 ->where('is_active', true)
                 ->orderBy('name')
-                ->get(['name', 'brand'])
+                ->get(['name', 'brand', 'slug'])
                 ->map(fn ($product) => [
                     'type' => 'product',
                     'label' => $product->name,
                     'meta' => $product->brand,
-                    'href' => url('/products?brands%5B0%5D=' . rawurlencode($product->brand)),
+                    'href' => url('/products/' . $product->slug),
                 ])
                 ->values()
                 ->all(),
