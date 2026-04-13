@@ -953,6 +953,80 @@ body.products-page {
     margin-bottom: 0.4rem;
 }
 
+.products-page .price-range-control {
+    position: relative;
+    height: 2.2rem;
+    margin-top: 0.25rem;
+}
+
+.products-page .price-range-track,
+.products-page .price-range-fill {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 0.28rem;
+    border-radius: 999px;
+}
+
+.products-page .price-range-track {
+    left: 0;
+    right: 0;
+    background: #dbe6f6;
+}
+
+.products-page .price-range-fill {
+    left: 0;
+    width: 100%;
+    background: #2f5da0;
+}
+
+.products-page .price-range-input {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    margin: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    appearance: none;
+    background: transparent;
+    z-index: 2;
+}
+
+.products-page .price-range-input::-webkit-slider-runnable-track {
+    height: 0.28rem;
+    background: transparent;
+}
+
+.products-page .price-range-input::-moz-range-track {
+    height: 0.28rem;
+    background: transparent;
+}
+
+.products-page .price-range-input::-webkit-slider-thumb {
+    pointer-events: auto;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid #2f5da0;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(47, 93, 160, 0.22);
+    cursor: pointer;
+    margin-top: -0.36rem;
+}
+
+.products-page .price-range-input::-moz-range-thumb {
+    pointer-events: auto;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid #2f5da0;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(47, 93, 160, 0.22);
+    cursor: pointer;
+}
+
 .products-page .btn-primary-brand {
     background: #2f5da0;
     border-color: #2f5da0;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -17,6 +18,26 @@ class ProductController extends Controller
             $orderBy = 'relevance';
         }
 
+        $selectedCategoryIds = collect($request->input('categories', []))
+            ->filter()
+            ->map(fn ($categoryId) => (int) $categoryId)
+            ->filter()
+            ->values()
+            ->all();
+
+        $selectedBrands = collect($request->input('brands', []))
+            ->filter()
+            ->values()
+            ->all();
+
+        $selectedStatuses = collect($request->input('statuses', []))
+            ->filter()
+            ->values()
+            ->all();
+
+        $minPrice = $request->filled('min_price') ? (float) $request->input('min_price') : null;
+        $maxPrice = $request->filled('max_price') ? (float) $request->input('max_price') : null;
+
         $featuredBanners = Banner::query()
             ->where('carousel', 'featured')
             ->where('is_active', true)
@@ -24,8 +45,47 @@ class ProductController extends Controller
             ->orderBy('id')
             ->get();
 
+        $categories = Category::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        $brands = Product::query()
+            ->where('is_active', true)
+            ->select('brand')
+            ->distinct()
+            ->orderBy('brand')
+            ->pluck('brand');
+
+        $statusOptions = [
+            'in_stock' => 'In Stock',
+            'limited_stock' => 'Limited Stock',
+            'out_of_stock' => 'Out of Stock',
+        ];
+
         $productsQuery = Product::query()
             ->where('is_active', true);
+
+        if ($selectedCategoryIds !== []) {
+            $productsQuery->whereIn('category_id', $selectedCategoryIds);
+        }
+
+        if ($selectedBrands !== []) {
+            $productsQuery->whereIn('brand', $selectedBrands);
+        }
+
+        if ($selectedStatuses !== []) {
+            $productsQuery->whereIn('stock_status', $selectedStatuses);
+        }
+
+        if ($minPrice !== null) {
+            $productsQuery->where('price', '>=', $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $productsQuery->where('price', '<=', $maxPrice);
+        }
 
         switch ($orderBy) {
             case 'price-asc':
@@ -47,11 +107,29 @@ class ProductController extends Controller
         }
 
         $products = $productsQuery->get();
+        $brands = Product::query()
+            ->where('is_active', true)
+            ->select('brand')
+            ->distinct()
+            ->orderBy('brand')
+            ->pluck('brand');
 
         if ($request->boolean('partial')) {
             return view('partials.products-grid', compact('products'));
         }
 
-        return view('products', compact('featuredBanners', 'products', 'orderBy'));
+        return view('products', compact(
+            'featuredBanners',
+            'products',
+            'orderBy',
+            'categories',
+            'brands',
+            'statusOptions',
+            'selectedCategoryIds',
+            'selectedBrands',
+            'selectedStatuses',
+            'minPrice',
+            'maxPrice'
+        ));
     }
 }

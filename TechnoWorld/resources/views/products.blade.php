@@ -47,37 +47,67 @@
     @endif
 
     <main class="products-main">
-        <form id="productsOrderForm" method="GET" action="{{ route('products') }}" class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
-            <div class="d-flex align-items-center gap-2">
-                <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
-                <select class="form-select form-select-sm select-brand" id="orderBy" name="orderBy" style="min-width: 180px">
-                    <option value="relevance" @selected($orderBy === 'relevance')>Relevance</option>
-                    <option value="price-asc" @selected($orderBy === 'price-asc')>Low Price First</option>
-                    <option value="price-desc" @selected($orderBy === 'price-desc')>High Price First</option>
-                    <option value="newest" @selected($orderBy === 'newest')>New First</option>
-                    <option value="popular" @selected($orderBy === 'popular')>Most Popular</option>
-                </select>
+        <form id="productsFiltersForm" method="GET" action="{{ route('products') }}">
+            <div class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
+                    <select class="form-select form-select-sm select-brand" id="orderBy" name="orderBy" style="min-width: 180px">
+                        <option value="relevance" @selected($orderBy === 'relevance')>Relevance</option>
+                        <option value="price-asc" @selected($orderBy === 'price-asc')>Low Price First</option>
+                        <option value="price-desc" @selected($orderBy === 'price-desc')>High Price First</option>
+                        <option value="newest" @selected($orderBy === 'newest')>New First</option>
+                        <option value="popular" @selected($orderBy === 'popular')>Most Popular</option>
+                    </select>
+                </div>
             </div>
-            <noscript>
-                <button type="submit" class="btn btn-primary-brand btn-sm">Apply</button>
-            </noscript>
-        </form>
 
-        <div class="row g-4 align-items-start">
+            <div class="row g-4 align-items-start">
             <aside class="col-lg-3 col-md-4">
                 <div class="filter-sidebar">
                     <h6 class="filter-sidebar-title"><i class="bi bi-sliders2 me-2"></i>Filters</h6>
                     <div class="accordion accordion-flush" id="filterAccordion">
                         <div class="accordion-item filter-accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button filter-btn" type="button" data-bs-toggle="collapse" data-bs-target="#catCollapse" aria-expanded="true">Categories</button>
+                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catCollapse" aria-expanded="false">Categories</button>
                             </h2>
-                            <div id="catCollapse" class="accordion-collapse collapse show">
+                            <div id="catCollapse" class="accordion-collapse collapse">
                                 <div class="accordion-body filter-body">
-                                    @foreach (['Smartphones', 'Laptops', 'Tablets', 'Headphones And Audio', 'Cameras', 'Gaming'] as $index => $category)
+                                    @foreach ($categories as $category)
                                         <div class="form-check filter-check">
-                                            <input class="form-check-input" type="checkbox" id="cat{{ $index }}">
-                                            <label class="form-check-label" for="cat{{ $index }}">{{ $category }}</label>
+                                            <input class="form-check-input" type="checkbox" id="cat{{ $category->id }}" name="categories[]" value="{{ $category->id }}" @checked(in_array($category->id, $selectedCategoryIds, true))>
+                                            <label class="form-check-label" for="cat{{ $category->id }}">{{ $category->name }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item filter-accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#brandCollapse" aria-expanded="false">Brands</button>
+                            </h2>
+                            <div id="brandCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body filter-body">
+                                    @foreach ($brands as $index => $brand)
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="brand{{ $index }}" name="brands[]" value="{{ $brand }}" @checked(in_array($brand, $selectedBrands, true))>
+                                            <label class="form-check-label" for="brand{{ $index }}">{{ $brand }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item filter-accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#statusCollapse" aria-expanded="false">Status</button>
+                            </h2>
+                            <div id="statusCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body filter-body">
+                                    @foreach ($statusOptions as $statusValue => $statusLabel)
+                                        <div class="form-check filter-check">
+                                            <input class="form-check-input" type="checkbox" id="status{{ $loop->index }}" name="statuses[]" value="{{ $statusValue }}" @checked(in_array($statusValue, $selectedStatuses, true))>
+                                            <label class="form-check-label" for="status{{ $loop->index }}">{{ $statusLabel }}</label>
                                         </div>
                                     @endforeach
                                 </div>
@@ -91,21 +121,26 @@
                             <div id="priceCollapse" class="accordion-collapse collapse">
                                 <div class="accordion-body filter-body">
                                     <div class="d-flex gap-2 mb-3">
-                                        <input type="number" class="form-control form-control-sm price-input" placeholder="Min EUR" value="0" min="0">
+                                        <input type="number" class="form-control form-control-sm price-input" placeholder="Min EUR" name="min_price" value="{{ $minPrice ?? 0 }}" min="0">
                                         <span class="text-muted align-self-center">-</span>
-                                        <input type="number" class="form-control form-control-sm price-input" placeholder="Max EUR" value="5000" min="0">
+                                        <input type="number" class="form-control form-control-sm price-input" placeholder="Max EUR" name="max_price" value="{{ $maxPrice ?? 5000 }}" min="0">
                                     </div>
-                                    <input type="range" class="form-range range-brand" min="0" max="5000" value="5000" id="priceRange" aria-label="Maximum price">
-                                    <div class="d-flex justify-content-between">
-                                        <small class="text-muted">0 EUR</small>
-                                        <small class="text-muted">5,000 EUR</small>
+                                    <div class="price-range-control" data-price-range>
+                                        <div class="price-range-track"></div>
+                                        <div class="price-range-fill" data-price-range-fill></div>
+                                        <input type="range" class="price-range-input" min="0" max="5000" step="1" value="{{ $minPrice ?? 0 }}" id="priceMinRange" aria-label="Minimum price">
+                                        <input type="range" class="price-range-input" min="0" max="5000" step="1" value="{{ $maxPrice ?? 5000 }}" id="priceMaxRange" aria-label="Maximum price">
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <small class="text-muted" data-price-min-label>{{ number_format((float) ($minPrice ?? 0), 0, ',', ' ') }} EUR</small>
+                                        <small class="text-muted" data-price-max-label>{{ number_format((float) ($maxPrice ?? 5000), 0, ',', ' ') }} EUR</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary-brand w-100 mt-3 fw-600"><i class="bi bi-search me-2"></i>Apply Filters</button>
-                    <button class="btn btn-clear-filters w-100 mt-2">Clear Filters</button>
+                    <button type="submit" class="btn btn-primary-brand w-100 mt-3 fw-600"><i class="bi bi-search me-2"></i>Apply Filters</button>
+                    <button type="button" class="btn btn-clear-filters w-100 mt-2" id="clearFiltersButton">Clear Filters</button>
                 </div>
             </aside>
 
@@ -114,16 +149,25 @@
                     @include('partials.products-grid', ['products' => $products])
                 </div>
             </section>
-        </div>
+            </div>
+        </form>
     </main>
 
     @include('partials.storefront-footer')
 
     <script>
         (() => {
-            const form = document.getElementById('productsOrderForm');
+            const form = document.getElementById('productsFiltersForm');
             const select = document.getElementById('orderBy');
             const gridContainer = document.getElementById('productsGridContainer');
+            const clearButton = document.getElementById('clearFiltersButton');
+            const minPriceInput = form?.querySelector('input[name="min_price"]');
+            const maxPriceInput = form?.querySelector('input[name="max_price"]');
+            const priceMinRange = document.getElementById('priceMinRange');
+            const priceMaxRange = document.getElementById('priceMaxRange');
+            const priceRangeFill = document.querySelector('[data-price-range-fill]');
+            const priceMinLabel = document.querySelector('[data-price-min-label]');
+            const priceMaxLabel = document.querySelector('[data-price-max-label]');
 
             if (!form || !select || !gridContainer) {
                 return;
@@ -131,13 +175,61 @@
 
             let activeRequest = null;
 
-            const updateProductsGrid = async () => {
+            const updatePriceRangeFill = () => {
+                if (!priceMinRange || !priceMaxRange || !priceRangeFill) {
+                    return;
+                }
+
+                const min = Number(priceMinRange.min);
+                const max = Number(priceMinRange.max);
+                const left = Math.min(Number(priceMinRange.value), Number(priceMaxRange.value));
+                const right = Math.max(Number(priceMinRange.value), Number(priceMaxRange.value));
+                const leftPercent = ((left - min) / (max - min)) * 100;
+                const rightPercent = ((right - min) / (max - min)) * 100;
+
+                priceRangeFill.style.left = `${leftPercent}%`;
+                priceRangeFill.style.width = `${rightPercent - leftPercent}%`;
+
+                if (priceMinLabel) {
+                    priceMinLabel.textContent = `${left.toLocaleString('en-US')} EUR`;
+                }
+
+                if (priceMaxLabel) {
+                    priceMaxLabel.textContent = `${right.toLocaleString('en-US')} EUR`;
+                }
+            };
+
+            const syncPriceInputs = () => {
+                if (!priceMinRange || !priceMaxRange || !minPriceInput || !maxPriceInput) {
+                    return;
+                }
+
+                let left = Number(priceMinRange.value);
+                let right = Number(priceMaxRange.value);
+
+                if (left > right) {
+                    [left, right] = [right, left];
+                }
+
+                minPriceInput.value = String(left);
+                maxPriceInput.value = String(right);
+
+                updatePriceRangeFill();
+            };
+
+            const buildUrl = () => {
                 const url = new URL(form.action, window.location.origin);
                 const formData = new FormData(form);
 
                 for (const [key, value] of formData.entries()) {
-                    url.searchParams.set(key, String(value));
+                    url.searchParams.append(key, String(value));
                 }
+
+                return { url, formData };
+            };
+
+            const updateProductsGrid = async () => {
+                const { url, formData } = buildUrl();
 
                 url.searchParams.set('partial', '1');
 
@@ -164,7 +256,7 @@
 
                     const publicUrl = new URL(form.action, window.location.origin);
                     for (const [key, value] of formData.entries()) {
-                        publicUrl.searchParams.set(key, String(value));
+                        publicUrl.searchParams.append(key, String(value));
                     }
 
                     window.history.replaceState({}, '', publicUrl.toString());
@@ -175,7 +267,81 @@
                 }
             };
 
-            select.addEventListener('change', updateProductsGrid);
+            form.addEventListener('submit', (event) => {
+                syncPriceInputs();
+                event.preventDefault();
+                updateProductsGrid();
+            });
+
+            if (priceMinRange) {
+                priceMinRange.addEventListener('input', () => {
+                    if (priceMaxRange && Number(priceMinRange.value) > Number(priceMaxRange.value)) {
+                        priceMaxRange.value = priceMinRange.value;
+                    }
+
+                    syncPriceInputs();
+                });
+            }
+
+            if (priceMaxRange) {
+                priceMaxRange.addEventListener('input', () => {
+                    if (priceMinRange && Number(priceMaxRange.value) < Number(priceMinRange.value)) {
+                        priceMinRange.value = priceMaxRange.value;
+                    }
+
+                    syncPriceInputs();
+                });
+            }
+
+            if (minPriceInput) {
+                minPriceInput.addEventListener('input', () => {
+                    if (priceMinRange) {
+                        priceMinRange.value = minPriceInput.value || '0';
+                    }
+
+                    syncPriceInputs();
+                });
+            }
+
+            if (maxPriceInput) {
+                maxPriceInput.addEventListener('input', () => {
+                    if (priceMaxRange) {
+                        priceMaxRange.value = maxPriceInput.value || priceMaxRange.max;
+                    }
+
+                    syncPriceInputs();
+                });
+            }
+
+            if (clearButton) {
+                clearButton.addEventListener('click', () => {
+                    form.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+                        checkbox.checked = false;
+                    });
+
+                    if (minPriceInput) {
+                        minPriceInput.value = '0';
+                    }
+
+                    if (maxPriceInput) {
+                        maxPriceInput.value = '5000';
+                    }
+
+                    if (priceMinRange) {
+                        priceMinRange.value = '0';
+                    }
+
+                    if (priceMaxRange) {
+                        priceMaxRange.value = '5000';
+                    }
+
+                    select.value = 'relevance';
+                    syncPriceInputs();
+                    updateProductsGrid();
+                });
+            }
+
+            syncPriceInputs();
         })();
     </script>
 @endsection
