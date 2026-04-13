@@ -148,4 +148,26 @@ class ProductController extends Controller
             'openPriceFilter'
         ));
     }
+
+    public function show(string $slug): View
+    {
+        $product = Product::query()
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->with('category')
+            ->firstOrFail();
+
+        $similarProducts = Product::query()
+            ->where('is_active', true)
+            ->where('id', '!=', $product->id)
+            ->where(function ($query) use ($product) {
+                $query->where('category_id', $product->category_id)
+                      ->orWhere('brand', $product->brand);
+            })
+            ->orderByDesc('popularity_score')
+            ->limit(5)
+            ->get();
+
+        return view('product', compact('product', 'similarProducts'));
+    }
 }

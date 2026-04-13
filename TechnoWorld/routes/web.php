@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/images/products/{path}', [AssetController::class, 'productImage'])
     ->where('path', '.*')

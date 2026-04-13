@@ -14,6 +14,7 @@
                     <div class="card-body d-flex flex-column p-3">
                         <small class="text-muted">{{ $product->brand }}</small>
                         <h6 class="card-title mt-1">{{ $product->name }}</h6>
+                        <a href="{{ route('product.show', $product->slug) }}" class="stretched-link" aria-label="Open {{ $product->name }}"></a>
                         <p class="card-text text-muted">{{ $product->description }}</p>
                         <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
                             <span class="product-price">{{ number_format((float) $product->price, 2) }} EUR</span>
