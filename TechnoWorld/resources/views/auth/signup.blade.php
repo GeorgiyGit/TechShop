@@ -19,7 +19,7 @@
         <div class="signup-modal-card">
             <div class="signup-modal-header">
                 <div class="signup-close-row">
-                    <a href="{{ route('home') }}" class="signup-close" aria-label="Close sign up window">
+                    <a href="{{ $returnTo }}" class="signup-close" aria-label="Close sign up window">
                         <i class="bi bi-x-lg fs-3"></i>
                     </a>
                 </div>
@@ -36,6 +36,7 @@
 
             <form class="signup-form" action="{{ route('signup.store') }}" method="POST">
                 @csrf
+                <input type="hidden" name="return_to" value="{{ $returnTo }}">
                 <input type="hidden" name="name" id="signup-name" value="{{ old('name') }}">
                 <input type="email" class="signup-input" name="email" id="email" placeholder="Email" aria-label="Email" value="{{ old('email') }}" required>
                 <input type="password" class="signup-input" name="password" id="password" placeholder="Password" aria-label="Password" required>
@@ -43,7 +44,7 @@
                 <button type="submit" class="signup-submit">Sign Up</button>
             </form>
 
-            <p class="signup-footer-text">Already have an account? <a href="{{ route('login') }}">Log In</a></p>
+            <p class="signup-footer-text">Already have an account? <a href="{{ route('login', ['return_to' => $returnTo]) }}">Log In</a></p>
     </section>
 </body>
 </html>

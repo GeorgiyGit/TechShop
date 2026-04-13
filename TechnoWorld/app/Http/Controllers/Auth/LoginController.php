@@ -10,9 +10,11 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.login');
+        return view('auth.login', [
+            'returnTo' => $this->resolveReturnTo($request),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -30,16 +32,43 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->to($this->resolveReturnTo($request, $request->input('return_to')));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
+        $redirectTo = $this->resolveReturnTo($request, $request->input('return_to'));
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->to($redirectTo);
+    }
+
+    private function resolveReturnTo(Request $request, ?string $candidate = null): string
+    {
+        $value = trim((string) ($candidate ?: $request->query('return_to') ?: $request->headers->get('referer') ?: route('home')));
+
+        if ($value === '') {
+            return route('home');
+        }
+
+        $parts = parse_url($value);
+
+        if ($parts === false) {
+            return route('home');
+        }
+
+        if (isset($parts['host']) && $parts['host'] !== $request->getHost()) {
+            return route('home');
+        }
+
+        $path = $parts['path'] ?? '/';
+        $query = isset($parts['query']) ? '?' . $parts['query'] : '';
+        $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
+
+        return url($path . $query . $fragment);
     }
 }

@@ -1,116 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechnoWorld - Account</title>
+@extends('layouts.storefront', ['title' => 'TechnoWorld - Home'])
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+@section('bodyClass', 'home-page')
 
-    <style>
-        :root {
-            --blue: #4A70A9;
-            --blue-dark: #2f538a;
-            --text: #172033;
-        }
+@section('content')
+    @include('partials.storefront-header')
 
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #eef4fb 0%, #f9fbfe 100%);
-            color: var(--text);
-        }
-
-        .home-shell {
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: 2rem;
-        }
-
-        .home-card {
-            width: min(640px, 100%);
-            background: rgba(255, 255, 255, 0.94);
-            border: 1px solid rgba(74, 112, 169, 0.14);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(47, 83, 138, 0.16);
-            padding: 2rem;
-        }
-
-        .home-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.45rem 0.8rem;
-            border-radius: 999px;
-            background: rgba(74, 112, 169, 0.08);
-            color: var(--blue-dark);
-            font-weight: 600;
-        }
-
-        .home-card h1 {
-            margin: 1rem 0 0.75rem;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-        }
-
-        .home-card p {
-            margin: 0;
-            color: #5f6b82;
-            line-height: 1.7;
-        }
-
-        .home-actions {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .home-button {
-            border-radius: 999px;
-            padding: 0.75rem 1.15rem;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .home-button-primary {
-            background: var(--blue);
-            color: white;
-        }
-
-        .home-button-secondary {
-            border: 1px solid rgba(74, 112, 169, 0.2);
-            color: var(--blue-dark);
-            background: white;
-        }
-    </style>
-</head>
-<body>
-    <main class="home-shell">
-        <section class="home-card">
-            <div class="home-badge">
-                <i class="bi bi-check2-circle"></i>
-                Account ready
+    @if ($heroBanners->isNotEmpty())
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @foreach ($heroBanners as $banner)
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $loop->index }}"
+                        @class(['active' => $loop->first])
+                        aria-label="Slide {{ $loop->iteration }}"></button>
+                @endforeach
             </div>
-            <h1>Welcome, {{ auth()->user()->name }}</h1>
-            <p>Your TechnoWorld account has been created and you are signed in now.</p>
 
-            <div class="home-actions">
-                <a href="{{ route('signup.create') }}" class="home-button home-button-primary">Create another account</a>
-                <a href="{{ route('signup.create') }}" class="home-button home-button-secondary">Back to sign up</a>
+            <div class="carousel-inner">
+                @foreach ($heroBanners as $banner)
+                    <div @class(['carousel-item', 'active' => $loop->first])>
+                        <div class="carousel-slide {{ $banner->slide_class }} home-banner">
+                            <div class="carousel-slide-content home-banner-content">
+                                <span class="tag">{{ $banner->tag }}</span>
+                                <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
+                                <p class="lead white-text mb-4">{{ $banner->description }}</p>
+                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                            </div>
+                            <div class="home-banner-media">
+                                <div class="home-banner-product-card">
+                                    <img src="{{ url('/images/products/' . ltrim($banner->image_path, '/')) }}" alt="{{ $banner->image_alt }}" class="home-banner-image {{ $banner->image_class }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-        </section>
-    </main>
-</body>
-</html>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    @endif
+
+    <section id="about" class="home-about">
+        <h2 class="home-quote">Where Innovation Meets Everyday Life</h2>
+
+        <p class="home-text-left">
+            At TechnoWorld, we believe great technology should be accessible to everyone. Founded by a team of passionate
+            tech enthusiasts, we have carefully curated a premium selection of the latest smartphones, laptops, tablets,
+            audio gear, cameras, and much more - all under one roof. Every product in our catalogue is hand-picked and
+            reviewed to ensure it meets our standards for quality, performance, and value. We partner with the world's
+            leading brands - Apple, Samsung, Sony, Lenovo, and beyond - to bring you cutting-edge technology at
+            competitive prices. Whether you are upgrading your current setup, searching for the perfect gift, or simply
+            keeping up with the latest innovations, TechnoWorld is your trusted destination for all things tech.
+        </p>
+
+        <p class="home-text-right">
+            Shopping at TechnoWorld is more than just a transaction - it is an experience built around you. We offer
+            fast and secure delivery straight to your door, hassle-free returns, and a dedicated support team ready to
+            assist you at every step of your journey. Our platform is designed to make finding the right product
+            effortless, with detailed specifications, genuine customer reviews, and personalised expert recommendations.
+            From first-time buyers taking their first steps into the world of technology to seasoned professionals
+            seeking the highest-performance tools - we are here for everyone. Join thousands of satisfied customers who
+            trust TechnoWorld to power their digital lives, day after day.
+        </p>
+    </section>
+
+    @if ($featuredBanners->isNotEmpty())
+        <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @foreach ($featuredBanners as $banner)
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="{{ $loop->index }}"
+                        @class(['active' => $loop->first])
+                        aria-label="Slide {{ $loop->iteration }}"></button>
+                @endforeach
+            </div>
+
+            <div class="carousel-inner">
+                @foreach ($featuredBanners as $banner)
+                    <div @class(['carousel-item', 'active' => $loop->first])>
+                        <div class="carousel-slide {{ $banner->slide_class }} home-banner">
+                            <div class="carousel-slide-content home-banner-content">
+                                <span class="tag">{{ $banner->tag }}</span>
+                                <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
+                                <p class="lead white-text mb-4">{{ $banner->description }}</p>
+                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                            </div>
+                            <div class="home-banner-media">
+                                <div class="home-banner-product-card">
+                                    <img src="{{ url('/images/products/' . ltrim($banner->image_path, '/')) }}" alt="{{ $banner->image_alt }}" class="home-banner-image {{ $banner->image_class }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    @endif
+
+    <section class="home-categories-section">
+        <h2 class="home-categories-title">Categories</h2>
+
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+            @foreach ($categories as $category)
+                <div class="col">
+                    <a href="{{ route('products', ['categories' => [$category->id]]) }}" class="home-category-card">
+                        <div class="home-category-icon"><i class="bi {{ $category->icon }}"></i></div>
+                        <span class="home-category-name">{{ $category->name }}</span>
+                    </a>
+                </div>
+            @endforeach
+
+        </div>
+    </section>
+
+    @include('partials.storefront-footer', ['aboutHref' => '#about'])
+
+@endsection
