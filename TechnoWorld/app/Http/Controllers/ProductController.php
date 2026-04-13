@@ -122,7 +122,9 @@ class ProductController extends Controller
                 break;
         }
 
-        $products = $productsQuery->get();
+        $products = $productsQuery
+            ->paginate(12)
+            ->appends($request->except(['page', 'partial']));
 
         if ($request->boolean('partial')) {
             return view('partials.products-grid', compact('products'));

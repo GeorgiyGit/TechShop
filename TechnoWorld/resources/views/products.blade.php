@@ -217,21 +217,20 @@
                 updatePriceRangeFill();
             };
 
-            const buildUrl = () => {
-                const url = new URL(form.action, window.location.origin);
+            const buildFormUrl = () => {
+                const publicUrl = new URL(form.action, window.location.origin);
                 const formData = new FormData(form);
 
                 for (const [key, value] of formData.entries()) {
-                    url.searchParams.append(key, String(value));
+                    publicUrl.searchParams.append(key, String(value));
                 }
 
-                return { url, formData };
+                return { publicUrl, formData };
             };
 
-            const updateProductsGrid = async () => {
-                const { url, formData } = buildUrl();
-
-                url.searchParams.set('partial', '1');
+            const updateProductsGrid = async (requestUrl, publicUrl) => {
+                const requestTarget = new URL(requestUrl.toString());
+                requestTarget.searchParams.set('partial', '1');
 
                 if (activeRequest) {
                     activeRequest.abort();
@@ -240,7 +239,7 @@
                 activeRequest = new AbortController();
 
                 try {
-                    const response = await fetch(url.toString(), {
+                    const response = await fetch(requestTarget.toString(), {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                         },
@@ -254,11 +253,6 @@
                     const html = await response.text();
                     gridContainer.innerHTML = html;
 
-                    const publicUrl = new URL(form.action, window.location.origin);
-                    for (const [key, value] of formData.entries()) {
-                        publicUrl.searchParams.append(key, String(value));
-                    }
-
                     window.history.replaceState({}, '', publicUrl.toString());
                 } catch (error) {
                     if (error.name !== 'AbortError') {
@@ -270,7 +264,37 @@
             form.addEventListener('submit', (event) => {
                 syncPriceInputs();
                 event.preventDefault();
-                updateProductsGrid();
+                const { publicUrl } = buildFormUrl();
+                updateProductsGrid(publicUrl, publicUrl);
+            });
+
+            select.addEventListener('change', () => {
+                const { publicUrl } = buildFormUrl();
+                updateProductsGrid(publicUrl, publicUrl);
+            });
+
+            gridContainer.addEventListener('click', (event) => {
+                const link = event.target.closest('.pagination .page-link');
+
+                if (!link) {
+                    return;
+                }
+
+                const listItem = link.closest('.page-item');
+                if (listItem?.classList.contains('disabled') || listItem?.classList.contains('active')) {
+                    event.preventDefault();
+                    return;
+                }
+
+                const href = link.getAttribute('href');
+                if (!href || href === '#') {
+                    event.preventDefault();
+                    return;
+                }
+
+                event.preventDefault();
+                const publicUrl = new URL(href, window.location.origin);
+                updateProductsGrid(publicUrl, publicUrl);
             });
 
             if (priceMinRange) {
@@ -337,7 +361,8 @@
 
                     select.value = 'relevance';
                     syncPriceInputs();
-                    updateProductsGrid();
+                    const { publicUrl } = buildFormUrl();
+                    updateProductsGrid(publicUrl, publicUrl);
                 });
             }
 

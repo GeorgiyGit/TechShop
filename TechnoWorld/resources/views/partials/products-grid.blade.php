@@ -1,4 +1,4 @@
-@if ($products->isNotEmpty())
+@if ($products->count() > 0)
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
         @foreach ($products as $product)
             <div class="col">
@@ -34,6 +34,59 @@
             </div>
         @endforeach
     </div>
+
+    @if ($products->hasPages())
+        @php($paginationWindow = \Illuminate\Pagination\UrlWindow::make($products->onEachSide(1)))
+        <div class="d-flex justify-content-center justify-content-md-end mt-4">
+            <nav aria-label="Products pagination">
+                <ul class="pagination my-pagination mb-0">
+                    <li @class(['page-item', 'disabled' => $products->onFirstPage()])>
+                        <a class="page-link" href="{{ $products->previousPageUrl() ?? '#' }}" aria-label="Previous">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+
+                    @if (is_array($paginationWindow['first'] ?? null))
+                        @foreach ($paginationWindow['first'] as $page => $url)
+                            <li @class(['page-item', 'active' => $page === $products->currentPage()])>
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+                    @endif
+
+                    @if (is_array($paginationWindow['slider'] ?? null))
+                        @if (is_array($paginationWindow['first'] ?? null))
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        @endif
+
+                        @foreach ($paginationWindow['slider'] as $page => $url)
+                            <li @class(['page-item', 'active' => $page === $products->currentPage()])>
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+
+                        @if (is_array($paginationWindow['last'] ?? null))
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        @endif
+                    @endif
+
+                    @if (is_array($paginationWindow['last'] ?? null))
+                        @foreach ($paginationWindow['last'] as $page => $url)
+                            <li @class(['page-item', 'active' => $page === $products->currentPage()])>
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+                    @endif
+
+                    <li @class(['page-item', 'disabled' => ! $products->hasMorePages()])>
+                        <a class="page-link" href="{{ $products->nextPageUrl() ?? '#' }}" aria-label="Next">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    @endif
 @else
     <div class="alert alert-light border text-muted mb-0" role="status">
         No products match the selected filters.

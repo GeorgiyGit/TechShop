@@ -453,6 +453,8 @@ main {
 .my-pagination .page-link {
     color: var(--blue);
     border-color: var(--gray-blue);
+    min-width: 2.25rem;
+    text-align: center;
 }
 
 
@@ -465,6 +467,18 @@ main {
 .my-pagination .page-item.disabled .page-link {
     color: var(--text-muted);
     border-color: var(--gray-blue);
+}
+
+@media (max-width: 576px) {
+    .my-pagination {
+        gap: 0.2rem;
+    }
+
+    .my-pagination .page-link {
+        min-width: 2rem;
+        padding: 0.35rem 0.55rem;
+        font-size: 0.85rem;
+    }
 }
 
 .filter-sidebar {
