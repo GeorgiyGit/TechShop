@@ -47,18 +47,21 @@
     @endif
 
     <main class="products-main">
-        <div class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
+        <form id="productsOrderForm" method="GET" action="{{ route('products') }}" class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
             <div class="d-flex align-items-center gap-2">
                 <label class="text-muted small me-1 text-nowrap" for="orderBy">Order by</label>
-                <select class="form-select form-select-sm select-brand" id="orderBy" style="min-width: 180px">
-                    <option value="">Relevance</option>
-                    <option value="price-asc">Low Price First</option>
-                    <option value="price-desc">High Price First</option>
-                    <option value="newest">New First</option>
-                    <option value="popular">Most Popular</option>
+                <select class="form-select form-select-sm select-brand" id="orderBy" name="orderBy" style="min-width: 180px">
+                    <option value="relevance" @selected($orderBy === 'relevance')>Relevance</option>
+                    <option value="price-asc" @selected($orderBy === 'price-asc')>Low Price First</option>
+                    <option value="price-desc" @selected($orderBy === 'price-desc')>High Price First</option>
+                    <option value="newest" @selected($orderBy === 'newest')>New First</option>
+                    <option value="popular" @selected($orderBy === 'popular')>Most Popular</option>
                 </select>
             </div>
-        </div>
+            <noscript>
+                <button type="submit" class="btn btn-primary-brand btn-sm">Apply</button>
+            </noscript>
+        </form>
 
         <div class="row g-4 align-items-start">
             <aside class="col-lg-3 col-md-4">
@@ -107,31 +110,72 @@
             </aside>
 
             <section id="products" class="col-lg-9 col-md-8">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
-                    @foreach ($products as $product)
-                        <div class="col">
-                            <article class="product-card card h-100">
-                                <img src="{{ url('/images/products/' . ltrim($product->image_path, '/')) }}" alt="{{ $product->name }}" class="product-img">
-                                <div class="card-body d-flex flex-column p-3">
-                                    <small class="text-muted">{{ $product->brand }}</small>
-                                    <h6 class="card-title mt-1">{{ $product->name }}</h6>
-                                    <p class="card-text text-muted">{{ $product->description }}</p>
-                                    <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
-                                        <span class="product-price">{{ number_format((float) $product->price, 2) }} EUR</span>
-                                        @auth
-                                            <button type="button" class="btn btn-add-cart btn-sm"><i class="bi bi-cart-plus me-1"></i>Add</button>
-                                        @else
-                                            <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-add-cart btn-sm"><i class="bi bi-cart-plus me-1"></i>Add</a>
-                                        @endauth
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                    @endforeach
+                <div id="productsGridContainer">
+                    @include('partials.products-grid', ['products' => $products])
                 </div>
             </section>
         </div>
     </main>
 
     @include('partials.storefront-footer')
+
+    <script>
+        (() => {
+            const form = document.getElementById('productsOrderForm');
+            const select = document.getElementById('orderBy');
+            const gridContainer = document.getElementById('productsGridContainer');
+
+            if (!form || !select || !gridContainer) {
+                return;
+            }
+
+            let activeRequest = null;
+
+            const updateProductsGrid = async () => {
+                const url = new URL(form.action, window.location.origin);
+                const formData = new FormData(form);
+
+                for (const [key, value] of formData.entries()) {
+                    url.searchParams.set(key, String(value));
+                }
+
+                url.searchParams.set('partial', '1');
+
+                if (activeRequest) {
+                    activeRequest.abort();
+                }
+
+                activeRequest = new AbortController();
+
+                try {
+                    const response = await fetch(url.toString(), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        signal: activeRequest.signal,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to load products');
+                    }
+
+                    const html = await response.text();
+                    gridContainer.innerHTML = html;
+
+                    const publicUrl = new URL(form.action, window.location.origin);
+                    for (const [key, value] of formData.entries()) {
+                        publicUrl.searchParams.set(key, String(value));
+                    }
+
+                    window.history.replaceState({}, '', publicUrl.toString());
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        form.submit();
+                    }
+                }
+            };
+
+            select.addEventListener('change', updateProductsGrid);
+        })();
+    </script>
 @endsection

@@ -20,6 +20,7 @@ class Product extends Model
         'price',
         'image_path',
         'sort_order',
+        'popularity_score',
         'is_active',
     ];
 
@@ -31,6 +32,7 @@ class Product extends Model
         return [
             'price' => 'decimal:2',
             'sort_order' => 'integer',
+            'popularity_score' => 'integer',
             'is_active' => 'boolean',
         ];
     }
