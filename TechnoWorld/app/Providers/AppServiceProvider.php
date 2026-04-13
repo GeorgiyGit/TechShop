@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -21,6 +22,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (! Schema::hasTable('products')) {
+            View::share('searchCatalog', [
+                'products' => [],
+                'brands' => [],
+            ]);
+
+            return;
+        }
+
         View::share('searchCatalog', [
             'products' => Product::query()
                 ->where('is_active', true)
