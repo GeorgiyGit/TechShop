@@ -68,9 +68,9 @@
                     <div class="accordion accordion-flush" id="filterAccordion">
                         <div class="accordion-item filter-accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catCollapse" aria-expanded="false">Categories</button>
+                                <button @class(['accordion-button', 'filter-btn', 'collapsed' => ! $openCategoryFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#catCollapse" aria-expanded="{{ $openCategoryFilter ? 'true' : 'false' }}">Categories</button>
                             </h2>
-                            <div id="catCollapse" class="accordion-collapse collapse">
+                            <div id="catCollapse" @class(['accordion-collapse', 'collapse', 'show' => $openCategoryFilter])>
                                 <div class="accordion-body filter-body">
                                     @foreach ($categories as $category)
                                         <div class="form-check filter-check">
@@ -84,9 +84,9 @@
 
                         <div class="accordion-item filter-accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#brandCollapse" aria-expanded="false">Brands</button>
+                                <button @class(['accordion-button', 'filter-btn', 'collapsed' => ! $openBrandFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#brandCollapse" aria-expanded="{{ $openBrandFilter ? 'true' : 'false' }}">Brands</button>
                             </h2>
-                            <div id="brandCollapse" class="accordion-collapse collapse">
+                            <div id="brandCollapse" @class(['accordion-collapse', 'collapse', 'show' => $openBrandFilter])>
                                 <div class="accordion-body filter-body">
                                     @foreach ($brands as $index => $brand)
                                         <div class="form-check filter-check">
@@ -100,9 +100,9 @@
 
                         <div class="accordion-item filter-accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#statusCollapse" aria-expanded="false">Status</button>
+                                <button @class(['accordion-button', 'filter-btn', 'collapsed' => ! $openStatusFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#statusCollapse" aria-expanded="{{ $openStatusFilter ? 'true' : 'false' }}">Status</button>
                             </h2>
-                            <div id="statusCollapse" class="accordion-collapse collapse">
+                            <div id="statusCollapse" @class(['accordion-collapse', 'collapse', 'show' => $openStatusFilter])>
                                 <div class="accordion-body filter-body">
                                     @foreach ($statusOptions as $statusValue => $statusLabel)
                                         <div class="form-check filter-check">
@@ -116,9 +116,9 @@
 
                         <div class="accordion-item filter-accordion-item border-bottom-0">
                             <h2 class="accordion-header">
-                                <button class="accordion-button filter-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#priceCollapse" aria-expanded="false">Price</button>
+                                <button @class(['accordion-button', 'filter-btn', 'collapsed' => ! $openPriceFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#priceCollapse" aria-expanded="{{ $openPriceFilter ? 'true' : 'false' }}">Price</button>
                             </h2>
-                            <div id="priceCollapse" class="accordion-collapse collapse">
+                            <div id="priceCollapse" @class(['accordion-collapse', 'collapse', 'show' => $openPriceFilter])>
                                 <div class="accordion-body filter-body">
                                     <div class="d-flex gap-2 mb-3">
                                         <input type="number" class="form-control form-control-sm price-input" placeholder="Min EUR" name="min_price" value="{{ $minPrice ?? 0 }}" min="0">

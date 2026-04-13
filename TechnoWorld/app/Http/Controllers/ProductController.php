@@ -37,6 +37,10 @@ class ProductController extends Controller
 
         $minPrice = $request->filled('min_price') ? (float) $request->input('min_price') : null;
         $maxPrice = $request->filled('max_price') ? (float) $request->input('max_price') : null;
+        $openCategoryFilter = $selectedCategoryIds !== [];
+        $openBrandFilter = $selectedBrands !== [];
+        $openStatusFilter = $selectedStatuses !== [];
+        $openPriceFilter = $minPrice !== null || $maxPrice !== null;
 
         $featuredBanners = Banner::query()
             ->where('carousel', 'featured')
@@ -135,7 +139,11 @@ class ProductController extends Controller
             'selectedBrands',
             'selectedStatuses',
             'minPrice',
-            'maxPrice'
+            'maxPrice',
+            'openCategoryFilter',
+            'openBrandFilter',
+            'openStatusFilter',
+            'openPriceFilter'
         ));
     }
 }

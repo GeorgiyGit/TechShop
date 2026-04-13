@@ -4,12 +4,25 @@
             <a href="{{ route('home') }}" class="logo">TechnoWorld</a>
         </div>
         <div class="home-header-center">
-            <div class="input-group navbar-search home-navbar-search">
-                <input type="text" class="form-control navbar-search-input"
-                    placeholder="Search for products, brands and more...">
-                <button class="btn navbar-search-btn" type="button" aria-label="Search">
-                    <i class="bi bi-search"></i>
-                </button>
+            <div class="search-autocomplete" data-search-autocomplete>
+                <div class="input-group navbar-search home-navbar-search">
+                    <input type="text" class="form-control navbar-search-input"
+                        placeholder="Search for products, brands and more..." aria-label="Search for products, brands and more..."
+                        autocomplete="off" data-search-input>
+                    <button class="btn navbar-search-btn" type="button" aria-label="Search" data-search-toggle>
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                <div class="search-dropdown" data-search-dropdown hidden>
+                    <div class="search-dropdown-section" data-search-products-section>
+                        <div class="search-dropdown-title">Products</div>
+                        <div class="search-dropdown-list" data-search-products-list></div>
+                    </div>
+                    <div class="search-dropdown-section search-dropdown-brands" data-search-brands-section>
+                        <div class="search-dropdown-title">Brands</div>
+                        <div class="search-dropdown-list" data-search-brands-list></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0 home-header-right">
@@ -35,3 +48,5 @@
         </div>
     </nav>
 </header>
+
+<script type="application/json" id="searchCatalogData">@json($searchCatalog ?? ['products' => [], 'brands' => []])</script>

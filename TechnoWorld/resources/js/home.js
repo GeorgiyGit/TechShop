@@ -151,6 +151,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initialModal = body.dataset.openAuthModal;
 
+    const searchCatalogScript = document.getElementById('searchCatalogData');
+    const searchCatalog = searchCatalogScript ? JSON.parse(searchCatalogScript.textContent || '{"products":[],"brands":[]}') : { products: [], brands: [] };
+
+    const attachSearchAutocomplete = (container) => {
+        const input = container.querySelector('[data-search-input]');
+        const dropdown = container.querySelector('[data-search-dropdown]');
+        const productsList = container.querySelector('[data-search-products-list]');
+        const brandsList = container.querySelector('[data-search-brands-list]');
+        const toggleButton = container.querySelector('[data-search-toggle]');
+
+        if (!input || !dropdown || !productsList || !brandsList) {
+            return;
+        }
+
+        const renderItems = (items, targetList) => {
+            targetList.innerHTML = '';
+
+            items.forEach((item) => {
+                const link = document.createElement('a');
+                link.className = 'search-dropdown-item search-dropdown-item-link';
+                link.href = item.href;
+                link.innerHTML = `
+                    <span class="search-dropdown-item-label">${item.label}</span>
+                    <span class="search-dropdown-item-meta">${item.meta}</span>
+                `;
+
+                link.addEventListener('click', () => {
+                    closeDropdown();
+                });
+
+                targetList.appendChild(link);
+            });
+        };
+
+        const openDropdown = () => {
+            dropdown.removeAttribute('hidden');
+            input.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeDropdown = () => {
+            dropdown.setAttribute('hidden', 'hidden');
+            input.setAttribute('aria-expanded', 'false');
+        };
+
+        const updateDropdown = () => {
+            const query = input.value.trim().toLowerCase();
+
+            const productMatches = searchCatalog.products.filter((item) =>
+                item.label.toLowerCase().includes(query) || item.meta.toLowerCase().includes(query)
+            ).slice(0, 6);
+
+            const brandMatches = searchCatalog.brands.filter((item) =>
+                item.label.toLowerCase().includes(query)
+            ).slice(0, 6);
+
+            renderItems(productMatches, productsList);
+            renderItems(brandMatches, brandsList);
+
+            const hasItems = productMatches.length > 0 || brandMatches.length > 0;
+            dropdown.hidden = !hasItems;
+        };
+
+        input.addEventListener('focus', () => {
+            updateDropdown();
+        });
+
+        input.addEventListener('input', () => {
+            updateDropdown();
+        });
+
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => {
+                updateDropdown();
+                input.focus();
+            });
+        }
+
+        document.addEventListener('click', (event) => {
+            if (!container.contains(event.target)) {
+                closeDropdown();
+            }
+        });
+
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeDropdown();
+            }
+        });
+    };
+
+    document.querySelectorAll('[data-search-autocomplete]').forEach(attachSearchAutocomplete);
+
     if (initialModal) {
         openModal(initialModal);
     } else {
