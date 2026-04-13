@@ -9,9 +9,6 @@ class Category extends Model
 {
     use HasFactory;
 
-    /**
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'slug',
@@ -20,9 +17,6 @@ class Category extends Model
         'is_active',
     ];
 
-    /**
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [

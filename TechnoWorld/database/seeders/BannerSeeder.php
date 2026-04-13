@@ -12,6 +12,7 @@ class BannerSeeder extends Seeder
         $banners = [
             [
                 'slug' => 'hero-motorola-razr-50-ultra',
+                'product_slug' => 'motorola-razr-50-ultra',
                 'carousel' => 'hero',
                 'tag' => 'New Arrival',
                 'title' => "Motorola Razr 50 Ultra\nHas Just Arrived",
@@ -26,6 +27,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'hero-surface-go-3',
+                'product_slug' => 'microsoft-surface-go-3',
                 'carousel' => 'hero',
                 'tag' => 'Limited Time',
                 'title' => "Surface Go 3 Deal\nEnds This Week",
@@ -40,6 +42,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'hero-iphone-11',
+                'product_slug' => 'iphone-11',
                 'carousel' => 'hero',
                 'tag' => 'Top Pick',
                 'title' => "Apple iPhone 11\nStill a Bestseller",
@@ -54,6 +57,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'featured-saeco-royal-professional',
+                'product_slug' => 'saeco-royal-professional',
                 'carousel' => 'featured',
                 'tag' => 'This Week Only',
                 'title' => "Saeco Royal Professional\nFlash Price",
@@ -68,6 +72,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'featured-apple-watch-6',
+                'product_slug' => 'apple-watch-6',
                 'carousel' => 'featured',
                 'tag' => 'Fast Delivery',
                 'title' => "Apple Watch 6\nDelivered Fast",
@@ -82,6 +87,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'featured-miele-c3',
+                'product_slug' => 'miele-c3',
                 'carousel' => 'featured',
                 'tag' => 'Just Landed',
                 'title' => "Miele C3 Vacuum\nNow in Store",

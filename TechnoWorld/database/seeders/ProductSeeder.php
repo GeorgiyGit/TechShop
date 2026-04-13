@@ -308,10 +308,19 @@ class ProductSeeder extends Seeder
             $product['category_id'] = $categoryIds[$product['category_slug']] ?? null;
             unset($product['category_slug']);
 
-            Product::updateOrCreate(
+            $popularityScore = $product['popularity_score'];
+            unset($product['popularity_score']);
+
+            $updateData = array_merge($product, ['is_active' => true]);
+
+            $record = Product::updateOrCreate(
                 ['slug' => $product['slug']],
-                array_merge($product, ['is_active' => true])
+                $updateData
             );
+
+            if ($record->wasRecentlyCreated) {
+                $record->update(['popularity_score' => $popularityScore]);
+            }
         }
     }
 }

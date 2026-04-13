@@ -30,6 +30,8 @@ class CartController extends Controller
             ->where('stock_left', '>', 0)
             ->findOrFail($request->input('product_id'));
 
+        $product->increment('popularity_score', 20);
+
         $cart = $this->resolveOrCreateCart($request);
         $item = $cart->items()->where('product_id', $product->id)->first();
         if ($item) {

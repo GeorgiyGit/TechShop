@@ -4,7 +4,8 @@
             <a href="{{ route('home') }}" class="logo">TechnoWorld</a>
         </div>
         <div class="home-header-center">
-            <div class="search-autocomplete" data-search-autocomplete>
+            <div class="search-autocomplete" data-search-autocomplete
+                data-search-products-url="{{ route('products') }}">
                 <div class="input-group navbar-search home-navbar-search">
                     <input type="text" class="form-control navbar-search-input"
                         placeholder="Search for products, brands and more..." aria-label="Search for products, brands and more..."

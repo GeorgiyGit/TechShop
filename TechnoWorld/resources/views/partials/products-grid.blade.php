@@ -17,7 +17,7 @@
                         <a href="{{ route('product.show', $product->slug) }}" class="stretched-link" aria-label="Open {{ $product->name }}"></a>
                         <p class="card-text text-muted">{{ $product->short_description }}</p>
                         <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
-                            <span class="product-price">{{ number_format((float) $product->price, 2) }} EUR</span>
+                            <span class="product-price">{{ number_format((float) $product->price, 2) }} €</span>
                             <div style="position: relative; z-index: 1;">
                             @if (($product->stock_left ?? 0) <= 0)
                                 <button type="button" class="btn btn-add-cart btn-sm" disabled>

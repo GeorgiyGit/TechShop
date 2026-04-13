@@ -37,6 +37,7 @@ class ProductController extends Controller
 
         $minPrice = $request->filled('min_price') ? (float) $request->input('min_price') : null;
         $maxPrice = $request->filled('max_price') ? (float) $request->input('max_price') : null;
+        $search = $request->filled('search') ? trim($request->input('search')) : null;
         $openCategoryFilter = $selectedCategoryIds !== [];
         $openBrandFilter = $selectedBrands !== [];
         $openStatusFilter = $selectedStatuses !== [];
@@ -103,6 +104,13 @@ class ProductController extends Controller
             $productsQuery->where('price', '<=', $maxPrice);
         }
 
+        if ($search !== null) {
+            $productsQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('brand', 'like', '%' . $search . '%');
+            });
+        }
+
         switch ($orderBy) {
             case 'price-asc':
                 $productsQuery->orderBy('price')->orderBy('sort_order')->orderBy('id');
@@ -143,6 +151,7 @@ class ProductController extends Controller
             'selectedStatuses',
             'minPrice',
             'maxPrice',
+            'search',
             'openCategoryFilter',
             'openBrandFilter',
             'openStatusFilter',
@@ -157,6 +166,8 @@ class ProductController extends Controller
             ->where('is_active', true)
             ->with(['category', 'characteristics', 'images'])
             ->firstOrFail();
+
+        $product->increment('popularity_score');
 
         $similarProducts = Product::query()
             ->where('is_active', true)
