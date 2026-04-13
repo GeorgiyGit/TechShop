@@ -23,7 +23,7 @@ class Product extends Model
         'image_path',
         'sort_order',
         'popularity_score',
-        'stock_status',
+        'stock_left',
         'is_active',
     ];
 
@@ -37,6 +37,7 @@ class Product extends Model
             'category_id' => 'integer',
             'sort_order' => 'integer',
             'popularity_score' => 'integer',
+            'stock_left' => 'integer',
             'is_active' => 'boolean',
         ];
     }

@@ -1069,6 +1069,10 @@ body.products-page {
     background: #f8fbff;
 }
 
+.products-page .product-img-wrap {
+    position: relative;
+}
+
 .products-page .card-title {
     color: #1f3764;
     font-weight: 700;

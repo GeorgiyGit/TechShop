@@ -76,7 +76,19 @@ class ProductController extends Controller
         }
 
         if ($selectedStatuses !== []) {
-            $productsQuery->whereIn('stock_status', $selectedStatuses);
+            $productsQuery->where(function ($query) use ($selectedStatuses) {
+                if (in_array('in_stock', $selectedStatuses, true)) {
+                    $query->orWhere('stock_left', '>', 5);
+                }
+
+                if (in_array('limited_stock', $selectedStatuses, true)) {
+                    $query->orWhereBetween('stock_left', [1, 5]);
+                }
+
+                if (in_array('out_of_stock', $selectedStatuses, true)) {
+                    $query->orWhere('stock_left', '<=', 0);
+                }
+            });
         }
 
         if ($minPrice !== null) {
@@ -107,12 +119,6 @@ class ProductController extends Controller
         }
 
         $products = $productsQuery->get();
-        $brands = Product::query()
-            ->where('is_active', true)
-            ->select('brand')
-            ->distinct()
-            ->orderBy('brand')
-            ->pluck('brand');
 
         if ($request->boolean('partial')) {
             return view('partials.products-grid', compact('products'));
