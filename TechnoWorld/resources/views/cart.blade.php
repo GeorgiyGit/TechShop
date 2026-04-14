@@ -30,13 +30,16 @@
                                         <p class="cart-item-price">{{ number_format((float) $item->product->price, 2) }} €</p>
                                     </div>
                                     <div class="cart-item-bottom">
-                                        <form action="{{ route('cart.update', $item->id) }}" method="POST">
+                                        <form action="{{ route('cart.update', $item->id) }}" method="POST" class="cart-item-qty-form">
                                             @csrf
                                             @method('PATCH')
                                             <div class="cart-item-qty" role="group" aria-label="Item quantity">
-                                                <button class="cart-qty-btn" type="submit" name="quantity" value="{{ max(1, $item->quantity - 1) }}" aria-label="Decrease quantity">-</button>
-                                                <input type="number" class="cart-qty-value" name="quantity_display" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock_left }}" aria-label="Quantity" readonly>
-                                                <button class="cart-qty-btn" type="submit" name="quantity" value="{{ $item->quantity + 1 }}" aria-label="Increase quantity">+</button>
+                                                <button class="cart-qty-btn" type="button" aria-label="Decrease quantity"
+                                                    onclick="const i=this.parentNode.querySelector('input[name=quantity]');if(i.value>1){i.stepDown();i.form.requestSubmit();}">&#8722;</button>
+                                                <input type="number" class="cart-qty-value" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock_left }}" aria-label="Quantity"
+                                                    onchange="this.form.requestSubmit()">
+                                                <button class="cart-qty-btn" type="button" aria-label="Increase quantity"
+                                                    onclick="const i=this.parentNode.querySelector('input[name=quantity]');i.stepUp();i.form.requestSubmit();">+</button>
                                             </div>
                                         </form>
                                         <form action="{{ route('cart.remove', $item->id) }}" method="POST">

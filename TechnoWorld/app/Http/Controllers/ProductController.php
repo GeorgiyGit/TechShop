@@ -106,8 +106,8 @@ class ProductController extends Controller
 
         if ($search !== null) {
             $productsQuery->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                      ->orWhere('brand', 'like', '%' . $search . '%');
+                $query->where('name', 'ilike', '%' . $search . '%')
+                      ->orWhere('brand', 'ilike', '%' . $search . '%');
             });
         }
 

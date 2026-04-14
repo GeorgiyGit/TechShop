@@ -23,34 +23,29 @@
             <div class="col-12 col-md-6 d-flex gap-3">
                 @php($galleryImages = $product->images)
                 @php($firstSrc = $galleryImages->isNotEmpty() ? url('/images/products/' . $galleryImages->first()->image_path) : '')
-                @php($thumbHeight = 80)
-                @php($thumbGap = 8)
-                @php($visibleThumbs = 5)
-                @php($stripHeight = $thumbHeight * $visibleThumbs + $thumbGap * ($visibleThumbs - 1))
 
-                <div style="width: 80px; flex-shrink: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                <div class="gallery-thumb-column">
                     <button class="btn btn-light p-0 border" id="thumbScrollUp" type="button"><i class="bi bi-chevron-up"></i></button>
-                    <div id="thumbWrapper" style="overflow: hidden; height: {{ $stripHeight }}px;">
-                        <div id="thumbList" style="display: flex; flex-direction: column; gap: {{ $thumbGap }}px; transition: transform 0.2s ease; will-change: transform;">
+                    <div id="thumbWrapper" class="gallery-thumb-wrapper">
+                        <div id="thumbList" class="gallery-thumb-list">
                             @foreach ($galleryImages as $i => $image)
                                 @php($src = url('/images/products/' . $image->image_path))
                                 <img src="{{ $src }}"
                                      class="gallery-thumb border rounded{{ $i === 0 ? ' active' : '' }}"
                                      alt="{{ $product->name }} image {{ $i + 1 }}"
-                                     data-gallery-src="{{ $src }}"
-                                     style="cursor: pointer; flex-shrink: 0; height: {{ $thumbHeight }}px; width: 100%; object-fit: cover;">
+                                     data-gallery-src="{{ $src }}">
                             @endforeach
                         </div>
                     </div>
                     <button class="btn btn-light p-0 border" id="thumbScrollDown" type="button"><i class="bi bi-chevron-down"></i></button>
                 </div>
 
-                <div class="flex-grow-1 border rounded bg-white d-flex align-items-center justify-content-center p-4" style="min-height: 360px;">
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center gallery-main-wrap">
                     <img src="{{ $firstSrc }}" class="img-fluid product-main-image" id="galleryMain" alt="{{ $product->name }}">
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 d-flex flex-column" style="padding: 30px;">
+            <div class="col-12 col-md-6 d-flex flex-column product-hero-info">
                 <h1 class="fw-bold mb-2">{{ $product->name }}</h1>
                 <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                     <a href="{{ route('products', ['brands' => [$product->brand]]) }}" class="product-detail-tag">
@@ -105,12 +100,12 @@
             <section class="mb-5">
                 <h2 class="text-center fw-bold mb-4">Characteristics</h2>
                 <div class="table-responsive bg-transparent">
-                    <table class="table table-bordered table-transparent mb-0 align-middle border-dark" style="background-color: transparent; --bs-table-bg: transparent; --bs-table-border-color: #000;">
+                    <table class="table table-bordered table-transparent mb-0 align-middle border-dark product-characteristics-table">
                         <tbody>
                             @foreach ($product->characteristics as $characteristic)
                                 <tr>
-                                    <th class="w-50 p-3 fs-5" style="background-color: transparent; border-color: #000;">{{ $characteristic->name }}</th>
-                                    <td class="w-50 p-3 fs-5" style="background-color: transparent; border-color: #000;">{{ $characteristic->value }}</td>
+                                    <th class="w-50 p-3 fs-5 product-characteristics-cell">{{ $characteristic->name }}</th>
+                                    <td class="w-50 p-3 fs-5 product-characteristics-cell">{{ $characteristic->value }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -166,10 +161,10 @@
 
     <script>
         (function () {
-            const THUMB_H = {{ $thumbHeight }};
-            const THUMB_GAP = {{ $thumbGap }};
+            const THUMB_H = 80;
+            const THUMB_GAP = 8;
             const STEP = THUMB_H + THUMB_GAP;
-            const VISIBLE = {{ $visibleThumbs }};
+            const VISIBLE = 5;
 
             const mainImg = document.getElementById('galleryMain');
             const thumbList = document.getElementById('thumbList');

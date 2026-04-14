@@ -159,6 +159,12 @@
             </section>
             </div>
         </form>
+
+        <form id="cartAddForm" method="POST" action="{{ route('cart.add') }}" hidden>
+            @csrf
+            <input type="hidden" id="cartProductId" name="product_id" value="">
+            <input type="hidden" name="quantity" value="1">
+        </form>
     </main>
 
     @include('partials.storefront-footer')
@@ -274,6 +280,16 @@
                 event.preventDefault();
                 const { publicUrl } = buildFormUrl();
                 updateProductsGrid(publicUrl, publicUrl);
+            });
+
+            document.addEventListener('click', (event) => {
+                const btn = event.target.closest('[data-add-to-cart]');
+                if (!btn) return;
+                const cartForm = document.getElementById('cartAddForm');
+                const productIdInput = document.getElementById('cartProductId');
+                if (!cartForm || !productIdInput) return;
+                productIdInput.value = btn.dataset.addToCart;
+                cartForm.submit();
             });
 
             select.addEventListener('change', () => {

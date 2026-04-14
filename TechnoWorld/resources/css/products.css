@@ -818,6 +818,51 @@ footer>.socials a {
     color: var(--blue-dark) !important;
 }
 
+.gallery-thumb-column {
+    width: 80px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.gallery-thumb-wrapper {
+    overflow: hidden;
+    height: 430px;
+}
+
+.gallery-thumb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.2s ease;
+    will-change: transform;
+}
+
+.gallery-thumb {
+    flex-shrink: 0;
+    height: 80px;
+}
+
+.gallery-main-wrap {
+    min-height: 360px;
+}
+
+.product-hero-info {
+    padding: 30px;
+}
+
+.product-characteristics-table {
+    background-color: transparent;
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--black);
+}
+
+.product-characteristics-cell {
+    background-color: transparent !important;
+    border-color: var(--black) !important;
+}
+
 body.signup-screen {
     background: var(--cream);
     min-height: 100vh;
