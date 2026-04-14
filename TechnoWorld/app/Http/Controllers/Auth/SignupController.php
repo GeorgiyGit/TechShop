@@ -14,6 +14,7 @@ use Illuminate\View\View;
 
 class SignupController extends Controller
 {
+    use ResolvesReturnTo;
     public function create(Request $request): View
     {
         return view('auth.signup', [
@@ -54,25 +55,4 @@ class SignupController extends Controller
         return redirect()->to($this->resolveReturnTo($request, $request->input('return_to')));
     }
 
-    private function resolveReturnTo(Request $request, ?string $candidate = null): string
-    {
-        $value = trim((string) ($candidate ?: $request->query('return_to') ?: $request->headers->get('referer') ?: route('home')));
-        if ($value === '') {
-            return route('home');
-        }
-
-        $parts = parse_url($value);
-        if ($parts === false) {
-            return route('home');
-        }
-        if (isset($parts['host']) && $parts['host'] !== $request->getHost()) {
-            return route('home');
-        }
-
-        $path = $parts['path'] ?? '/';
-        $query = isset($parts['query']) ? '?' . $parts['query'] : '';
-        $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
-
-        return url($path . $query . $fragment);
-    }
 }

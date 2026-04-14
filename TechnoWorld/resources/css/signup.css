@@ -40,25 +40,7 @@ body.signup-screen {
     overflow: hidden;
 }
 
-.signup-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(47, 83, 138, 0.38);
-    z-index: 20;
-}
-
-.signup-modal-shell {
-    position: fixed;
-    inset: 0;
-    z-index: 30;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
-}
-
 .signup-modal-card {
-    width: min(100%, 600px);
     background: linear-gradient(180deg, #f4f1ea 0%, #ebe5d8 100%);
     border: 1px solid rgba(74, 112, 169, 0.18);
     border-radius: 28px;
@@ -86,8 +68,11 @@ body.signup-screen {
     align-items: center;
     justify-content: center;
     border-radius: 999px;
+    border: none;
+    background: none;
     color: var(--blue-deeper);
     text-decoration: none;
+    cursor: pointer;
     transition: background-color var(--transition), color var(--transition), transform var(--transition);
 }
 

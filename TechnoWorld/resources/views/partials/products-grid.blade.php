@@ -24,10 +24,14 @@
                                     <i class="bi bi-cart-x me-1"></i>Unavailable
                                 </button>
                             @else
-                                <button type="button" class="btn btn-add-cart btn-sm"
-                                    data-add-to-cart="{{ $product->id }}">
-                                    <i class="bi bi-cart-plus me-1"></i>Add
-                                </button>
+                                <form method="POST" action="{{ route('cart.add') }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-add-cart btn-sm">
+                                        <i class="bi bi-cart-plus me-1"></i>Add
+                                    </button>
+                                </form>
                             @endif
                             </div>
                         </div>

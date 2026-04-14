@@ -30,8 +30,8 @@
                 <a href="{{ route('cart.index') }}" class="btn btn-nav-icon" aria-label="Cart">
                     <i class="bi bi-cart3 fs-5"></i>
                 </a>
-                <a href="{{ route('signup.create') }}" data-auth-modal-target="signup" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
-                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
+                <a href="{{ route('signup.create') }}" data-bs-toggle="modal" data-bs-target="#signupModal" class="btn btn-outline-light btn-sm px-3 fw-500">Sign Up</a>
+                <a href="{{ route('login') }}" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light btn-sm px-3 blue-text fw-500">Log In</a>
             @endauth
         </div>
     </nav>

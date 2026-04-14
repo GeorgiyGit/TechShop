@@ -14,7 +14,7 @@
         'resources/css/home.css',
         'resources/css/login.css',
         'resources/css/signup.css',
-        'resources/js/home.js',
+        'resources/js/products.js',
     ], $vite ?? []))
 </head>
 
@@ -23,12 +23,15 @@
     $returnTo = request()->fullUrl();
 @endphp
 
-<body class="@yield('bodyClass')" data-open-auth-modal="{{ $authModal }}">
+<body class="@yield('bodyClass')">
     @yield('content')
 
     @include('partials.auth-modals', ['authModal' => $authModal, 'returnTo' => $returnTo])
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @if ($authModal)
+        <script>new bootstrap.Modal(document.getElementById('{{ $authModal }}Modal')).show();</script>
+    @endif
 </body>
 
 </html>
