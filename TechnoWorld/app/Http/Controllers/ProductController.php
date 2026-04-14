@@ -105,11 +105,9 @@ class ProductController extends Controller
         }
 
         if ($search !== null) {
-            $lower = mb_strtolower($search);
-
-            $productsQuery->where(function ($query) use ($lower) {
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . $lower . '%'])
-                      ->orWhereRaw('LOWER(brand) LIKE ?', ['%' . $lower . '%']);
+            $productsQuery->where(function ($query) use ($search) {
+                $query->where('name', 'ilike', '%' . $search . '%')
+                      ->orWhere('brand', 'ilike', '%' . $search . '%');
             });
         }
 

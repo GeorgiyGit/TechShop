@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,7 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        $guestSessionId = $request->session()->getId();
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()
                 ->withInput($request->only('email', 'remember'))
@@ -31,6 +33,7 @@ class LoginController extends Controller
         }
 
         $request->session()->regenerate();
+        Cart::mergeGuestCart($guestSessionId, Auth::id());
 
         return redirect()->to($this->resolveReturnTo($request, $request->input('return_to')));
     }
@@ -50,17 +53,14 @@ class LoginController extends Controller
     private function resolveReturnTo(Request $request, ?string $candidate = null): string
     {
         $value = trim((string) ($candidate ?: $request->query('return_to') ?: $request->headers->get('referer') ?: route('home')));
-
         if ($value === '') {
             return route('home');
         }
 
         $parts = parse_url($value);
-
         if ($parts === false) {
             return route('home');
         }
-
         if (isset($parts['host']) && $parts['host'] !== $request->getHost()) {
             return route('home');
         }

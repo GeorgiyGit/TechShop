@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +34,6 @@ class SignupController extends Controller
         if ($name === '') {
             $name = Str::headline(Str::before($validated['email'], '@'));
         }
-
         if ($name === '') {
             $name = $validated['email'];
         }
@@ -46,9 +46,10 @@ class SignupController extends Controller
 
         event(new Registered($user));
 
+        $guestSessionId = $request->session()->getId();
         Auth::login($user);
-
         $request->session()->regenerate();
+        Cart::mergeGuestCart($guestSessionId, $user->id);
 
         return redirect()->to($this->resolveReturnTo($request, $request->input('return_to')));
     }
@@ -56,17 +57,14 @@ class SignupController extends Controller
     private function resolveReturnTo(Request $request, ?string $candidate = null): string
     {
         $value = trim((string) ($candidate ?: $request->query('return_to') ?: $request->headers->get('referer') ?: route('home')));
-
         if ($value === '') {
             return route('home');
         }
 
         $parts = parse_url($value);
-
         if ($parts === false) {
             return route('home');
         }
-
         if (isset($parts['host']) && $parts['host'] !== $request->getHost()) {
             return route('home');
         }
