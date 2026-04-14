@@ -60,7 +60,7 @@
                 @csrf
                 <input type="hidden" name="return_to" value="{{ $returnTo }}">
                 <input type="hidden" name="name" id="auth-signup-name" value="{{ old('name') }}">
-                <input type="email" class="signup-input" name="email" id="auth-signup-email" placeholder="Email" aria-label="Email" value="{{ old('email') }}" data-sync-name-from-email="#auth-signup-name" required>
+                <input type="email" class="signup-input" name="email" id="auth-signup-email" placeholder="Email" aria-label="Email" value="{{ old('email') }}" required>
                 <input type="password" class="signup-input" name="password" id="auth-signup-password" placeholder="Password" aria-label="Password" required>
                 <input type="password" class="signup-input" name="password_confirmation" id="auth-signup-password_confirmation" placeholder="Repeat password" aria-label="Repeat password" required>
                 <button type="submit" class="signup-submit">Sign Up</button>

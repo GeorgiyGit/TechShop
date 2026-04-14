@@ -7,20 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     let activeModal = null;
 
-    const syncNameFromEmail = (emailInput, nameInput) => {
-        if (!emailInput || !nameInput) {
-            return;
-        }
-
-        const updateName = () => {
-            const localPart = emailInput.value.split('@')[0] ?? '';
-            nameInput.value = localPart.trim().replace(/[._-]+/g, ' ');
-        };
-
-        emailInput.addEventListener('input', updateName);
-        updateName();
-    };
-
     const updateBodyState = () => {
         const anyOpen = Array.from(modals.values()).some((modal) => !modal.hasAttribute('hidden'));
 
@@ -140,13 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'Escape' && activeModal) {
             closeModal(activeModal);
         }
-    });
-
-    document.querySelectorAll('[data-sync-name-from-email]').forEach((emailInput) => {
-        const nameInputSelector = emailInput.dataset.syncNameFromEmail;
-        const nameInput = nameInputSelector ? document.querySelector(nameInputSelector) : null;
-
-        syncNameFromEmail(emailInput, nameInput);
     });
 
     const initialModal = body.dataset.openAuthModal;
