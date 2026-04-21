@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\LoginController;
@@ -22,6 +23,19 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.remove');
+
+Route::prefix('create-order')->name('order.create.')->group(function () {
+    Route::get('/', [OrderController::class, 'items'])->name('items');
+    Route::get('/contact', [OrderController::class, 'contact'])->name('contact');
+    Route::post('/contact', [OrderController::class, 'storeContact'])->name('contact.store');
+    Route::get('/delivery', [OrderController::class, 'delivery'])->name('delivery');
+    Route::get('/pickup', [OrderController::class, 'pickup'])->name('pickup');
+    Route::post('/delivery', [OrderController::class, 'storeDelivery'])->name('delivery.store');
+    Route::get('/payment', [OrderController::class, 'payment'])->name('payment');
+    Route::post('/payment', [OrderController::class, 'store'])->name('store');
+});
+
+Route::get('/order-success/{order?}', [OrderController::class, 'success'])->name('order.success');
 
 Route::middleware('guest')->group(function () {
     Route::get('/signup', [SignupController::class, 'create'])->name('signup.create');

@@ -68,7 +68,7 @@
                             <span class="cart-summary-dots" aria-hidden="true"></span>
                             <span>{{ number_format($cart->items->sum(fn ($item) => $item->quantity * $item->product->price), 2) }} €</span>
                         </div>
-                        <a href="{{ route('home') }}" class="cart-create-order-btn">Create Order</a>
+                        <a href="{{ route('order.create.items') }}" class="cart-create-order-btn">Create Order</a>
                     </aside>
                 </div>
             @else
