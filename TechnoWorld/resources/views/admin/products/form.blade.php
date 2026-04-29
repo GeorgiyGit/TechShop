@@ -129,6 +129,16 @@
                             placeholder="0" value="{{ old('stock_left', $product?->stock_left) }}" min="0" step="1" required>
                         @error('stock_left')<p class="admin-form-hint text-danger">{{ $message }}</p>@enderror
                     </div>
+
+                    <div class="mb-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="prodActive" name="is_active" value="1"
+                                {{ old('is_active', $product?->is_active ?? true) ? 'checked' : '' }}>
+                            <label class="form-check-label admin-form-label mb-0" for="prodActive">
+                                Active (visible on storefront)
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
 

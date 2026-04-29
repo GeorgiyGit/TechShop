@@ -61,7 +61,7 @@ class ProductController extends Controller
         ]);
 
         $data['slug'] = $this->uniqueSlug($data['name']);
-        $data['is_active'] = true;
+        $data['is_active'] = $request->boolean('is_active');
 
         $product = Product::create($data);
 
@@ -98,6 +98,8 @@ class ProductController extends Controller
         if ($product->name !== $data['name']) {
             $data['slug'] = $this->uniqueSlug($data['name'], $product->id);
         }
+
+        $data['is_active'] = $request->boolean('is_active');
 
         $product->update($data);
 
