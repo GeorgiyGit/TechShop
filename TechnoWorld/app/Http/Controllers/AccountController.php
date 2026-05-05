@@ -8,11 +8,16 @@ class AccountController extends Controller
 {
     public function account(): View
     {
-        return view('dashboard');
+        $orders = auth()->user()
+            ->orders()
+            ->orderByDesc('placed_at')
+            ->get();
+
+        return view('dashboard', compact('orders'));
     }
 
     public function dashboard(): View
     {
-        return view('dashboard');
+        return $this->account();
     }
 }
