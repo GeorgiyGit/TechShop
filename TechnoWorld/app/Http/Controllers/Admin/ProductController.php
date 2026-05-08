@@ -127,6 +127,20 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');
     }
 
+    public function destroyImage(ProductImage $image)
+    {
+        $productId = $image->product_id;
+        $path = public_path('images/products/' . $image->image_path);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $image->delete();
+
+        return redirect()->route('admin.products.edit', $productId)->with('success', 'Image deleted.');
+    }
+
     private function uniqueSlug(string $name, ?int $ignoreId = null): string
     {
         $base = Str::slug($name);

@@ -95,15 +95,25 @@
                         <small>PNG, JPG, WEBP — max 5MB each</small>
                     </label>
 
-                    <div id="imagePreviewContainer" class="admin-image-previews mt-2">
-                        @if ($editing)
+                    @if ($editing && $product->images->isNotEmpty())
+                        <div class="admin-image-previews mt-3">
                             @foreach ($product->images as $img)
                                 <div class="admin-image-preview-item">
                                     <img src="{{ route('images.products', $img->image_path) }}" alt="">
+                                    <form action="{{ route('admin.product-images.destroy', $img) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="remove-image"
+                                            onclick="return confirm('Delete this image?')" title="Delete image">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             @endforeach
-                        @endif
-                    </div>
+                        </div>
+                    @endif
+
+                    <div id="imagePreviewContainer" class="admin-image-previews"></div>
 
                     @error('images.*')<p class="admin-form-hint text-danger mt-2">{{ $message }}</p>@enderror
                 </div>
