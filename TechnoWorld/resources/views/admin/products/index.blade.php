@@ -57,7 +57,7 @@
                             <td>{{ $products->firstItem() + $index }}</td>
                             <td>
                                 @if ($product->firstImage)
-                                    <img src="{{ route('images.products', $product->firstImage->image_path) }}"
+                                    <img src="{{ route('images.products', $product->firstImage->url) }}"
                                          alt="{{ $product->name }}" class="admin-product-thumb">
                                 @else
                                     <div class="admin-product-thumb d-flex align-items-center justify-content-center bg-light">
@@ -72,13 +72,13 @@
                                 @endif
                             </td>
                             <td class="small">{{ $product->category?->name ?? '—' }}</td>
-                            <td class="small">{{ $product->brand }}</td>
+                            <td class="small">{{ $product->brand?->name ?? '—' }}</td>
                             <td class="small fw-600">€{{ number_format($product->price, 2) }}</td>
                             <td>
-                                @if ($product->stock_left <= 0)
+                                @if ($product->stock_quantity <= 0)
                                     <span class="stock-badge stock-badge-out">Out of Stock</span>
-                                @elseif ($product->stock_left <= 5)
-                                    <span class="stock-badge stock-badge-low">Low ({{ $product->stock_left }})</span>
+                                @elseif ($product->stock_quantity <= 9)
+                                    <span class="stock-badge stock-badge-low">Low ({{ $product->stock_quantity }})</span>
                                 @else
                                     <span class="stock-badge stock-badge-in">In Stock</span>
                                 @endif

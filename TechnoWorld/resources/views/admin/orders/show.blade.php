@@ -3,11 +3,11 @@
 @section('content')
     <div class="admin-page-header">
         <div>
-            <h1 class="admin-page-title">Order #{{ $order->order_number }}</h1>
+            <h1 class="admin-page-title">Order #{{ substr($order->id, -8) }}</h1>
             <p class="admin-breadcrumb">
                 <a href="{{ route('admin.orders.index') }}">Admin</a> /
                 <a href="{{ route('admin.orders.index') }}">Orders</a> /
-                #{{ $order->order_number }}
+                #{{ substr($order->id, -8) }}
             </p>
         </div>
         <a href="{{ route('admin.orders.index') }}" class="btn btn-clear-filters fw-500">
@@ -20,52 +20,59 @@
     @endif
 
     <div class="row g-4">
-        {{-- Order details --}}
         <div class="col-lg-7">
             <div class="admin-form-card mb-4">
                 <p class="admin-form-section-title">Order Information</p>
 
                 <div class="row g-3">
                     <div class="col-sm-6">
-                        <p class="admin-form-label mb-1">Order Number</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">#{{ $order->order_number }}</p>
+                        <p class="admin-form-label mb-1">Order Reference</p>
+                        <p class="admin-form-control" style="background:var(--gray-soft)">#{{ substr($order->id, -8) }}</p>
                     </div>
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Order Date</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->placed_at->format('d M Y, H:i') }}</p>
+                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y, H:i') }}</p>
                     </div>
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Customer</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->first_name }} {{ $order->last_name }}</p>
+                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->user?->email ?? 'Guest' }}</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="admin-form-label mb-1">Email</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->email }}</p>
+                        <p class="admin-form-label mb-1">Delivery Method</p>
+                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->delivery_method === 'pickup' ? 'Store Pickup' : 'Courier' }}</p>
                     </div>
-                    <div class="col-sm-6">
-                        <p class="admin-form-label mb-1">Phone</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->phone }}</p>
-                    </div>
+                    @if ($order->address)
+                        <div class="col-12">
+                            <p class="admin-form-label mb-1">Delivery Address</p>
+                            <p class="admin-form-control" style="background:var(--gray-soft)">
+                                {{ $order->address->street }} {{ $order->address->house_number }},
+                                {{ $order->address->city }}, {{ $order->address->postal_code }},
+                                {{ $order->address->country }}
+                            </p>
+                        </div>
+                    @endif
+                    @if ($order->payment)
+                        <div class="col-sm-6">
+                            <p class="admin-form-label mb-1">Payment Method</p>
+                            <p class="admin-form-control" style="background:var(--gray-soft)">{{ ucfirst(str_replace('_', ' ', $order->payment->payment_method)) }}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="admin-form-label mb-1">Payment Amount</p>
+                            <p class="admin-form-control" style="background:var(--gray-soft)">€{{ number_format($order->payment->amount, 2) }}</p>
+                        </div>
+                    @endif
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Items</p>
                         <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->items->sum('quantity') }} items</p>
                     </div>
-                    <div class="col-sm-6">
-                        <p class="admin-form-label mb-1">Delivery</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->delivery_label }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="admin-form-label mb-1">Payment</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->payment_label }}</p>
-                    </div>
                     <div class="col-12">
                         <p class="admin-form-label mb-1">Total</p>
-                        <p class="admin-form-control fw-600" style="background:var(--gray-soft)">€{{ number_format($order->total, 2) }}</p>
+                        <p class="admin-form-control fw-600" style="background:var(--gray-soft)">€{{ number_format($order->total_price, 2) }}</p>
                     </div>
                     <div class="col-12">
                         <p class="admin-form-label mb-1">Current Status</p>
                         <span class="order-status-badge order-status-{{ $order->status }}">
-                            {{ $statuses[$order->status] ?? ucfirst($order->status) }}
+                            {{ ucfirst($order->status) }}
                         </span>
                     </div>
                 </div>
@@ -87,12 +94,16 @@
                             @foreach ($order->items as $item)
                                 <tr>
                                     <td>
-                                        <div class="fw-600 small">{{ $item->product_name }}</div>
-                                        <div class="text-muted" style="font-size:0.78rem">{{ $item->product_brand }}</div>
+                                        @if ($item->product)
+                                            <div class="fw-600 small">{{ $item->product->name }}</div>
+                                            <div class="text-muted" style="font-size:0.78rem">{{ $item->product->brand?->name }}</div>
+                                        @else
+                                            <div class="fw-600 small text-muted">[Product deleted]</div>
+                                        @endif
                                     </td>
                                     <td class="small">{{ $item->quantity }}</td>
                                     <td class="small">€{{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="small fw-600">€{{ number_format($item->total_price, 2) }}</td>
+                                    <td class="small fw-600">€{{ number_format($item->unit_price * $item->quantity, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -101,7 +112,6 @@
             </div>
         </div>
 
-        {{-- Status update --}}
         <div class="col-lg-5">
             <div class="admin-form-card">
                 <p class="admin-form-section-title">Update Status</p>
@@ -113,9 +123,9 @@
                     <div class="mb-4">
                         <label for="orderStatus" class="admin-form-label">New Status <span class="text-danger">*</span></label>
                         <select id="orderStatus" name="status" class="admin-form-control" required>
-                            @foreach ($statuses as $value => $label)
+                            @foreach ($statuses as $value)
                                 <option value="{{ $value }}" {{ $order->status === $value ? 'selected' : '' }}>
-                                    {{ $label }}
+                                    {{ ucfirst($value) }}
                                 </option>
                             @endforeach
                         </select>

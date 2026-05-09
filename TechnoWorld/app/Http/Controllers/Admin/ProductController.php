@@ -9,7 +9,6 @@ use App\Models\Product;
 use App\Models\ProductCharacteristic;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -18,14 +17,11 @@ class ProductController extends Controller
         $search = $request->input('search');
         $categoryId = $request->input('category_id');
 
-        $products = Product::with(['category', 'firstImage'])
-            ->when($search, fn($q) => $q->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('brand', 'like', "%{$search}%");
-            }))
+        $products = Product::with(['brand', 'category', 'firstImage'])
+            ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
             ->when($categoryId, fn($q) => $q->where('category_id', $categoryId))
             ->orderBy('name')
-            ->paginate(20)
+            ->paginate(15)
             ->withQueryString();
 
         $categories = Category::orderBy('name')->get();
@@ -48,34 +44,29 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'              => 'required|string|max:255',
-            'brand'             => 'required|string|max:255',
-            'category_id'       => 'required|exists:categories,id',
-            'short_description' => 'nullable|string|max:255',
-            'description'       => 'nullable|string',
-            'price'             => 'required|numeric|min:0',
-            'stock_left'        => 'required|integer|min:0',
-            'images.*'          => 'nullable|image|max:5120',
-            'char_name'         => 'nullable|array',
-            'char_value'        => 'nullable|array',
+            'name' => 'required|string|max:255',
+            'brand_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'short_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'images.*' => 'nullable|image|max:5120',
         ]);
-
-        $data['slug'] = $this->uniqueSlug($data['name']);
-        $data['is_active'] = $request->boolean('is_active');
 
         $product = Product::create($data);
 
-        $this->saveImages($request, $product);
-        $this->saveCharacteristics($request, $product);
+        $this->saveImages($product, $request);
+        $this->saveCharacteristics($product, $request);
 
         return redirect()->route('admin.products.index')->with('success', 'Product created.');
     }
 
     public function edit(Product $product)
     {
+        $product->load(['characteristics', 'images']);
         $categories = Category::orderBy('name')->get();
         $brands = Brand::orderBy('name')->get();
-        $product->load(['images', 'characteristics']);
 
         return view('admin.products.form', compact('product', 'categories', 'brands'));
     }
@@ -83,32 +74,23 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $data = $request->validate([
-            'name'              => 'required|string|max:255',
-            'brand'             => 'required|string|max:255',
-            'category_id'       => 'required|exists:categories,id',
-            'short_description' => 'nullable|string|max:255',
-            'description'       => 'nullable|string',
-            'price'             => 'required|numeric|min:0',
-            'stock_left'        => 'required|integer|min:0',
-            'images.*'          => 'nullable|image|max:5120',
-            'char_name'         => 'nullable|array',
-            'char_value'        => 'nullable|array',
+            'name' => 'required|string|max:255',
+            'brand_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'short_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'images.*' => 'nullable|image|max:5120',
         ]);
-
-        if ($product->name !== $data['name']) {
-            $data['slug'] = $this->uniqueSlug($data['name'], $product->id);
-        }
-
-        $data['is_active'] = $request->boolean('is_active');
 
         $product->update($data);
 
         if ($request->hasFile('images')) {
-            $this->saveImages($request, $product);
+            $this->saveImages($product, $request);
         }
 
-        $product->characteristics()->delete();
-        $this->saveCharacteristics($request, $product);
+        $this->saveCharacteristics($product, $request);
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated.');
     }
@@ -116,7 +98,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         foreach ($product->images as $image) {
-            $path = public_path('images/products/' . $image->image_path);
+            $path = public_path('images/products/' . $image->url);
             if (file_exists($path)) {
                 unlink($path);
             }
@@ -130,7 +112,7 @@ class ProductController extends Controller
     public function destroyImage(ProductImage $image)
     {
         $productId = $image->product_id;
-        $path = public_path('images/products/' . $image->image_path);
+        $path = public_path('images/products/' . $image->url);
 
         if (file_exists($path)) {
             unlink($path);
@@ -141,25 +123,7 @@ class ProductController extends Controller
         return redirect()->route('admin.products.edit', $productId)->with('success', 'Image deleted.');
     }
 
-    private function uniqueSlug(string $name, ?int $ignoreId = null): string
-    {
-        $base = Str::slug($name);
-        $slug = $base;
-        $i = 1;
-
-        while (
-            Product::where('slug', $slug)
-                ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
-                ->exists()
-        ) {
-            $slug = "{$base}-{$i}";
-            $i++;
-        }
-
-        return $slug;
-    }
-
-    private function saveImages(Request $request, Product $product): void
+    private function saveImages(Product $product, Request $request): void
     {
         if (!$request->hasFile('images')) {
             return;
@@ -173,16 +137,18 @@ class ProductController extends Controller
 
             ProductImage::create([
                 'product_id' => $product->id,
-                'image_path' => $filename,
-                'position'   => ++$position,
+                'url' => $filename,
+                'position' => ++$position,
             ]);
         }
     }
 
-    private function saveCharacteristics(Request $request, Product $product): void
+    private function saveCharacteristics(Product $product, Request $request): void
     {
         $names = $request->input('char_name', []);
         $values = $request->input('char_value', []);
+
+        $product->characteristics()->delete();
 
         foreach ($names as $i => $name) {
             $name = trim($name);
@@ -193,9 +159,9 @@ class ProductController extends Controller
 
             ProductCharacteristic::create([
                 'product_id' => $product->id,
-                'name'       => $name,
-                'value'      => $value,
-                'position'   => $i + 1,
+                'name' => $name,
+                'value' => $value,
+                'position' => $i + 1,
             ]);
         }
     }

@@ -6,35 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug')->unique();
-            $table->string('brand');
+            $table->uuid('id')->primary();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            $table->text('description');
+            $table->text('short_description')->nullable();
+            $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
-            $table->foreignId('category_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('image_path');
-            $table->unsignedInteger('sort_order')->default(0);
-            $table->unsignedInteger('popularity_score')->default(0);
-            $table->unsignedInteger('stock_left')->default(0);
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-
-            $table->index(['is_active', 'sort_order']);
-            $table->index(['is_active', 'popularity_score']);
-            $table->index(['category_id']);
+            $table->unsignedInteger('stock_quantity')->default(0);
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('products');

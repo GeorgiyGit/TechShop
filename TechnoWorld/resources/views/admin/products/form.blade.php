@@ -26,7 +26,6 @@
         @endif
 
         <div class="row g-4">
-            {{-- Left column: basic info --}}
             <div class="col-lg-5">
                 <div class="admin-form-card mb-4">
                     <p class="admin-form-section-title">Basic Information</p>
@@ -40,16 +39,16 @@
 
                     <div class="mb-3">
                         <label for="prodBrand" class="admin-form-label">Brand <span class="text-danger">*</span></label>
-                        <select id="prodBrand" name="brand" class="admin-form-control" required>
+                        <select id="prodBrand" name="brand_id" class="admin-form-control" required>
                             <option value="">Select brand...</option>
                             @foreach ($brands as $brand)
-                                <option value="{{ $brand->name }}"
-                                    {{ old('brand', $product?->brand) === $brand->name ? 'selected' : '' }}>
+                                <option value="{{ $brand->id }}"
+                                    {{ old('brand_id', $product?->brand_id) == $brand->id ? 'selected' : '' }}>
                                     {{ $brand->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('brand')<p class="admin-form-hint text-danger">{{ $message }}</p>@enderror
+                        @error('brand_id')<p class="admin-form-hint text-danger">{{ $message }}</p>@enderror
                     </div>
 
                     <div class="mb-3">
@@ -83,7 +82,6 @@
                 </div>
             </div>
 
-            {{-- Middle column: images --}}
             <div class="col-lg-4">
                 <div class="admin-form-card mb-4">
                     <p class="admin-form-section-title">Product Images</p>
@@ -99,7 +97,7 @@
                         <div class="admin-image-previews mt-3">
                             @foreach ($product->images as $img)
                                 <div class="admin-image-preview-item">
-                                    <img src="{{ route('images.products', $img->image_path) }}" alt="">
+                                    <img src="{{ route('images.products', $img->url) }}" alt="">
                                     <form action="{{ route('admin.product-images.destroy', $img) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -118,7 +116,6 @@
                     @error('images.*')<p class="admin-form-hint text-danger mt-2">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Pricing & inventory --}}
                 <div class="admin-form-card">
                     <p class="admin-form-section-title">Pricing & Inventory</p>
 
@@ -135,24 +132,13 @@
 
                     <div class="mb-3">
                         <label for="prodStock" class="admin-form-label">Stock Quantity <span class="text-danger">*</span></label>
-                        <input type="number" id="prodStock" name="stock_left" class="admin-form-control"
-                            placeholder="0" value="{{ old('stock_left', $product?->stock_left) }}" min="0" step="1" required>
-                        @error('stock_left')<p class="admin-form-hint text-danger">{{ $message }}</p>@enderror
-                    </div>
-
-                    <div class="mb-1">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="prodActive" name="is_active" value="1"
-                                {{ old('is_active', $product?->is_active ?? true) ? 'checked' : '' }}>
-                            <label class="form-check-label admin-form-label mb-0" for="prodActive">
-                                Active (visible on storefront)
-                            </label>
-                        </div>
+                        <input type="number" id="prodStock" name="stock_quantity" class="admin-form-control"
+                            placeholder="0" value="{{ old('stock_quantity', $product?->stock_quantity) }}" min="0" step="1" required>
+                        @error('stock_quantity')<p class="admin-form-hint text-danger">{{ $message }}</p>@enderror
                     </div>
                 </div>
             </div>
 
-            {{-- Right column: specifications --}}
             <div class="col-lg-3">
                 <div class="admin-form-card">
                     <p class="admin-form-section-title">Key Specifications</p>

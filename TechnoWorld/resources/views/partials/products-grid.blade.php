@@ -4,24 +4,24 @@
         <div class="col">
             <article class="product-card card h-100">
                 <div class="product-img-wrap">
-                    <img src="{{ $product->firstImage ? url('/images/products/' . $product->firstImage->image_path) : '' }}"
+                    <img src="{{ $product->firstImage ? url('/images/products/' . $product->firstImage->url) : '' }}"
                         alt="{{ $product->name }}" class="product-img">
-                    @if (($product->stock_left ?? 0) <= 0)
+                    @if (($product->stock_quantity ?? 0) <= 0)
                         <span class="product-stock-badge out-of-stock">Out of Stock</span>
-                    @elseif (($product->stock_left ?? 0) <= 5)
-                        <span class="product-stock-badge low-stock">Only {{ $product->stock_left }} left</span>
+                    @elseif (($product->stock_quantity ?? 0) <= 5)
+                        <span class="product-stock-badge low-stock">Only {{ $product->stock_quantity }} left</span>
                     @endif
                 </div>
                 <div class="card-body d-flex flex-column p-3">
-                    <small class="text-muted">{{ $product->brand }}</small>
+                    <small class="text-muted">{{ $product->brand?->name }}</small>
                     <h6 class="card-title mt-1">{{ $product->name }}</h6>
-                    <a href="{{ route('product.show', $product->slug) }}" class="stretched-link"
+                    <a href="{{ route('product.show', $product) }}" class="stretched-link"
                         aria-label="Open {{ $product->name }}"></a>
                     <p class="card-text text-muted">{{ $product->short_description }}</p>
                     <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
                         <span class="product-price">{{ number_format((float) $product->price, 2) }} €</span>
                         <div style="position: relative; z-index: 1;">
-                            @if (($product->stock_left ?? 0) <= 0)
+                            @if (($product->stock_quantity ?? 0) <= 0)
                                 <button type="button" class="btn btn-add-cart btn-sm" disabled>
                                     <i class="bi bi-cart-x me-1"></i>Unavailable
                                 </button>

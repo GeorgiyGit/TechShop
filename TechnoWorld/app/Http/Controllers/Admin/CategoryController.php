@@ -15,7 +15,8 @@ class CategoryController extends Controller
         $categories = Category::withCount('products')
             ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
             ->orderBy('name')
-            ->get();
+            ->paginate(15)
+            ->withQueryString();
 
         return view('admin.categories.index', compact('categories', 'search'));
     }

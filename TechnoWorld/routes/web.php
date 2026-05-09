@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products');
-Route::get('/products/{slug}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/images/products/{path}', [AssetController::class, 'productImage'])
     ->where('path', '.*')
@@ -30,10 +30,7 @@ Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.rem
 
 Route::prefix('create-order')->name('order.create.')->group(function () {
     Route::get('/', [OrderController::class, 'items'])->name('items');
-    Route::get('/contact', [OrderController::class, 'contact'])->name('contact');
-    Route::post('/contact', [OrderController::class, 'storeContact'])->name('contact.store');
     Route::get('/delivery', [OrderController::class, 'delivery'])->name('delivery');
-    Route::get('/pickup', [OrderController::class, 'pickup'])->name('pickup');
     Route::post('/delivery', [OrderController::class, 'storeDelivery'])->name('delivery.store');
     Route::get('/payment', [OrderController::class, 'payment'])->name('payment');
     Route::post('/payment', [OrderController::class, 'store'])->name('store');
@@ -44,7 +41,6 @@ Route::get('/order-success/{order?}', [OrderController::class, 'success'])->name
 Route::middleware('guest')->group(function () {
     Route::get('/signup', [SignupController::class, 'create'])->name('signup.create');
     Route::post('/signup', [SignupController::class, 'store'])->name('signup.store');
-
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 });
@@ -52,7 +48,6 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'account'])->name('account');
     Route::get('/dashboard', [AccountController::class, 'dashboard'])->name('dashboard');
-
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
 

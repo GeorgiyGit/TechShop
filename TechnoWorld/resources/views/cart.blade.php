@@ -17,14 +17,14 @@
                     <div class="cart-items-list">
                         @foreach ($cart->items as $item)
                             <article class="cart-item-card">
-                                <a href="{{ route('product.show', $item->product->slug) }}">
-                                    <img src="{{ $item->product->firstImage ? url('/images/products/' . $item->product->firstImage->image_path) : '' }}" alt="{{ $item->product->name }}" class="cart-item-image">
+                                <a href="{{ route('product.show', $item->product) }}">
+                                    <img src="{{ $item->product->firstImage ? url('/images/products/' . $item->product->firstImage->url) : '' }}" alt="{{ $item->product->name }}" class="cart-item-image">
                                 </a>
                                 <div class="cart-item-content">
                                     <div class="cart-item-top">
                                         <h2 class="cart-item-name">
-                                            <a href="{{ route('product.show', $item->product->slug) }}" class="text-decoration-none text-dark">
-                                                {{ $item->product->brand }} {{ $item->product->name }}
+                                            <a href="{{ route('product.show', $item->product) }}" class="text-decoration-none text-dark">
+                                                {{ $item->product->brand?->name }} {{ $item->product->name }}
                                             </a>
                                         </h2>
                                         <p class="cart-item-price">{{ number_format((float) $item->product->price, 2) }} €</p>
@@ -36,7 +36,7 @@
                                             <div class="cart-item-qty" role="group" aria-label="Item quantity">
                                                 <button class="cart-qty-btn" type="button" aria-label="Decrease quantity"
                                                     onclick="const i=this.parentNode.querySelector('input[name=quantity]');if(i.value>1){i.stepDown();i.form.requestSubmit();}">&#8722;</button>
-                                                <input type="number" class="cart-qty-value" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock_left }}" aria-label="Quantity"
+                                                <input type="number" class="cart-qty-value" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock_quantity }}" aria-label="Quantity"
                                                     onchange="this.form.requestSubmit()">
                                                 <button class="cart-qty-btn" type="button" aria-label="Increase quantity"
                                                     onclick="const i=this.parentNode.querySelector('input[name=quantity]');i.stepUp();i.form.requestSubmit();">+</button>

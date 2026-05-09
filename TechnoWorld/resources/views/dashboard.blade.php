@@ -24,7 +24,7 @@
                         <div class="account-order-card">
                             <div class="account-order-info">
                                 <div class="account-order-topline">
-                                    <h2 class="account-order-code">{{ $order->order_number }}</h2>
+                                    <h2 class="account-order-code">#{{ substr($order->id, -8) }}</h2>
                                     <p class="account-order-status">
                                         <span class="order-status-badge order-status-{{ $order->status }}">
                                             {{ ucfirst($order->status) }}
@@ -32,13 +32,25 @@
                                     </p>
                                 </div>
                                 <p class="account-order-date">
-                                    Purchased on {{ $order->placed_at->format('F d, Y') }}
+                                    Purchased on {{ \Carbon\Carbon::parse($order->created_at)->format('F d, Y') }}
                                 </p>
+                                @if ($order->payment)
+                                    <p class="account-order-payment text-muted small">
+                                        {{ ucfirst(str_replace('_', ' ', $order->payment->payment_method)) }}
+                                    </p>
+                                @endif
+                                @if ($order->address)
+                                    <p class="account-order-address text-muted small">
+                                        {{ $order->address->city }}, {{ $order->address->country }}
+                                    </p>
+                                @else
+                                    <p class="account-order-address text-muted small">Store Pickup</p>
+                                @endif
                             </div>
                             <div class="account-order-actions">
                                 <div class="account-order-total-wrap">
                                     <p class="account-order-total-label">Total Price</p>
-                                    <p class="account-order-total-value">€{{ number_format($order->total, 2) }}</p>
+                                    <p class="account-order-total-value">€{{ number_format($order->total_price, 2) }}</p>
                                 </div>
                                 <a href="{{ route('order.success', $order) }}" class="account-order-details-btn">
                                     Order details
@@ -46,6 +58,10 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+
+                <div class="mt-4">
+                    {{ $orders->links() }}
                 </div>
             @endif
         </section>

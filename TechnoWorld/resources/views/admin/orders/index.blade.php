@@ -19,11 +19,11 @@
             </h2>
             <form method="GET" class="admin-filter-bar">
                 <input type="text" name="search" class="admin-search-input"
-                    placeholder="Search by order # or customer..." value="{{ $search }}" aria-label="Search orders">
+                    placeholder="Search by order ID..." value="{{ $search }}" aria-label="Search orders">
                 <select name="status" class="admin-filter-select" aria-label="Filter by status">
                     <option value="">All Statuses</option>
-                    @foreach ($statuses as $value => $label)
-                        <option value="{{ $value }}" {{ $status === $value ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach ($statuses as $value)
+                        <option value="{{ $value }}" {{ $status === $value ? 'selected' : '' }}>{{ ucfirst($value) }}</option>
                     @endforeach
                 </select>
                 <button type="submit" class="btn btn-primary-brand btn-sm fw-500">Filter</button>
@@ -48,17 +48,16 @@
                 <tbody>
                     @forelse ($orders as $order)
                         <tr>
-                            <td class="fw-600 small">#{{ $order->order_number }}</td>
+                            <td class="fw-600 small">#{{ substr($order->id, -8) }}</td>
                             <td>
-                                <div class="fw-600 small">{{ $order->first_name }} {{ $order->last_name }}</div>
-                                <div class="text-muted" style="font-size:0.78rem">{{ $order->email }}</div>
+                                <div class="fw-600 small">{{ $order->user?->email ?? 'Guest' }}</div>
                             </td>
-                            <td class="small">{{ $order->placed_at->format('d M Y') }}</td>
+                            <td class="small">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</td>
                             <td class="small">{{ $order->items->sum('quantity') }}</td>
-                            <td class="small fw-600">€{{ number_format($order->total, 2) }}</td>
+                            <td class="small fw-600">€{{ number_format($order->total_price, 2) }}</td>
                             <td>
                                 <span class="order-status-badge order-status-{{ $order->status }}">
-                                    {{ $statuses[$order->status] ?? ucfirst($order->status) }}
+                                    {{ ucfirst($order->status) }}
                                 </span>
                             </td>
                             <td>

@@ -15,7 +15,7 @@
                 <li class="breadcrumb-item"><a href="{{ route('products') }}" class="blue-text text-decoration-none">Products</a></li>
                 @if ($product->category)
                     <li class="breadcrumb-item">
-                        <a href="{{ route('products', ['categories' => [$product->category_id]]) }}" class="blue-text text-decoration-none">{{ $product->category->name }}</a>
+                        <a href="{{ route('products', ['category' => $product->category_id]) }}" class="blue-text text-decoration-none">{{ $product->category->name }}</a>
                     </li>
                 @endif
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
@@ -25,14 +25,14 @@
         <section class="product-detail-hero row g-4 mb-5">
             <div class="col-12 col-md-6 d-flex gap-3">
                 @php($galleryImages = $product->images)
-                @php($firstSrc = $galleryImages->isNotEmpty() ? url('/images/products/' . $galleryImages->first()->image_path) : '')
+                @php($firstSrc = $galleryImages->isNotEmpty() ? url('/images/products/' . $galleryImages->first()->url) : '')
 
                 <div class="gallery-thumb-column">
                     <button class="btn btn-light p-0 border" id="thumbScrollUp" type="button"><i class="bi bi-chevron-up"></i></button>
                     <div id="thumbWrapper" class="gallery-thumb-wrapper">
                         <div id="thumbList" class="gallery-thumb-list">
                             @foreach ($galleryImages as $i => $image)
-                                @php($src = url('/images/products/' . $image->image_path))
+                                @php($src = url('/images/products/' . $image->url))
                                 <img src="{{ $src }}"
                                      class="gallery-thumb border rounded{{ $i === 0 ? ' active' : '' }}"
                                      alt="{{ $product->name }} image {{ $i + 1 }}"
@@ -51,16 +51,18 @@
             <div class="col-12 col-md-6 d-flex flex-column product-hero-info">
                 <h1 class="fw-bold mb-2">{{ $product->name }}</h1>
                 <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                    <a href="{{ route('products', ['brands' => [$product->brand]]) }}" class="product-detail-tag">
-                        {{ $product->brand }}
-                    </a>
+                    @if ($product->brand)
+                        <a href="{{ route('products', ['brands[]' => [$product->brand->name]]) }}" class="product-detail-tag">
+                            {{ $product->brand->name }}
+                        </a>
+                    @endif
                     @if ($product->category)
-                        <a href="{{ route('products', ['categories' => [$product->category_id]]) }}" class="product-detail-tag">
+                        <a href="{{ route('products', ['category' => $product->category_id]) }}" class="product-detail-tag">
                             <i class="bi bi-grid me-1"></i>{{ $product->category->name }}
                         </a>
                     @endif
                 </div>
-                <p class="text-muted fs-5 mb-4">Code: #{{ $product->id }}</p>
+                <p class="text-muted fs-5 mb-4">Code: #{{ substr($product->id, -8) }}</p>
 
                 <div class="flex-grow-1">
                     <p class="fs-5 mb-4 text-dark">{{ $product->short_description }}</p>
@@ -69,7 +71,7 @@
                 <div class="product-detail-action d-flex align-items-center justify-content-between mt-auto pt-4">
                     <span class="display-5 fw-bold mb-0">{{ number_format((float) $product->price, 2) }} €</span>
                     <div class="d-flex align-items-center gap-3">
-                        @if (($product->stock_left ?? 0) <= 0)
+                        @if (($product->stock_quantity ?? 0) <= 0)
                             <span class="badge bg-danger fs-6 px-3 py-2">Out of Stock</span>
                         @else
                             <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3">
@@ -77,7 +79,7 @@
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="product-item-qty">
                                     <button type="button" class="product-qty-btn" aria-label="Decrease quantity" onclick="this.parentNode.querySelector('input[name=quantity]').stepDown()">&#8722;</button>
-                                    <input type="number" name="quantity" class="product-qty-value" value="1" min="1" max="{{ $product->stock_left }}" aria-label="Quantity">
+                                    <input type="number" name="quantity" class="product-qty-value" value="1" min="1" max="{{ $product->stock_quantity }}" aria-label="Quantity">
                                     <button type="button" class="product-qty-btn" aria-label="Increase quantity" onclick="this.parentNode.querySelector('input[name=quantity]').stepUp()">+</button>
                                 </div>
                                 <button type="submit" class="btn btn-primary-brand btn-lg px-5 py-3 fw-600 fs-5 d-flex align-items-center gap-2">
@@ -120,36 +122,25 @@
         @if ($similarProducts->isNotEmpty())
             <section class="mb-5">
                 <h2 class="text-center fw-bold mb-4">Similar products</h2>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 g-3">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
                     @foreach ($similarProducts as $similar)
                         <div class="col">
                             <article class="product-card card h-100">
                                 <div class="product-img-wrap">
-                                    <img src="{{ $similar->firstImage ? url('/images/products/' . $similar->firstImage->image_path) : '' }}" class="product-img" alt="{{ $similar->name }}">
-                                    @if (($similar->stock_left ?? 0) <= 0)
+                                    <img src="{{ $similar->firstImage ? url('/images/products/' . $similar->firstImage->url) : '' }}" class="product-img" alt="{{ $similar->name }}">
+                                    @if (($similar->stock_quantity ?? 0) <= 0)
                                         <span class="product-stock-badge out-of-stock">Out of Stock</span>
-                                    @elseif (($similar->stock_left ?? 0) <= 5)
-                                        <span class="product-stock-badge low-stock">Only {{ $similar->stock_left }} left</span>
+                                    @elseif (($similar->stock_quantity ?? 0) <= 5)
+                                        <span class="product-stock-badge low-stock">Only {{ $similar->stock_quantity }} left</span>
                                     @endif
                                 </div>
                                 <div class="card-body d-flex flex-column p-3">
-                                    <small class="text-muted">{{ $similar->brand }}</small>
+                                    <small class="text-muted">{{ $similar->brand?->name }}</small>
                                     <h6 class="card-title mt-1">{{ $similar->name }}</h6>
-                                    <a href="{{ route('product.show', $similar->slug) }}" class="stretched-link" aria-label="Open {{ $similar->name }}"></a>
+                                    <a href="{{ route('product.show', $similar) }}" class="stretched-link" aria-label="Open {{ $similar->name }}"></a>
                                     <p class="card-text text-muted">{{ $similar->short_description }}</p>
                                     <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
                                         <span class="product-price">{{ number_format((float) $similar->price, 2) }} €</span>
-                                        @if (($similar->stock_left ?? 0) <= 0)
-                                            <button type="button" class="btn btn-add-cart btn-sm" disabled>
-                                                <i class="bi bi-cart-x me-1"></i>Unavailable
-                                            </button>
-                                        @else
-                                            @auth
-                                                <button type="button" class="btn btn-add-cart btn-sm"><i class="bi bi-cart-plus me-1"></i>Add</button>
-                                            @else
-                                                <a href="{{ route('login') }}" data-auth-modal-target="login" class="btn btn-add-cart btn-sm"><i class="bi bi-cart-plus me-1"></i>Add</a>
-                                            @endauth
-                                        @endif
                                     </div>
                                 </div>
                             </article>

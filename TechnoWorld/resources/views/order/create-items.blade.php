@@ -19,10 +19,10 @@
             <div class="create-order-items-list">
                 @foreach ($cart->items as $item)
                     <article class="create-order-item-card">
-                        <img src="{{ $item->product->firstImage ? url('/images/products/' . $item->product->firstImage->image_path) : '' }}" alt="{{ $item->product->name }}" class="create-order-item-image">
+                        <img src="{{ $item->product->firstImage ? url('/images/products/' . $item->product->firstImage->url) : '' }}" alt="{{ $item->product->name }}" class="create-order-item-image">
                         <div class="create-order-item-content">
                             <div class="create-order-item-top">
-                                <h3 class="create-order-item-name">{{ $item->product->brand }} {{ $item->product->name }}</h3>
+                                <h3 class="create-order-item-name">{{ $item->product->brand?->name }} {{ $item->product->name }}</h3>
                                 <p class="create-order-item-total">{{ number_format((float) $item->product->price * $item->quantity, 2) }} &euro;</p>
                             </div>
                             <div class="create-order-item-bottom">
@@ -41,7 +41,7 @@
                 <a href="{{ route('cart.index') }}" class="step-btn step-btn-prev">
                     <i class="bi bi-arrow-left"></i> Back to Cart
                 </a>
-                <a href="{{ route('order.create.contact') }}" class="step-btn step-btn-next">
+                <a href="{{ route('order.create.delivery') }}" class="step-btn step-btn-next">
                     Continue <i class="bi bi-arrow-right"></i>
                 </a>
             </div>

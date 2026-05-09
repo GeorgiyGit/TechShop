@@ -8,15 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('banners', function (Blueprint $table) {
-            $table->string('product_slug')->nullable()->after('slug');
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
         });
     }
 
     public function down(): void
     {
-        Schema::table('banners', function (Blueprint $table) {
-            $table->dropColumn('product_slug');
-        });
+        Schema::dropIfExists('brands');
     }
 };

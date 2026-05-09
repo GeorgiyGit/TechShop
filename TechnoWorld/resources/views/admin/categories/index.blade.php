@@ -18,7 +18,7 @@
     <div class="admin-card">
         <div class="admin-card-header">
             <h2 class="admin-card-title">
-                All Categories <span class="admin-badge ms-1">{{ $categories->count() }}</span>
+                All Categories <span class="admin-badge ms-1">{{ $categories->total() }}</span>
             </h2>
             <form method="GET" class="admin-filter-bar">
                 <input type="text" name="search" class="admin-search-input" placeholder="Search categories..."
@@ -43,7 +43,7 @@
                 <tbody>
                     @forelse ($categories as $index => $category)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $categories->firstItem() + $index }}</td>
                             <td>
                                 <div class="admin-category-icon">
                                     <i class="bi {{ $category->icon }}"></i>
@@ -77,7 +77,8 @@
             </table>
         </div>
         <div class="admin-table-footer">
-            <span class="small text-muted">Showing {{ $categories->count() }} categories</span>
+            <span class="small text-muted">Showing {{ $categories->firstItem() }}–{{ $categories->lastItem() }} of {{ $categories->total() }} categories</span>
+            {{ $categories->links() }}
         </div>
     </div>
 @endsection

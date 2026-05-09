@@ -37,7 +37,6 @@
             <form class="signup-form" action="{{ route('signup.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="return_to" value="{{ $returnTo }}">
-                <input type="hidden" name="name" id="signup-name" value="{{ old('name') }}">
                 <input type="email" class="signup-input" name="email" id="email" placeholder="Email" aria-label="Email" value="{{ old('email') }}" required>
                 <input type="password" class="signup-input" name="password" id="password" placeholder="Password" aria-label="Password" required>
                 <input type="password" class="signup-input" name="password_confirmation" id="password_confirmation" placeholder="Repeat password" aria-label="Repeat password" required>
