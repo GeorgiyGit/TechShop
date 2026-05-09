@@ -24,14 +24,20 @@ class ProductController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('products')
+            ->orderByDesc('products_count')
+            ->orderBy('name')
+            ->get();
 
         return view('admin.products.index', compact('products', 'categories', 'search', 'categoryId'));
     }
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('products')
+            ->orderByDesc('products_count')
+            ->orderBy('name')
+            ->get();
         $brands = Brand::orderBy('name')->get();
 
         return view('admin.products.form', [
@@ -65,7 +71,10 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $product->load(['characteristics', 'images']);
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('products')
+            ->orderByDesc('products_count')
+            ->orderBy('name')
+            ->get();
         $brands = Brand::orderBy('name')->get();
 
         return view('admin.products.form', compact('product', 'categories', 'brands'));

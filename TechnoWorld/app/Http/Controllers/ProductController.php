@@ -43,7 +43,10 @@ class ProductController extends Controller
         $openPriceFilter = $minPrice !== null || $maxPrice !== null;
         $openStockFilter = $stockStatus !== null;
 
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('products')
+            ->orderByDesc('products_count')
+            ->orderBy('name')
+            ->get();
 
         $brands = Brand::whereHas('products', function ($q) use ($selectedCategories) {
             if ($selectedCategories) {

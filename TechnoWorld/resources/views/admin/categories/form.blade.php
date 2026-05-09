@@ -69,7 +69,7 @@
 
                     <p class="admin-form-section-title mt-4">Quick Select</p>
                     <div class="admin-icon-picker">
-                        @foreach (['bi-phone', 'bi-laptop', 'bi-tablet', 'bi-headphones', 'bi-camera', 'bi-controller', 'bi-watch', 'bi-tv', 'bi-speaker', 'bi-printer', 'bi-wifi', 'bi-bag', 'bi-cpu', 'bi-battery-charging', 'bi-house', 'bi-house-gear', 'bi-vr', 'bi-drone'] as $icon)
+                        @foreach (['bi-phone', 'bi-laptop', 'bi-tablet', 'bi-headphones', 'bi-speaker', 'bi-camera', 'bi-controller', 'bi-smartwatch', 'bi-display', 'bi-cpu', 'bi-mouse', 'bi-battery-charging', 'bi-snow', 'bi-droplet', 'bi-wind', 'bi-thermometer', 'bi-cup-straw', 'bi-cup-hot'] as $icon)
                             <button type="button" class="admin-icon-option" onclick="setIcon('{{ $icon }}')" title="{{ $icon }}">
                                 <i class="bi {{ $icon }}"></i>
                             </button>

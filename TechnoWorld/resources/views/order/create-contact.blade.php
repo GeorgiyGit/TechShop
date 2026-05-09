@@ -27,19 +27,19 @@
                 <div class="step-form-grid">
                     <div class="form-field">
                         <label class="form-field-label" for="contact-name">First Name</label>
-                        <input class="create-order-input" type="text" id="contact-name" name="first_name" placeholder="e.g. John" value="{{ old('first_name', $contact['first_name'] ?? '') }}" required>
+                        <input class="create-order-input" type="text" id="contact-name" name="first_name" placeholder="George" value="{{ old('first_name', $contact['first_name'] ?? '') }}" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="contact-surname">Last Name</label>
-                        <input class="create-order-input" type="text" id="contact-surname" name="last_name" placeholder="e.g. Doe" value="{{ old('last_name', $contact['last_name'] ?? '') }}" required>
+                        <input class="create-order-input" type="text" id="contact-surname" name="last_name" placeholder="Sladkovskyi" value="{{ old('last_name', $contact['last_name'] ?? '') }}" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="contact-email">Email Address</label>
-                        <input class="create-order-input" type="email" id="contact-email" name="email" placeholder="e.g. john@example.com" value="{{ old('email', $contact['email'] ?? '') }}" required>
+                        <input class="create-order-input" type="email" id="contact-email" name="email" placeholder="george@stuba.sk" value="{{ old('email', $contact['email'] ?? '') }}" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="contact-phone">Phone Number</label>
-                        <input class="create-order-input" type="tel" id="contact-phone" name="phone" placeholder="e.g. +421 900 000 000" value="{{ old('phone', $contact['phone'] ?? '') }}" required>
+                        <input class="create-order-input" type="tel" id="contact-phone" name="phone" placeholder="+421 900 000 000" value="{{ old('phone', $contact['phone'] ?? '') }}" required>
                     </div>
                 </div>
                 <div class="step-nav">
