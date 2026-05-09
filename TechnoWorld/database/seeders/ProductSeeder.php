@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
 
         $products = [
             [
-                'category_name' => 'Home Appliances',
+                'category_name' => 'Coffee Machines',
                 'brand_name' => 'DeLonghi',
                 'name' => 'Royal Professional Coffee Maker',
                 'short_description' => 'Fully automatic espresso machine with built-in ceramic grinder, adjustable grind settings, and integrated milk frother for cafe-quality espresso at home.',
@@ -34,7 +34,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 12,
             ],
             [
-                'category_name' => 'Home Appliances',
+                'category_name' => 'Kitchen Appliances',
                 'brand_name' => 'Panasonic',
                 'name' => 'Microwave Oven',
                 'short_description' => '25-litre microwave with Inverter technology for even heating, 900 W output, and a digital touch panel with auto-cook programs for everyday use.',
@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 4,
             ],
             [
-                'category_name' => 'Accessories',
+                'category_name' => 'Peripherals',
                 'brand_name' => 'Microsoft',
                 'name' => 'Wireless Mouse M510',
                 'short_description' => 'Ergonomic wireless mouse with 24-month battery life, laser tracking on any surface, and a plug-and-forget Unifying nano-receiver.',
@@ -52,7 +52,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 17,
             ],
             [
-                'category_name' => 'Smartphones',
+                'category_name' => 'Phones',
                 'brand_name' => 'Apple',
                 'name' => 'iPhone 11',
                 'short_description' => 'Reliable smartphone with a 6.1-inch Liquid Retina display, A13 Bionic chip, dual 12 MP cameras with Night mode, and IP68 water resistance.',
@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 15,
             ],
             [
-                'category_name' => 'Smartphones',
+                'category_name' => 'Phones',
                 'brand_name' => 'Motorola',
                 'name' => 'Razr 50 Ultra',
                 'short_description' => 'Premium foldable phone with a 6.9-inch 165Hz display, 4-inch external screen, Snapdragon 8s Gen 3 chip, and dual 50 MP cameras.',
@@ -70,7 +70,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 3,
             ],
             [
-                'category_name' => 'Smartphones',
+                'category_name' => 'Phones',
                 'brand_name' => 'Motorola',
                 'name' => 'Moto G86',
                 'short_description' => 'Mid-range smartphone with a 6.67-inch 120Hz pOLED display, 50 MP OIS camera, 5000 mAh battery, and 33W TurboPower fast charging.',
@@ -79,7 +79,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 8,
             ],
             [
-                'category_name' => 'Home Appliances',
+                'category_name' => 'Vacuum Cleaners',
                 'brand_name' => 'LG',
                 'name' => 'ZB2951 ErgoRapido',
                 'short_description' => 'Lightweight cordless 2-in-1 stick vacuum with automatic power boost, up to 30 min runtime, and a detachable handheld unit for versatile cleaning.',
@@ -88,7 +88,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 11,
             ],
             [
-                'category_name' => 'Power & Batteries',
+                'category_name' => 'Power',
                 'brand_name' => 'Samsung',
                 'name' => 'Power Bank 20000 mAh',
                 'short_description' => 'High-capacity 20000 mAh power bank with 22.5W fast charging, three simultaneous outputs, and a precise digital battery indicator.',
@@ -97,7 +97,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 5,
             ],
             [
-                'category_name' => 'Home Appliances',
+                'category_name' => 'Refrigerators',
                 'brand_name' => 'Bosch',
                 'name' => 'Refrigerator',
                 'short_description' => 'Energy-efficient top-freezer refrigerator with 268 L capacity, A++ energy rating, adjustable shelves, and whisper-quiet 40 dB operation.',
@@ -106,7 +106,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 2,
             ],
             [
-                'category_name' => 'Home Appliances',
+                'category_name' => 'Vacuum Cleaners',
                 'brand_name' => 'Dyson',
                 'name' => 'Complete C3 Vacuum',
                 'short_description' => 'Premium canister vacuum with a powerful Vortex Motor, HEPA AirClean filter, 4.5 L dust bag, 7.5 m cable, and 20-year build quality.',
@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
                 'stock_quantity' => 7,
             ],
             [
-                'category_name' => 'Smart Watches',
+                'category_name' => 'Wearables',
                 'brand_name' => 'Apple',
                 'name' => 'Watch Series 6',
                 'short_description' => 'Feature-rich smartwatch with blood oxygen sensor, ECG app, always-on Retina display, built-in GPS, Apple Pay, and WR50 water resistance.',
