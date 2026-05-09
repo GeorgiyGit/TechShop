@@ -29,7 +29,8 @@
 
                 <div class="delivery-method-group" role="radiogroup" aria-label="Delivery method">
                     <label @class(['delivery-method-card', 'selected' => $selectedMethod === 'courier'])>
-                        <input type="radio" name="delivery_method" value="courier" class="visually-hidden" @checked($selectedMethod === 'courier') onchange="this.closest('form').querySelectorAll('.delivery-method-card').forEach(c=>c.classList.toggle('selected',c.querySelector('input').checked)); document.getElementById('courierFields').style.display='block';">
+                        <input type="radio" name="delivery_method" value="courier" class="visually-hidden" @checked($selectedMethod === 'courier')
+                            onchange="this.closest('form').querySelectorAll('.delivery-method-card').forEach(c=>c.classList.toggle('selected',c.querySelector('input').checked)); document.getElementById('courierFields').style.display='block'; document.getElementById('pickupFields').style.display='none';">
                         <span class="delivery-method-icon"><i class="bi bi-truck"></i></span>
                         <span class="delivery-method-info">
                             <span class="delivery-method-name">Courier Delivery</span>
@@ -39,7 +40,8 @@
                     </label>
 
                     <label @class(['delivery-method-card', 'selected' => $selectedMethod === 'pickup'])>
-                        <input type="radio" name="delivery_method" value="pickup" class="visually-hidden" @checked($selectedMethod === 'pickup') onchange="this.closest('form').querySelectorAll('.delivery-method-card').forEach(c=>c.classList.toggle('selected',c.querySelector('input').checked)); document.getElementById('courierFields').style.display='none';">
+                        <input type="radio" name="delivery_method" value="pickup" class="visually-hidden" @checked($selectedMethod === 'pickup')
+                            onchange="this.closest('form').querySelectorAll('.delivery-method-card').forEach(c=>c.classList.toggle('selected',c.querySelector('input').checked)); document.getElementById('courierFields').style.display='none'; document.getElementById('pickupFields').style.display='block';">
                         <span class="delivery-method-icon"><i class="bi bi-shop"></i></span>
                         <span class="delivery-method-info">
                             <span class="delivery-method-name">Store Pickup</span>
@@ -51,7 +53,6 @@
 
                 <div id="courierFields" style="{{ $selectedMethod === 'pickup' ? 'display:none;' : '' }}">
                     <h3 class="step-subheading">Shipping Address</h3>
-
                     <div class="step-form-grid">
                         <div class="form-field">
                             <label class="form-field-label" for="addr-country">Country</label>
@@ -72,6 +73,32 @@
                         <div class="form-field">
                             <label class="form-field-label" for="addr-postcode">Postal Code</label>
                             <input class="create-order-input" type="text" id="addr-postcode" name="postal_code" placeholder="e.g. 841 04" value="{{ old('postal_code', $delivery['postal_code'] ?? '') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pickupFields" style="{{ $selectedMethod === 'courier' ? 'display:none;' : '' }}">
+                    <h3 class="step-subheading">Pickup Location</h3>
+                    <div class="step-form-grid">
+                        <div class="form-field">
+                            <label class="form-field-label">Country</label>
+                            <div class="create-order-readonly">Slovakia</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field-label">City</label>
+                            <div class="create-order-readonly">Bratislava</div>
+                        </div>
+                        <div class="form-field full-width">
+                            <label class="form-field-label">Street</label>
+                            <div class="create-order-readonly">Star&eacute; Grunty, Karlova Ves</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field-label">House Number</label>
+                            <div class="create-order-readonly">53</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field-label">Post Code</label>
+                            <div class="create-order-readonly">841 04</div>
                         </div>
                     </div>
                 </div>

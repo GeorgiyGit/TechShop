@@ -48,6 +48,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'account'])->name('account');
     Route::get('/dashboard', [AccountController::class, 'dashboard'])->name('dashboard');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
 

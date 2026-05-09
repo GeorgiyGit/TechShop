@@ -37,17 +37,39 @@ function initImageUpload() {
     const preview = document.getElementById('imagePreviewContainer');
     if (!input || !preview) return;
 
-    input.addEventListener('change', () => {
+    // Accumulate files across multiple dialog opens
+    const dt = new DataTransfer();
+
+    function renderPreviews() {
         preview.innerHTML = '';
-        Array.from(input.files).forEach(file => {
+        Array.from(dt.files).forEach((file, idx) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const item = document.createElement('div');
                 item.className = 'admin-image-preview-item';
-                item.innerHTML = `<img src="${e.target.result}" alt="">`;
+                item.innerHTML = `
+                    <img src="${e.target.result}" alt="">
+                    <button type="button" class="remove-image" data-idx="${idx}" title="Remove">
+                        <i class="bi bi-x"></i>
+                    </button>`;
                 preview.appendChild(item);
             };
             reader.readAsDataURL(file);
         });
+    }
+
+    input.addEventListener('change', () => {
+        Array.from(input.files).forEach(f => dt.items.add(f));
+        input.files = dt.files;
+        renderPreviews();
+    });
+
+    preview.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-idx]');
+        if (!btn) return;
+        const idx = parseInt(btn.dataset.idx, 10);
+        dt.items.remove(idx);
+        input.files = dt.files;
+        renderPreviews();
     });
 }

@@ -165,6 +165,17 @@ class OrderController extends Controller
         return redirect()->route('order.success', $order);
     }
 
+    public function show(Order $order): View
+    {
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $order->load('items.product.firstImage', 'items.product.brand', 'payment', 'address');
+
+        return view('order.show', compact('order'));
+    }
+
     public function success(Request $request, ?Order $order = null): View|RedirectResponse
     {
         if (!$order) {

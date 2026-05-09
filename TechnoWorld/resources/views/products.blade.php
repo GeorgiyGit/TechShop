@@ -203,6 +203,22 @@
                                         <p class="card-text text-muted">{{ $product->short_description }}</p>
                                         <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
                                             <span class="product-price">{{ number_format((float) $product->price, 2) }} €</span>
+                                            <div style="position: relative; z-index: 1;">
+                                                @if (($product->stock_quantity ?? 0) <= 0)
+                                                    <button type="button" class="btn btn-add-cart btn-sm" disabled>
+                                                        <i class="bi bi-cart-x me-1"></i>Unavailable
+                                                    </button>
+                                                @else
+                                                    <form method="POST" action="{{ route('cart.add') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                        <input type="hidden" name="quantity" value="1">
+                                                        <button type="submit" class="btn btn-add-cart btn-sm">
+                                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </article>
@@ -227,7 +243,6 @@ document.querySelectorAll('.stock-status-check').forEach(cb => {
         document.querySelectorAll('.stock-status-check').forEach(other => {
             if (other !== this) other.checked = false;
         });
-        this.form.submit();
     });
 });
 </script>

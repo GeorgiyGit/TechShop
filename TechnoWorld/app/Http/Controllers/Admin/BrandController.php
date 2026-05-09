@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
@@ -13,10 +12,9 @@ class BrandController extends Controller
     {
         $search = $request->input('search');
 
-        $brands = Brand::select('brands.*')
-            ->selectRaw('(SELECT COUNT(*) FROM products WHERE products.brand = brands.name) as products_count')
-            ->when($search, fn($q) => $q->where('brands.name', 'like', "%{$search}%"))
-            ->orderBy('brands.name')
+        $brands = Brand::withCount('products')
+            ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->orderBy('name')
             ->get();
 
         return view('admin.brands.index', compact('brands', 'search'));

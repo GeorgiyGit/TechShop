@@ -31,8 +31,8 @@
                 </div>
 
                 <div class="success-actions">
-                    <a href="{{ route('dashboard') }}" class="step-btn step-btn-next">
-                        <i class="bi bi-receipt"></i> View My Orders
+                    <a href="{{ route('order.show', $order) }}" class="step-btn step-btn-next">
+                        <i class="bi bi-receipt"></i> View Full Order
                     </a>
                     <a href="{{ route('home') }}" class="step-btn step-btn-prev">
                         <i class="bi bi-house"></i> Back to Home

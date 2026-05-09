@@ -52,7 +52,7 @@
                                     <p class="account-order-total-label">Total Price</p>
                                     <p class="account-order-total-value">€{{ number_format($order->total_price, 2) }}</p>
                                 </div>
-                                <a href="{{ route('order.success', $order) }}" class="account-order-details-btn">
+                                <a href="{{ route('order.show', $order) }}" class="account-order-details-btn">
                                     Order details
                                 </a>
                             </div>
