@@ -11,14 +11,14 @@ class ProductCharacteristicSeeder extends Seeder
     public function run(): void
     {
         $characteristics = [
-            'saeco-royal-professional' => [
+            'Royal Professional Coffee Maker' => [
                 ['name' => 'Type', 'value' => 'Automatic Espresso Machine'],
                 ['name' => 'Capacity', 'value' => '2.5 L'],
                 ['name' => 'Pressure', 'value' => '15 bar'],
                 ['name' => 'Grinder', 'value' => 'Built-in ceramic'],
                 ['name' => 'Power', 'value' => '1400 W'],
             ],
-            'microsoft-surface-go-3' => [
+            'Surface Go 3' => [
                 ['name' => 'Display', 'value' => '10.5" PixelSense (1920x1280)'],
                 ['name' => 'Processor', 'value' => 'Intel Pentium Gold 6500Y'],
                 ['name' => 'RAM', 'value' => '4 GB'],
@@ -26,21 +26,21 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'OS', 'value' => 'Windows 11 Home S'],
                 ['name' => 'Weight', 'value' => '544 g'],
             ],
-            'panasonic-microwave-oven' => [
+            'Microwave Oven' => [
                 ['name' => 'Capacity', 'value' => '25 L'],
                 ['name' => 'Power', 'value' => '900 W'],
                 ['name' => 'Technology', 'value' => 'Inverter'],
                 ['name' => 'Turntable Diameter', 'value' => '34 cm'],
                 ['name' => 'Color', 'value' => 'Black'],
             ],
-            'logitech-m510' => [
+            'Wireless Mouse M510' => [
                 ['name' => 'Connection', 'value' => 'Wireless (USB receiver)'],
                 ['name' => 'Sensor', 'value' => 'Laser'],
                 ['name' => 'DPI', 'value' => '1000'],
                 ['name' => 'Battery Life', 'value' => '24 months'],
                 ['name' => 'Buttons', 'value' => '7'],
             ],
-            'iphone-11' => [
+            'iPhone 11' => [
                 ['name' => 'Display', 'value' => '6.1" Liquid Retina HD'],
                 ['name' => 'Processor', 'value' => 'A13 Bionic'],
                 ['name' => 'Camera', 'value' => 'Dual 12 MP (Wide + Ultra Wide)'],
@@ -48,7 +48,7 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'Battery', 'value' => '3110 mAh'],
                 ['name' => 'Water Resistance', 'value' => 'IP68'],
             ],
-            'motorola-razr-50-ultra' => [
+            'Razr 50 Ultra' => [
                 ['name' => 'Display', 'value' => '6.9" pOLED 165Hz'],
                 ['name' => 'External Display', 'value' => '4" pOLED'],
                 ['name' => 'Processor', 'value' => 'Snapdragon 8s Gen 3'],
@@ -56,7 +56,7 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'Storage', 'value' => '512 GB'],
                 ['name' => 'Camera', 'value' => '50 MP + 50 MP'],
             ],
-            'motorola-g86' => [
+            'Moto G86' => [
                 ['name' => 'Display', 'value' => '6.67" pOLED 120Hz'],
                 ['name' => 'Processor', 'value' => 'Snapdragon 2+ Gen 1'],
                 ['name' => 'RAM', 'value' => '8 GB'],
@@ -64,7 +64,7 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'Battery', 'value' => '5000 mAh'],
                 ['name' => 'Camera', 'value' => '50 MP OIS'],
             ],
-            'electrolux-zb-2951' => [
+            'ZB2951 ErgoRapido' => [
                 ['name' => 'Type', 'value' => '2-in-1 Cordless Stick & Handheld'],
                 ['name' => 'Power', 'value' => '18 V'],
                 ['name' => 'Runtime', 'value' => 'Up to 30 min'],
@@ -72,20 +72,20 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'Weight', 'value' => '1.4 kg'],
                 ['name' => 'Filter', 'value' => 'Washable'],
             ],
-            'power-bank-20000' => [
+            'Power Bank 20000 mAh' => [
                 ['name' => 'Capacity', 'value' => '20000 mAh'],
                 ['name' => 'Output', 'value' => 'USB-A, USB-C'],
                 ['name' => 'Fast Charging', 'value' => '22.5 W'],
                 ['name' => 'Weight', 'value' => '450 g'],
             ],
-            'snaige-refrigerator' => [
+            'Refrigerator' => [
                 ['name' => 'Type', 'value' => 'Top Freezer'],
                 ['name' => 'Total Capacity', 'value' => '268 L'],
                 ['name' => 'Energy Class', 'value' => 'A++'],
                 ['name' => 'Noise Level', 'value' => '40 dB'],
                 ['name' => 'Color', 'value' => 'White'],
             ],
-            'miele-c3' => [
+            'Complete C3 Vacuum' => [
                 ['name' => 'Type', 'value' => 'Canister'],
                 ['name' => 'Power', 'value' => '890 W'],
                 ['name' => 'Bag Capacity', 'value' => '4.5 L'],
@@ -93,7 +93,7 @@ class ProductCharacteristicSeeder extends Seeder
                 ['name' => 'Cable Length', 'value' => '7.5 m'],
                 ['name' => 'Filter', 'value' => 'HEPA AirClean'],
             ],
-            'apple-watch-6' => [
+            'Watch Series 6' => [
                 ['name' => 'Display', 'value' => '1.78" OLED Always-On Retina'],
                 ['name' => 'Chip', 'value' => 'Apple S6'],
                 ['name' => 'Sensors', 'value' => 'Blood oxygen, ECG, Heart rate'],
@@ -102,10 +102,10 @@ class ProductCharacteristicSeeder extends Seeder
             ],
         ];
 
-        $productIds = Product::query()->pluck('id', 'slug');
+        $productIds = Product::query()->pluck('id', 'name');
 
-        foreach ($characteristics as $slug => $items) {
-            $productId = $productIds[$slug] ?? null;
+        foreach ($characteristics as $productName => $items) {
+            $productId = $productIds[$productName] ?? null;
 
             if ($productId === null) {
                 continue;

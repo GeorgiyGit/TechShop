@@ -2,9 +2,8 @@
     @php
         $steps = [
             1 => 'Items',
-            2 => 'Contact',
-            3 => 'Delivery',
-            4 => 'Payment',
+            2 => 'Delivery',
+            3 => 'Payment',
         ];
     @endphp
 

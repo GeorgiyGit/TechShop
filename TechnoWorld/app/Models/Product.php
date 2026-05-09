@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,37 +11,41 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
+
+    const UPDATED_AT = null;
+    const CREATED_AT = 'created_at';
+
+    public $timestamps = false;
 
     protected $fillable = [
-        'slug',
-        'brand',
+        'category_id',
+        'brand_id',
         'name',
         'short_description',
         'description',
         'price',
-        'category_id',
-        'sort_order',
-        'popularity_score',
-        'stock_left',
-        'is_active',
+        'stock_quantity',
     ];
+
+    protected $dates = ['created_at'];
 
     protected function casts(): array
     {
         return [
             'price' => 'decimal:2',
-            'category_id' => 'integer',
-            'sort_order' => 'integer',
-            'popularity_score' => 'integer',
-            'stock_left' => 'integer',
-            'is_active' => 'boolean',
+            'stock_quantity' => 'integer',
         ];
     }
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function characteristics(): HasMany

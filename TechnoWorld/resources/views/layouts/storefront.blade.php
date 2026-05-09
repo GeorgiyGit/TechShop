@@ -32,6 +32,7 @@
     @if ($authModal)
         <script>new bootstrap.Modal(document.getElementById('{{ $authModal }}Modal')).show();</script>
     @endif
+    @stack('scripts')
 </body>
 
 </html>

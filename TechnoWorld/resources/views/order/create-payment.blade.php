@@ -8,16 +8,13 @@
 @section('content')
     @include('partials.storefront-header')
 
-    @php
-        $selectedMethod = old('payment_method', $payment['payment_method'] ?? ($selectedMethod ?? 'card'));
-        $isCourier = ($delivery['delivery_method'] ?? 'courier') === 'courier';
-    @endphp
+    @php($selectedMethod = old('payment_method', 'card'))
 
     <main class="create-order-main">
         <section class="create-order-section">
             <h1 class="create-order-title">Create Order</h1>
 
-            @include('order.partials.stepper', ['currentStep' => 4])
+            @include('order.partials.stepper', ['currentStep' => 3])
 
             <h2 class="step-heading">Payment &amp; Confirmation</h2>
 
@@ -52,17 +49,16 @@
 
                 <div class="order-confirm-summary">
                     <h3 class="step-subheading">Order Summary</h3>
-                    <div class="create-order-row"><span>Subtotal ({{ $itemsCount }} items)</span><span class="create-order-dots"></span><span>{{ number_format((float) $subtotal, 2) }} &euro;</span></div>
-                    <div class="create-order-row"><span>Delivery fee</span><span class="create-order-dots"></span><span>{{ number_format((float) $deliveryFee, 2) }} &euro;</span></div>
-                    <div class="create-order-row total-row"><span>Total</span><span class="create-order-dots"></span><span>{{ number_format((float) $total, 2) }} &euro;</span></div>
+                    <div class="create-order-row"><span>Items ({{ $itemsCount }})</span><span class="create-order-dots"></span><span>{{ number_format((float) $subtotal, 2) }} &euro;</span></div>
+                    <div class="create-order-row total-row"><span>Total</span><span class="create-order-dots"></span><span>{{ number_format((float) $subtotal, 2) }} &euro;</span></div>
                 </div>
 
                 <div class="step-nav">
-                    <a href="{{ $isCourier ? route('order.create.delivery') : route('order.create.pickup') }}" class="step-btn step-btn-prev">
+                    <a href="{{ route('order.create.delivery') }}" class="step-btn step-btn-prev">
                         <i class="bi bi-arrow-left"></i> Back
                     </a>
                     <button type="submit" class="step-btn step-btn-submit" data-payment-submit>
-                        <i class="bi bi-check-lg"></i> <span data-payment-submit-label>{{ $selectedMethod === 'cash' ? 'Place Order' : 'Pay for Order' }}</span>
+                        <i class="bi bi-check-lg"></i> <span data-payment-submit-label>Pay for Order</span>
                     </button>
                 </div>
             </form>
@@ -73,9 +69,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const group = document.querySelector('.payment-method-group');
             const submitLabel = document.querySelector('[data-payment-submit-label]');
-            if (!group) {
-                return;
-            }
+            if (!group) return;
 
             const refreshSelection = () => {
                 const selectedRadio = group.querySelector('input[type="radio"]:checked');
@@ -83,7 +77,6 @@
                     const input = card.querySelector('input[type="radio"]');
                     card.classList.toggle('selected', !!input && input.checked);
                 });
-
                 if (submitLabel) {
                     submitLabel.textContent = selectedRadio && selectedRadio.value === 'cash' ? 'Place Order' : 'Pay for Order';
                 }

@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductCharacteristic extends Model
 {
+    use HasUuids;
+
+    public $timestamps = false;
+
     protected $fillable = [
         'product_id',
         'name',
@@ -17,7 +22,6 @@ class ProductCharacteristic extends Model
     protected function casts(): array
     {
         return [
-            'product_id' => 'integer',
             'position' => 'integer',
         ];
     }

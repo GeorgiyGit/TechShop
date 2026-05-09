@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Banner;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,16 +12,14 @@ class ProductController extends Controller
 {
     public function index(Request $request): View
     {
-        $orderBy = $request->query('orderBy', 'relevance');
-
-        if (! in_array($orderBy, ['relevance', 'price-asc', 'price-desc', 'newest', 'popular'], true)) {
-            $orderBy = 'relevance';
+        $sort = $request->query('sort', 'newest');
+        if (!in_array($sort, ['price_asc', 'price_desc', 'newest', 'popular'], true)) {
+            $sort = 'newest';
         }
 
-        $selectedCategoryIds = collect($request->input('categories', []))
+        $selectedCategories = collect($request->input('categories', []))
             ->filter()
-            ->map(fn ($categoryId) => (int) $categoryId)
-            ->filter()
+            ->map(fn($id) => (int) $id)
             ->values()
             ->all();
 
@@ -30,154 +28,106 @@ class ProductController extends Controller
             ->values()
             ->all();
 
-        $selectedStatuses = collect($request->input('statuses', []))
-            ->filter()
-            ->values()
-            ->all();
-
         $minPrice = $request->filled('min_price') ? (float) $request->input('min_price') : null;
         $maxPrice = $request->filled('max_price') ? (float) $request->input('max_price') : null;
+
+        $stockStatus = $request->input('stock_status');
+        if (!in_array($stockStatus, ['in_stock', 'low_stock', 'unavailable'], true)) {
+            $stockStatus = null;
+        }
+
         $search = $request->filled('search') ? trim($request->input('search')) : null;
-        $openCategoryFilter = $selectedCategoryIds !== [];
+
+        $openCategoryFilter = $selectedCategories !== [];
         $openBrandFilter = $selectedBrands !== [];
-        $openStatusFilter = $selectedStatuses !== [];
         $openPriceFilter = $minPrice !== null || $maxPrice !== null;
+        $openStockFilter = $stockStatus !== null;
 
-        $featuredBanners = Banner::query()
-            ->where('carousel', 'featured')
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->get();
+        $categories = Category::orderBy('name')->get();
 
-        $categories = Category::query()
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->orderBy('name')
-            ->get();
+        $brands = Brand::whereHas('products', function ($q) use ($selectedCategories) {
+            if ($selectedCategories) {
+                $q->whereIn('category_id', $selectedCategories);
+            }
+        })->orderBy('name')->get();
 
-        $brands = Product::query()
-            ->where('is_active', true)
-            ->select('brand')
-            ->distinct()
-            ->orderBy('brand')
-            ->pluck('brand');
+        $baseQuery = Product::query();
 
-        $statusOptions = [
-            'in_stock' => 'In Stock',
-            'limited_stock' => 'Limited Stock',
-            'out_of_stock' => 'Out of Stock',
-        ];
-
-        $productsQuery = Product::query()
-            ->where('is_active', true);
-
-        if ($selectedCategoryIds !== []) {
-            $productsQuery->whereIn('category_id', $selectedCategoryIds);
+        if ($selectedCategories) {
+            $baseQuery->whereIn('category_id', $selectedCategories);
         }
-
         if ($selectedBrands !== []) {
-            $productsQuery->whereIn('brand', $selectedBrands);
+            $baseQuery->whereHas('brand', fn($q) => $q->whereIn('name', $selectedBrands));
         }
-
-        if ($selectedStatuses !== []) {
-            $productsQuery->where(function ($query) use ($selectedStatuses) {
-                if (in_array('in_stock', $selectedStatuses, true)) {
-                    $query->orWhere('stock_left', '>', 5);
-                }
-
-                if (in_array('limited_stock', $selectedStatuses, true)) {
-                    $query->orWhereBetween('stock_left', [1, 5]);
-                }
-
-                if (in_array('out_of_stock', $selectedStatuses, true)) {
-                    $query->orWhere('stock_left', '<=', 0);
-                }
+        match ($stockStatus) {
+            'in_stock'    => $baseQuery->where('stock_quantity', '>', 5),
+            'low_stock'   => $baseQuery->whereBetween('stock_quantity', [1, 5]),
+            'unavailable' => $baseQuery->where('stock_quantity', 0),
+            default       => null,
+        };
+        if ($search !== null) {
+            $baseQuery->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%');
             });
         }
+
+        $contextMinPrice = (float) ((clone $baseQuery)->min('price') ?? 0);
+        $contextMaxPrice = (float) ((clone $baseQuery)->max('price') ?? 0);
+
+        $productsQuery = clone $baseQuery;
 
         if ($minPrice !== null) {
             $productsQuery->where('price', '>=', $minPrice);
         }
-
         if ($maxPrice !== null) {
             $productsQuery->where('price', '<=', $maxPrice);
         }
 
-        if ($search !== null) {
-            $productsQuery->where(function ($query) use ($search) {
-                $query->where('name', 'ilike', '%' . $search . '%')
-                      ->orWhere('brand', 'ilike', '%' . $search . '%');
-            });
-        }
-
-        switch ($orderBy) {
-            case 'price-asc':
-                $productsQuery->orderBy('price')->orderBy('sort_order')->orderBy('id');
-                break;
-            case 'price-desc':
-                $productsQuery->orderByDesc('price')->orderBy('sort_order')->orderBy('id');
-                break;
-            case 'newest':
-                $productsQuery->orderByDesc('created_at')->orderByDesc('id');
-                break;
-            case 'popular':
-                $productsQuery->orderByDesc('popularity_score')->orderBy('sort_order')->orderBy('id');
-                break;
-            case 'relevance':
-            default:
-                $productsQuery->orderBy('sort_order')->orderBy('id');
-                break;
+        switch ($sort) {
+            case 'price_asc':  $productsQuery->orderBy('price'); break;
+            case 'price_desc': $productsQuery->orderByDesc('price'); break;
+            case 'popular':    $productsQuery->orderByDesc('stock_quantity'); break;
+            default:           $productsQuery->orderByDesc('created_at'); break;
         }
 
         $products = $productsQuery
-            ->with('firstImage')
+            ->with(['brand', 'firstImage'])
             ->paginate(12)
-            ->appends($request->except(['page', 'partial']));
+            ->withQueryString();
 
-        if ($request->boolean('partial')) {
-            return view('partials.products-grid', compact('products'));
-        }
+        $filters = [
+            'categories'   => $selectedCategories,
+            'brands'       => $selectedBrands,
+            'min_price'    => $minPrice,
+            'max_price'    => $maxPrice,
+            'stock_status' => $stockStatus,
+            'search'       => $search,
+            'sort'         => $sort,
+        ];
 
         return view('products', compact(
-            'featuredBanners',
             'products',
-            'orderBy',
             'categories',
             'brands',
-            'statusOptions',
-            'selectedCategoryIds',
-            'selectedBrands',
-            'selectedStatuses',
-            'minPrice',
-            'maxPrice',
-            'search',
+            'filters',
+            'contextMinPrice',
+            'contextMaxPrice',
             'openCategoryFilter',
             'openBrandFilter',
-            'openStatusFilter',
-            'openPriceFilter'
+            'openPriceFilter',
+            'openStockFilter'
         ));
     }
 
-    public function show(string $slug): View
+    public function show(Product $product): View
     {
-        $product = Product::query()
-            ->where('slug', $slug)
-            ->where('is_active', true)
-            ->with(['category', 'characteristics', 'images'])
-            ->firstOrFail();
-
-        $product->increment('popularity_score');
+        $product->load(['brand', 'category', 'characteristics', 'images', 'firstImage']);
 
         $similarProducts = Product::query()
-            ->where('is_active', true)
             ->where('id', '!=', $product->id)
-            ->where(function ($query) use ($product) {
-                $query->where('category_id', $product->category_id)
-                      ->orWhere('brand', $product->brand);
-            })
-            ->orderByDesc('popularity_score')
-            ->limit(5)
+            ->where('category_id', $product->category_id)
+            ->limit(4)
             ->with('firstImage')
             ->get();
 

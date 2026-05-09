@@ -6,61 +6,43 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('order_number')->unique();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('session_id')->nullable()->index();
-
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email');
-            $table->string('phone');
-
-            $table->string('delivery_method');
-            $table->string('payment_method');
-
+        Schema::create('addresses', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->string('country');
             $table->string('city');
             $table->string('street');
             $table->string('house_number');
-            $table->string('post_code');
+            $table->string('postal_code');
+        });
 
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('delivery_fee', 10, 2)->default(0);
-            $table->decimal('total', 10, 2);
-            $table->string('status')->default('processing');
-            $table->timestamp('placed_at')->useCurrent();
-            $table->timestamps();
+        Schema::create('orders', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id')->nullable()->index();
+            $table->uuid('address_id')->nullable();
+            $table->string('status', 50)->default('processing');
+            $table->string('delivery_method', 50);
+            $table->decimal('total_price', 10, 2);
+            $table->timestamp('created_at')->useCurrent();
+
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('address_id')->references('id')->on('addresses')->nullOnDelete();
         });
 
         Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
-
-            $table->string('product_brand');
-            $table->string('product_name');
-            $table->string('product_slug')->nullable();
-            $table->string('image_path')->nullable();
-            $table->decimal('unit_price', 10, 2);
+            $table->uuid('id')->primary();
+            $table->foreignUuid('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('product_id')->nullable()->constrained()->nullOnDelete();
             $table->unsignedInteger('quantity');
-            $table->decimal('total_price', 10, 2);
-            $table->timestamps();
+            $table->decimal('unit_price', 10, 2);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
+        Schema::dropIfExists('addresses');
     }
 };

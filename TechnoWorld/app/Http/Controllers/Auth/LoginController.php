@@ -36,6 +36,10 @@ class LoginController extends Controller
         $request->session()->regenerate();
         Cart::mergeGuestCart($guestSessionId, Auth::id());
 
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('admin.products.index');
+        }
+
         return redirect()->to($this->resolveReturnTo($request, $request->input('return_to')));
     }
 

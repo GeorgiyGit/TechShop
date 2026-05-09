@@ -15,33 +15,39 @@ class CartController extends Controller
     public function index(Request $request): View
     {
         $cart = $this->resolveCart($request);
-        $cart?->load('items.product.firstImage');
-        return view('cart', compact('cart'));
+        $cart?->load('items.product.brand', 'items.product.firstImage');
+
+        $itemCount = $cart ? $cart->items->sum('quantity') : 0;
+        $subtotal = $cart ? $cart->items->sum(fn($item) => (float) $item->product->price * $item->quantity) : 0;
+
+        return view('cart', compact('cart', 'itemCount', 'subtotal'));
     }
 
     public function add(Request $request): RedirectResponse
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'integer|min:1',
+            'product_id' => 'required|uuid|exists:products,id',
+            'quantity' => 'integer|min:1|max:99',
         ]);
 
-        $product = Product::where('is_active', true)
-            ->where('stock_left', '>', 0)
-            ->findOrFail($request->input('product_id'));
+        $product = Product::findOrFail($request->input('product_id'));
 
-        $product->increment('popularity_score', 20);
+        if ($product->stock_quantity <= 0) {
+            return back()->withErrors(['stock' => 'This product is out of stock.']);
+        }
 
         $cart = $this->resolveOrCreateCart($request);
         $item = $cart->items()->where('product_id', $product->id)->first();
+        $qty = $request->integer('quantity', 1);
+
         if ($item) {
             $item->update([
-                'quantity' => min($item->quantity + ($request->integer('quantity', 1)), $product->stock_left),
+                'quantity' => min($item->quantity + $qty, $product->stock_quantity),
             ]);
         } else {
             $cart->items()->create([
                 'product_id' => $product->id,
-                'quantity' => min($request->integer('quantity', 1), $product->stock_left),
+                'quantity' => min($qty, $product->stock_quantity),
                 'added_at' => now(),
             ]);
         }
@@ -52,14 +58,20 @@ class CartController extends Controller
     public function update(Request $request, CartItem $item): RedirectResponse
     {
         $cart = $this->resolveCart($request);
-        if (! $cart || $item->cart_id !== $cart->id) {
+        if (!$cart || $item->cart_id !== $cart->id) {
             abort(400);
         }
 
-        $quantity = $request->integer('quantity', 1);
-        $quantity = max(1, min($quantity, $item->product->stock_left));
+        $request->validate(['quantity' => 'required|integer|min:0']);
+        $quantity = $request->integer('quantity');
 
-        $item->update(['quantity' => $quantity]);
+        if ($quantity <= 0) {
+            $item->delete();
+        } else {
+            $item->update([
+                'quantity' => min($quantity, $item->product->stock_quantity),
+            ]);
+        }
 
         return redirect()->route('cart.index');
     }
@@ -67,7 +79,7 @@ class CartController extends Controller
     public function remove(Request $request, CartItem $item): RedirectResponse
     {
         $cart = $this->resolveCart($request);
-        if (! $cart || $item->cart_id !== $cart->id) {
+        if (!$cart || $item->cart_id !== $cart->id) {
             abort(400);
         }
 
@@ -82,9 +94,7 @@ class CartController extends Controller
             return Cart::where('user_id', Auth::id())->first();
         }
 
-        $sessionId = $request->session()->getId();
-
-        return Cart::where('session_id', $sessionId)->first();
+        return Cart::where('session_id', $request->session()->getId())->first();
     }
 
     private function resolveOrCreateCart(Request $request): Cart

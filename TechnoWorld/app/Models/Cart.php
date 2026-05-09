@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cart extends Model
 {
+    use HasUuids;
+
+    const CREATED_AT = null;
+
     protected $fillable = [
         'user_id',
         'session_id',
@@ -23,7 +28,7 @@ class Cart extends Model
         return $this->hasMany(CartItem::class);
     }
 
-    public static function mergeGuestCart(string $guestSessionId, int $userId): void
+    public static function mergeGuestCart(string $guestSessionId, string $userId): void
     {
         $guestCart = self::where('session_id', $guestSessionId)->with('items.product')->first();
 
@@ -41,7 +46,7 @@ class Cart extends Model
             $existing = $userCart->items()->where('product_id', $guestItem->product_id)->first();
 
             if ($existing) {
-                $maxStock = $guestItem->product->stock_left ?? PHP_INT_MAX;
+                $maxStock = $guestItem->product->stock_quantity ?? PHP_INT_MAX;
                 $existing->update([
                     'quantity' => min($existing->quantity + $guestItem->quantity, $maxStock),
                 ]);
