@@ -23,7 +23,7 @@
                                 <span class="tag">{{ $banner->tag }}</span>
                                 <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
                                 <p class="lead white-text mb-4">{{ $banner->description }}</p>
-                                <a href="{{ $banner->product_slug ? route('product.show', $banner->product_slug) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                                <a href="{{ $banner->product_id ? route('product.show', $banner->product_id) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
                             </div>
                             <div class="home-banner-media">
                                 <div class="home-banner-product-card">
@@ -88,7 +88,7 @@
                                 <span class="tag">{{ $banner->tag }}</span>
                                 <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
                                 <p class="lead white-text mb-4">{{ $banner->description }}</p>
-                                <a href="{{ $banner->product_slug ? route('product.show', $banner->product_slug) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                                <a href="{{ $banner->product_id ? route('product.show', $banner->product_id) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
                             </div>
                             <div class="home-banner-media">
                                 <div class="home-banner-product-card">
@@ -117,13 +117,12 @@
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
             @foreach ($categories as $category)
                 <div class="col">
-                    <a href="{{ route('products', ['categories' => [$category->id]]) }}" class="home-category-card">
+                    <a href="{{ route('products', ['category' => $category->id]) }}" class="home-category-card">
                         <div class="home-category-icon"><i class="bi {{ $category->icon }}"></i></div>
                         <span class="home-category-name">{{ $category->name }}</span>
                     </a>
                 </div>
             @endforeach
-
         </div>
     </section>
 

@@ -8,11 +8,17 @@ class AccountController extends Controller
 {
     public function account(): View
     {
-        return view('dashboard');
+        return $this->dashboard();
     }
 
     public function dashboard(): View
     {
-        return view('dashboard');
+        $orders = auth()->user()
+            ->orders()
+            ->with(['payment', 'address', 'items'])
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return view('dashboard', compact('orders'));
     }
 }

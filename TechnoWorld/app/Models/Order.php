@@ -2,42 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
+    use HasUuids;
+
+    public $timestamps = false;
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = null;
+
     protected $fillable = [
-        'order_number',
         'user_id',
-        'session_id',
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'delivery_method',
-        'payment_method',
-        'country',
-        'city',
-        'street',
-        'house_number',
-        'post_code',
-        'subtotal',
-        'delivery_fee',
-        'total',
+        'address_id',
         'status',
-        'placed_at',
+        'delivery_method',
+        'total_price',
     ];
 
     protected function casts(): array
     {
         return [
-            'user_id' => 'integer',
-            'subtotal' => 'decimal:2',
-            'delivery_fee' => 'decimal:2',
-            'total' => 'decimal:2',
-            'placed_at' => 'datetime',
+            'total_price' => 'decimal:2',
         ];
     }
 
@@ -46,22 +36,18 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function getDeliveryLabelAttribute(): string
+    public function payment(): HasOne
     {
-        return $this->delivery_method === 'pickup' ? 'Store Pickup' : 'Courier';
-    }
-
-    public function getPaymentLabelAttribute(): string
-    {
-        return match ($this->payment_method) {
-            'card' => 'Credit / Debit Card',
-            'google_pay' => 'Google Pay',
-            default => 'Cash on Delivery / Pickup',
-        };
+        return $this->hasOne(Payment::class);
     }
 }

@@ -12,21 +12,15 @@ class HomeController extends Controller
     {
         $heroBanners = Banner::query()
             ->where('carousel', 'hero')
-            ->where('is_active', true)
-            ->orderBy('sort_order')
             ->orderBy('id')
             ->get();
 
         $featuredBanners = Banner::query()
             ->where('carousel', 'featured')
-            ->where('is_active', true)
-            ->orderBy('sort_order')
             ->orderBy('id')
             ->get();
 
         $categories = Category::query()
-            ->where('is_active', true)
-            ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
 

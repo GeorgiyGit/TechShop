@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Banner;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class BannerSeeder extends Seeder
@@ -12,7 +13,7 @@ class BannerSeeder extends Seeder
         $banners = [
             [
                 'slug' => 'hero-motorola-razr-50-ultra',
-                'product_slug' => 'motorola-razr-50-ultra',
+                'product_name' => 'Razr 50 Ultra',
                 'carousel' => 'hero',
                 'tag' => 'New Arrival',
                 'title' => "Motorola Razr 50 Ultra\nHas Just Arrived",
@@ -27,7 +28,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'hero-surface-go-3',
-                'product_slug' => 'microsoft-surface-go-3',
+                'product_name' => 'Surface Go 3',
                 'carousel' => 'hero',
                 'tag' => 'Limited Time',
                 'title' => "Surface Go 3 Deal\nEnds This Week",
@@ -42,7 +43,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'hero-iphone-11',
-                'product_slug' => 'iphone-11',
+                'product_name' => 'iPhone 11',
                 'carousel' => 'hero',
                 'tag' => 'Top Pick',
                 'title' => "Apple iPhone 11\nStill a Bestseller",
@@ -56,15 +57,15 @@ class BannerSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'slug' => 'featured-saeco-royal-professional',
-                'product_slug' => 'saeco-royal-professional',
+                'slug' => 'featured-magnifica-s',
+                'product_name' => 'Magnifica S Coffee Machine',
                 'carousel' => 'featured',
                 'tag' => 'This Week Only',
-                'title' => "Saeco Royal Professional\nFlash Price",
+                'title' => "De'Longhi Magnifica S\nFlash Price",
                 'description' => 'Bring cafe-level espresso home with this premium automatic coffee maker.',
-                'cta_text' => 'Grab Saeco Deal',
-                'image_path' => 'coffee-maker/saeco-royal-professional/image.png',
-                'image_alt' => 'Saeco Royal Professional coffee maker',
+                'cta_text' => 'Grab Magnifica S Deal',
+                'image_path' => 'coffee-maker/delonghi-magnifica-s/image.png',
+                'image_alt' => 'De\'Longhi Magnifica S coffee maker',
                 'slide_class' => 'carousel-slide-1',
                 'image_class' => 'home-banner-image-appliance',
                 'sort_order' => 10,
@@ -72,7 +73,7 @@ class BannerSeeder extends Seeder
             ],
             [
                 'slug' => 'featured-apple-watch-6',
-                'product_slug' => 'apple-watch-6',
+                'product_name' => 'Watch Series 6',
                 'carousel' => 'featured',
                 'tag' => 'Fast Delivery',
                 'title' => "Apple Watch 6\nDelivered Fast",
@@ -86,15 +87,15 @@ class BannerSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'slug' => 'featured-miele-c3',
-                'product_slug' => 'miele-c3',
+                'slug' => 'featured-dyson-v11',
+                'product_name' => 'V11 Cordless Vacuum',
                 'carousel' => 'featured',
                 'tag' => 'Just Landed',
-                'title' => "Miele C3 Vacuum\nNow in Store",
-                'description' => 'A new stock of the Miele Complete C3 with powerful cleaning performance.',
-                'cta_text' => 'See New Miele Stock',
-                'image_path' => 'vacuum-cleaner/miele-c3/image.png',
-                'image_alt' => 'Miele Complete C3 vacuum cleaner',
+                'title' => "Dyson V11 Vacuum\nNow in Store",
+                'description' => 'A new stock of the Dyson V11 with powerful intelligent cleaning performance.',
+                'cta_text' => 'See New Dyson Stock',
+                'image_path' => 'vacuum-cleaner/dyson-v11/image.png',
+                'image_alt' => 'Dyson V11 cordless vacuum cleaner',
                 'slide_class' => 'carousel-slide-3',
                 'image_class' => 'home-banner-image-appliance',
                 'sort_order' => 30,
@@ -103,6 +104,10 @@ class BannerSeeder extends Seeder
         ];
 
         foreach ($banners as $banner) {
+            $productId = Product::where('name', $banner['product_name'])->value('id');
+            unset($banner['product_name']);
+            $banner['product_id'] = $productId;
+
             Banner::updateOrCreate(
                 ['slug' => $banner['slug']],
                 $banner

@@ -6,34 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique();
             $table->string('carousel');
-            $table->string('tag');
+            $table->string('tag')->nullable();
             $table->string('title');
-            $table->text('description');
-            $table->string('cta_text');
+            $table->text('description')->nullable();
+            $table->string('cta_text')->nullable();
             $table->string('image_path');
-            $table->string('image_alt');
-            $table->string('slide_class')->default('carousel-slide-1');
-            $table->string('image_class')->default('home-banner-image-appliance');
+            $table->string('image_alt')->nullable();
+            $table->string('slide_class')->nullable();
+            $table->string('image_class')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->uuid('product_id')->nullable();
 
-            $table->index(['carousel', 'is_active', 'sort_order']);
+            $table->index('carousel');
+            $table->index('is_active');
+            $table->index('sort_order');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('banners');

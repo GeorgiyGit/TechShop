@@ -2,31 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
+    use HasUuids;
+
+    public $timestamps = false;
+
     protected $fillable = [
         'order_id',
         'product_id',
-        'product_brand',
-        'product_name',
-        'product_slug',
-        'image_path',
-        'unit_price',
         'quantity',
-        'total_price',
+        'unit_price',
     ];
 
     protected function casts(): array
     {
         return [
-            'order_id' => 'integer',
-            'product_id' => 'integer',
             'unit_price' => 'decimal:2',
             'quantity' => 'integer',
-            'total_price' => 'decimal:2',
         ];
     }
 
