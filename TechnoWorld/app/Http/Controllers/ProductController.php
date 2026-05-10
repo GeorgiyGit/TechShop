@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -111,6 +112,8 @@ class ProductController extends Controller
             'sort'          => $sort,
         ];
 
+        $heroBanners = Banner::where('carousel', 'hero')->orderBy('sort_order')->get();
+
         return view('products', compact(
             'products',
             'categories',
@@ -121,7 +124,8 @@ class ProductController extends Controller
             'openCategoryFilter',
             'openBrandFilter',
             'openPriceFilter',
-            'openStockFilter'
+            'openStockFilter',
+            'heroBanners'
         ));
     }
 

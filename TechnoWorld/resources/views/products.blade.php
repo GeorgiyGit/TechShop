@@ -5,6 +5,45 @@
 @section('content')
     @include('partials.storefront-header')
 
+    @if ($heroBanners->isNotEmpty())
+        <div id="featuredProductsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @foreach ($heroBanners as $banner)
+                    <button type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide-to="{{ $loop->index }}"
+                        @class(['active' => $loop->first])
+                        aria-label="Slide {{ $loop->iteration }}"></button>
+                @endforeach
+            </div>
+            <div class="carousel-inner">
+                @foreach ($heroBanners as $banner)
+                    <div @class(['carousel-item', 'active' => $loop->first])>
+                        <div class="carousel-slide {{ $banner->slide_class }} home-banner">
+                            <div class="carousel-slide-content home-banner-content">
+                                <span class="tag">{{ $banner->tag }}</span>
+                                <h2 class="display-5 fw-bold white-text">{!! nl2br(e($banner->title)) !!}</h2>
+                                <p class="lead white-text mb-4">{{ $banner->description }}</p>
+                                <a href="{{ $banner->product_id ? route('product.show', $banner->product_id) : '#' }}" class="btn btn-light btn-lg px-4 text-primary-brand fw-600">{{ $banner->cta_text }}</a>
+                            </div>
+                            <div class="home-banner-media">
+                                <div class="home-banner-product-card">
+                                    <img src="{{ url('/images/products/' . ltrim($banner->image_path, '/')) }}" alt="{{ $banner->image_alt }}" class="home-banner-image {{ $banner->image_class }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    @endif
+
     <main class="products-main">
         @if ($filters['search'])
             <div class="mb-3">
@@ -179,7 +218,7 @@
                         <a href="{{ route('products') }}" class="btn btn-primary-brand mt-2">Clear Filters</a>
                     </div>
                 @else
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                    <div class="row row-cols-1 row-cols-xs-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
                         @foreach ($products as $product)
                             <div class="col">
                                 <article class="product-card card h-100">

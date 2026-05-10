@@ -1248,6 +1248,8 @@ body.products-page {
     color: #fff;
 }
 
+
+
 @media (max-width: 991px) {
     .products-page .products-main {
         padding: 1.25rem 1rem 1.75rem;
@@ -1263,4 +1265,12 @@ body.products-page {
         padding: 1rem 0.75rem 1.5rem;
     }
 }
+
+@media (min-width: 450px) and (max-width: 768px) {
+    .products-page .row-cols-xs-2 > * {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+}
+
 
