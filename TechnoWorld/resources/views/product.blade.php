@@ -74,7 +74,7 @@
                         @if (($product->stock_quantity ?? 0) <= 0)
                             <span class="badge bg-danger fs-6 px-3 py-2">Out of Stock</span>
                         @else
-                            <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3">
+                            <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3 product-add-cart-cont">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="product-item-qty">
@@ -122,25 +122,47 @@
         @if ($similarProducts->isNotEmpty())
             <section class="mb-5">
                 <h2 class="text-center fw-bold mb-4">Similar products</h2>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
-                    @foreach ($similarProducts as $similar)
+                <div class="row row-cols-1 row-cols-xs-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 g-3">
+                    @foreach ($similarProducts as $product)
                         <div class="col">
                             <article class="product-card card h-100">
                                 <div class="product-img-wrap">
-                                    <img src="{{ $similar->firstImage ? url('/images/products/' . $similar->firstImage->url) : '' }}" class="product-img" alt="{{ $similar->name }}">
-                                    @if (($similar->stock_quantity ?? 0) <= 0)
+                                    @if ($product->firstImage)
+                                        <img src="{{ url('/images/products/' . $product->firstImage->url) }}" class="product-img" alt="{{ $product->name }}">
+                                    @else
+                                        <div class="product-img d-flex align-items-center justify-content-center bg-light">
+                                            <i class="bi bi-image text-muted fs-1"></i>
+                                        </div>
+                                    @endif
+                                    @if (($product->stock_quantity ?? 0) <= 0)
                                         <span class="product-stock-badge out-of-stock">Out of Stock</span>
-                                    @elseif (($similar->stock_quantity ?? 0) <= 5)
-                                        <span class="product-stock-badge low-stock">Only {{ $similar->stock_quantity }} left</span>
+                                    @elseif (($product->stock_quantity ?? 0) <= 5)
+                                        <span class="product-stock-badge low-stock">Only {{ $product->stock_quantity }} left</span>
                                     @endif
                                 </div>
                                 <div class="card-body d-flex flex-column p-3">
-                                    <small class="text-muted">{{ $similar->brand?->name }}</small>
-                                    <h6 class="card-title mt-1">{{ $similar->name }}</h6>
-                                    <a href="{{ route('product.show', $similar) }}" class="stretched-link" aria-label="Open {{ $similar->name }}"></a>
-                                    <p class="card-text text-muted">{{ $similar->short_description }}</p>
+                                    <small class="text-muted">{{ $product->brand?->name }}</small>
+                                    <h6 class="card-title mt-1">{{ $product->name }}</h6>
+                                    <a href="{{ route('product.show', $product) }}" class="stretched-link" aria-label="Open {{ $product->name }}"></a>
+                                    <p class="card-text text-muted">{{ $product->short_description }}</p>
                                     <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
-                                        <span class="product-price">{{ number_format((float) $similar->price, 2) }} €</span>
+                                        <span class="product-price">{{ number_format((float) $product->price, 2) }} €</span>
+                                        <div class="product-card-action">
+                                            @if (($product->stock_quantity ?? 0) <= 0)
+                                                <button type="button" class="btn btn-add-cart btn-sm" disabled>
+                                                    <i class="bi bi-cart-x me-1"></i>Unavailable
+                                                </button>
+                                            @else
+                                                <form method="POST" action="{{ route('cart.add') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button type="submit" class="btn btn-add-cart btn-sm">
+                                                        <i class="bi bi-cart-plus me-1"></i>Add
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </article>

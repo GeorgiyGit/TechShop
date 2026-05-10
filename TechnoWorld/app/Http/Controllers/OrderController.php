@@ -26,7 +26,6 @@ class OrderController extends Controller
 
         $subtotal = $cart->items->sum(fn($item) => (float) $item->product->price * $item->quantity);
         $itemsCount = $cart->items->sum('quantity');
-
         return view('order.create-items', compact('cart', 'subtotal', 'itemsCount'));
     }
 
@@ -44,7 +43,6 @@ class OrderController extends Controller
             'email' => Auth::user()?->email ?? '',
             'phone' => '',
         ]);
-
         return view('order.create-contact', compact('contact'));
     }
 
@@ -58,7 +56,6 @@ class OrderController extends Controller
         ]);
 
         $request->session()->put('order_contact', $request->only('first_name', 'last_name', 'email', 'phone'));
-
         return redirect()->route('order.create.delivery');
     }
 
@@ -80,7 +77,6 @@ class OrderController extends Controller
         } else {
             $delivery = $request->session()->get('order_delivery');
         }
-
         return view('order.create-delivery', compact('delivery'));
     }
 
@@ -108,7 +104,6 @@ class OrderController extends Controller
             'house_number' => $request->input('house_number', ''),
             'postal_code' => $request->input('postal_code', ''),
         ]);
-
         return redirect()->route('order.create.payment');
     }
 
@@ -117,14 +112,12 @@ class OrderController extends Controller
         if (!$request->session()->has('order_contact')) {
             return redirect()->route('order.create.contact');
         }
-
         if (!$request->session()->has('order_delivery')) {
             return redirect()->route('order.create.delivery');
         }
 
         $cart = $this->resolveCart($request);
         $cart?->load('items.product.brand', 'items.product.firstImage');
-
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->route('cart.index');
         }
@@ -132,7 +125,6 @@ class OrderController extends Controller
         $delivery = $request->session()->get('order_delivery');
         $itemsCount = $cart->items->sum('quantity');
         $subtotal = $cart->items->sum(fn($item) => (float) $item->product->price * $item->quantity);
-
         return view('order.create-payment', compact('cart', 'delivery', 'itemsCount', 'subtotal'));
     }
 
@@ -155,7 +147,6 @@ class OrderController extends Controller
         if (!$contact) {
             return redirect()->route('order.create.contact');
         }
-
         if (!$delivery) {
             return redirect()->route('order.create.delivery');
         }
@@ -210,7 +201,6 @@ class OrderController extends Controller
         });
 
         $request->session()->forget(['order_contact', 'order_delivery']);
-
         return redirect()->route('order.success', $order);
     }
 
@@ -221,7 +211,6 @@ class OrderController extends Controller
         }
 
         $order->load('items.product.firstImage', 'items.product.brand', 'payment', 'address');
-
         return view('order.show', compact('order'));
     }
 
@@ -232,7 +221,6 @@ class OrderController extends Controller
         }
 
         $order->load('items.product', 'payment', 'address');
-
         return view('order.success', compact('order'));
     }
 
@@ -241,7 +229,6 @@ class OrderController extends Controller
         if (Auth::check()) {
             return Cart::where('user_id', Auth::id())->first();
         }
-
         return Cart::where('session_id', $request->session()->getId())->first();
     }
 }

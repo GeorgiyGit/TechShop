@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index(Request $request): View
     {
         $sort = $request->query('sort', 'newest');
-        if (!in_array($sort, ['price_asc', 'price_desc', 'newest', 'popular'], true)) {
+        if (!in_array($sort, ['price_asc', 'price_desc', 'newest', 'more_desc'], true)) {
             $sort = 'newest';
         }
 
@@ -65,15 +65,15 @@ class ProductController extends Controller
             $baseQuery->whereHas('brand', fn($q) => $q->whereIn('name', $selectedBrands));
         }
         match ($stockStatus) {
-            'in_stock'    => $baseQuery->where('stock_quantity', '>', 5),
-            'low_stock'   => $baseQuery->whereBetween('stock_quantity', [1, 5]),
+            'in_stock' => $baseQuery->where('stock_quantity', '>', 5),
+            'low_stock' => $baseQuery->whereBetween('stock_quantity', [1, 5]),
             'unavailable' => $baseQuery->where('stock_quantity', 0),
-            default       => null,
+            default => null,
         };
         if ($search !== null) {
             $baseQuery->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('description', 'like', '%' . $search . '%');
+                $q->where('name', 'ILIKE', '%' . $search . '%')
+                  ->orWhere('short_description', 'ILIKE', '%' . $search . '%');
             });
         }
 
@@ -90,10 +90,10 @@ class ProductController extends Controller
         }
 
         switch ($sort) {
-            case 'price_asc':  $productsQuery->orderBy('price'); break;
+            case 'price_asc': $productsQuery->orderBy('price'); break;
             case 'price_desc': $productsQuery->orderByDesc('price'); break;
-            case 'popular':    $productsQuery->orderByDesc('stock_quantity'); break;
-            default:           $productsQuery->orderByDesc('created_at'); break;
+            case 'more_desc': $productsQuery->orderByDesc('stock_quantity'); break;
+            default: $productsQuery->orderByDesc('created_at'); break;
         }
 
         $products = $productsQuery
@@ -102,14 +102,14 @@ class ProductController extends Controller
             ->withQueryString();
 
         $filters = [
-            'categories'    => $selectedCategories,
-            'brands'        => $selectedBrands,
-            'min_price'     => $minPrice,
-            'max_price'     => $maxPrice,
+            'categories' => $selectedCategories,
+            'brands' => $selectedBrands,
+            'min_price' => $minPrice,
+            'max_price' => $maxPrice,
             'price_changed' => $priceChanged,
-            'stock_status'  => $stockStatus,
-            'search'        => $search,
-            'sort'          => $sort,
+            'stock_status' => $stockStatus,
+            'search' => $search,
+            'sort' => $sort,
         ];
 
         $heroBanners = Banner::where('carousel', 'hero')->orderBy('sort_order')->get();
@@ -136,10 +136,9 @@ class ProductController extends Controller
         $similarProducts = Product::query()
             ->where('id', '!=', $product->id)
             ->where('category_id', $product->category_id)
-            ->limit(4)
+            ->limit(10)
             ->with('firstImage')
             ->get();
-
         return view('product', compact('product', 'similarProducts'));
     }
 }

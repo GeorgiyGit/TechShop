@@ -24,7 +24,6 @@ trait ResolvesReturnTo
         $path = $parts['path'] ?? '/';
         $query = isset($parts['query']) ? '?' . $parts['query'] : '';
         $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
-
         return url($path . $query . $fragment);
     }
 }

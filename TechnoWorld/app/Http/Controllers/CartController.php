@@ -19,7 +19,6 @@ class CartController extends Controller
 
         $itemCount = $cart ? $cart->items->sum('quantity') : 0;
         $subtotal = $cart ? $cart->items->sum(fn($item) => (float) $item->product->price * $item->quantity) : 0;
-
         return view('cart', compact('cart', 'itemCount', 'subtotal'));
     }
 
@@ -51,7 +50,6 @@ class CartController extends Controller
                 'added_at' => now(),
             ]);
         }
-
         return redirect()->route('cart.index');
     }
 
@@ -72,7 +70,6 @@ class CartController extends Controller
                 'quantity' => min($quantity, $item->product->stock_quantity),
             ]);
         }
-
         return redirect()->route('cart.index');
     }
 
@@ -84,7 +81,6 @@ class CartController extends Controller
         }
 
         $item->delete();
-
         return redirect()->route('cart.index');
     }
 
@@ -93,7 +89,6 @@ class CartController extends Controller
         if (Auth::check()) {
             return Cart::where('user_id', Auth::id())->first();
         }
-
         return Cart::where('session_id', $request->session()->getId())->first();
     }
 
@@ -107,7 +102,6 @@ class CartController extends Controller
         }
 
         $sessionId = $request->session()->getId();
-
         return Cart::firstOrCreate(
             ['session_id' => $sessionId],
             ['user_id' => null]

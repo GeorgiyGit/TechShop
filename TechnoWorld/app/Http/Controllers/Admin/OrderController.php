@@ -23,16 +23,20 @@ class OrderController extends Controller
             ->withQueryString();
 
         $statuses = self::STATUSES;
-
         return view('admin.orders.index', compact('orders', 'statuses', 'search', 'status'));
     }
 
     public function show(Order $order)
     {
         $order->load(['user', 'address', 'payment', 'items.product.brand']);
-        $statuses = self::STATUSES;
+        return view('admin.orders.show', compact('order'));
+    }
 
-        return view('admin.orders.show', compact('order', 'statuses'));
+    public function editStatus(Order $order)
+    {
+        $order->load(['user', 'items']);
+        $statuses = self::STATUSES;
+        return view('admin.orders.status', compact('order', 'statuses'));
     }
 
     public function updateStatus(Request $request, Order $order)
@@ -42,7 +46,6 @@ class OrderController extends Controller
         ]);
 
         $order->update(['status' => $request->input('status')]);
-
-        return redirect()->back()->with('success', 'Order status updated.');
+        return redirect()->route('admin.orders.index')->with('success', 'Order status updated.');
     }
 }

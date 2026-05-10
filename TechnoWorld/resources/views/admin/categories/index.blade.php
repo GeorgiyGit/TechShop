@@ -70,14 +70,13 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">No categories found.</td>
+                            <td colspan="5" class="text-center py-4 text-muted">No categories found</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
         <div class="admin-table-footer">
-            <span class="small text-muted">Showing {{ $categories->firstItem() }}–{{ $categories->lastItem() }} of {{ $categories->total() }} categories</span>
             {{ $categories->links() }}
         </div>
     </div>

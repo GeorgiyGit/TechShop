@@ -60,7 +60,7 @@
                     <option value="newest" @selected($filters['sort'] === 'newest')>New First</option>
                     <option value="price_asc" @selected($filters['sort'] === 'price_asc')>Low Price First</option>
                     <option value="price_desc" @selected($filters['sort'] === 'price_desc')>High Price First</option>
-                    <option value="popular" @selected($filters['sort'] === 'popular')>Most Popular</option>
+                    <option value="more_desc" @selected($filters['sort'] === 'more_desc')>More First</option>
                 </select>
             </div>
         </div>
@@ -76,7 +76,6 @@
                         <h6 class="filter-sidebar-title"><i class="bi bi-sliders2 me-2"></i>Filters</h6>
                         <div class="accordion accordion-flush" id="filterAccordion">
 
-                            {{-- Category --}}
                             <div class="accordion-item filter-accordion-item">
                                 <h2 class="accordion-header">
                                     <button @class(['accordion-button', 'filter-btn', 'collapsed' => !$openCategoryFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#catCollapse" aria-expanded="{{ $openCategoryFilter ? 'true' : 'false' }}">Category</button>
@@ -98,7 +97,6 @@
                                 </div>
                             </div>
 
-                            {{-- Availability --}}
                             <div class="accordion-item filter-accordion-item">
                                 <h2 class="accordion-header">
                                     <button @class(['accordion-button', 'filter-btn', 'collapsed' => !$openStockFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#stockCollapse" aria-expanded="{{ $openStockFilter ? 'true' : 'false' }}">Availability</button>
@@ -106,8 +104,8 @@
                                 <div id="stockCollapse" @class(['accordion-collapse', 'collapse', 'show' => $openStockFilter])>
                                     <div class="accordion-body filter-body">
                                         @foreach ([
-                                            'in_stock'    => ['label' => 'In Stock',    'icon' => 'bi-check-circle-fill text-success'],
-                                            'low_stock'   => ['label' => 'Low Stock',   'icon' => 'bi-exclamation-circle-fill text-warning'],
+                                            'in_stock' => ['label' => 'In Stock', 'icon' => 'bi-check-circle-fill text-success'],
+                                            'low_stock' => ['label' => 'Low Stock', 'icon' => 'bi-exclamation-circle-fill text-warning'],
                                             'unavailable' => ['label' => 'Unavailable', 'icon' => 'bi-x-circle-fill text-danger'],
                                         ] as $value => $option)
                                             <div class="form-check filter-check">
@@ -126,7 +124,6 @@
                                 </div>
                             </div>
 
-                            {{-- Brands --}}
                             <div class="accordion-item filter-accordion-item">
                                 <h2 class="accordion-header">
                                     <button @class(['accordion-button', 'filter-btn', 'collapsed' => !$openBrandFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#brandCollapse" aria-expanded="{{ $openBrandFilter ? 'true' : 'false' }}">Brand</button>
@@ -149,7 +146,6 @@
                                 </div>
                             </div>
 
-                            {{-- Price --}}
                             <div class="accordion-item filter-accordion-item border-bottom-0">
                                 <h2 class="accordion-header">
                                     <button @class(['accordion-button', 'filter-btn', 'collapsed' => !$openPriceFilter]) type="button" data-bs-toggle="collapse" data-bs-target="#priceCollapse" aria-expanded="{{ $openPriceFilter ? 'true' : 'false' }}">Price</button>
@@ -168,7 +164,7 @@
                                                 min="{{ $contextMinPrice }}"
                                                 max="{{ $contextMaxPrice }}"
                                                 step="0.01">
-                                            <span class="text-muted align-self-center">–</span>
+                                            <span class="text-muted align-self-center">-</span>
                                             <input type="number" class="form-control form-control-sm price-input"
                                                 placeholder="Max €"
                                                 name="max_price"
@@ -214,7 +210,7 @@
                 @if ($products->isEmpty())
                     <div class="text-center py-5">
                         <i class="bi bi-search" style="font-size: 3rem; color: var(--text-muted);"></i>
-                        <p class="fs-5 mt-3 text-muted">No products found.</p>
+                        <p class="fs-5 mt-3 text-muted">No products found</p>
                         <a href="{{ route('products') }}" class="btn btn-primary-brand mt-2">Clear Filters</a>
                     </div>
                 @else

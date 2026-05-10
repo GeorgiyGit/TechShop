@@ -39,7 +39,6 @@ class LoginController extends Controller
         if (Auth::user()->isAdmin()) {
             return redirect()->route('admin.products.index');
         }
-
         return redirect()->to($this->resolveReturnTo($request, $request->input('return_to')));
     }
 
@@ -49,7 +48,6 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect()->route('products');
     }
 

@@ -11,7 +11,6 @@ class BrandController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-
         $brands = Brand::withCount('products')
             ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
             ->orderBy('name')
@@ -32,7 +31,6 @@ class BrandController extends Controller
         ]);
 
         Brand::create($data);
-
         return redirect()->route('admin.brands.index')->with('success', 'Brand created.');
     }
 
@@ -48,14 +46,12 @@ class BrandController extends Controller
         ]);
 
         $brand->update($data);
-
         return redirect()->route('admin.brands.index')->with('success', 'Brand updated.');
     }
 
     public function destroy(Brand $brand)
     {
         $brand->delete();
-
         return redirect()->route('admin.brands.index')->with('success', 'Brand deleted.');
     }
 }

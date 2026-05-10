@@ -40,7 +40,6 @@ class SignupController extends Controller
         Cart::mergeGuestCart($guestSessionId, $user->id);
 
         $returnTo = $request->input('return_to') ?: route('home');
-
         return redirect()->to($returnTo);
     }
 }

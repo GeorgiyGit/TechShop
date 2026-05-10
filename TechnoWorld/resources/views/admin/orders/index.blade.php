@@ -19,8 +19,8 @@
             </h2>
             <form method="GET" class="admin-filter-bar">
                 <input type="text" name="search" class="admin-search-input"
-                    placeholder="Search by order ID..." value="{{ $search }}" aria-label="Search orders">
-                <select name="status" class="admin-filter-select" aria-label="Filter by status">
+                    placeholder="Search by order # or customer..." value="{{ $search }}" aria-label="Search orders">
+                <select name="status" class="admin-filter-select" aria-label="Filter by status" onchange="this.form.submit()">
                     <option value="">All Statuses</option>
                     @foreach ($statuses as $value)
                         <option value="{{ $value }}" {{ $status === $value ? 'selected' : '' }}>{{ ucfirst($value) }}</option>
@@ -33,7 +33,7 @@
             </form>
         </div>
         <div class="table-responsive">
-            <table class="admin-table">
+            <table class="table admin-table mb-0">
                 <thead>
                     <tr>
                         <th style="width:110px">Order #</th>
@@ -47,25 +47,30 @@
                 </thead>
                 <tbody>
                     @forelse ($orders as $order)
+                        @php
+                            $name = trim(($order->contact_first_name ?? '') . ' ' . ($order->contact_last_name ?? ''));
+                            $email = $order->contact_email ?? $order->user?->email ?? 'Guest';
+                            $itemsCount = $order->items->sum('quantity');
+                        @endphp
                         <tr>
-                            <td class="fw-600 small">#{{ substr($order->id, -8) }}</td>
+                            <td><span class="fw-600 text-muted small">#{{ substr($order->id, -8) }}</span></td>
                             <td>
-                                <div class="fw-600 small">{{ $order->user?->email ?? 'Guest' }}</div>
+                                @if ($name)
+                                    <div class="fw-500">{{ $name }}</div>
+                                @endif
+                                <div class="text-muted small">{{ $email }}</div>
                             </td>
-                            <td class="small">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</td>
-                            <td class="small">{{ $order->items->sum('quantity') }}</td>
-                            <td class="small fw-600">€{{ number_format($order->total_price, 2) }}</td>
+                            <td class="text-muted small">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</td>
+                            <td class="text-muted small">{{ $itemsCount }} {{ Str::plural('item', $itemsCount) }}</td>
+                            <td class="fw-500">{{ number_format($order->total_price, 2) }} €</td>
+                            <td><span class="order-status-badge order-status-{{ $order->status }}">{{ ucfirst($order->status) }}</span></td>
                             <td>
-                                <span class="order-status-badge order-status-{{ $order->status }}">
-                                    {{ ucfirst($order->status) }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column gap-1 admin-btn-stack">
-                                    <a href="{{ route('admin.orders.show', $order) }}"
-                                       class="btn btn-admin-edit d-inline-flex align-items-center gap-1">
-                                        <i class="bi bi-eye"></i>
-                                        <span>View</span>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('order.show', $order) }}" class="btn btn-admin-edit btn-sm admin-btn-stack" target="_blank">
+                                        <i class="bi bi-eye"></i><span>View</span>
+                                    </a>
+                                    <a href="{{ route('admin.orders.editStatus', $order) }}" class="btn btn-admin-edit btn-sm admin-btn-stack">
+                                        <i class="bi bi-arrow-repeat"></i><span>Status</span>
                                     </a>
                                 </div>
                             </td>
@@ -79,9 +84,7 @@
             </table>
         </div>
         <div class="admin-table-footer">
-            <span class="small text-muted">
-                Showing {{ $orders->firstItem() }}–{{ $orders->lastItem() }} of {{ $orders->total() }} orders
-            </span>
+            <small class="text-muted">Showing {{ $orders->count() }} of {{ $orders->total() }} orders</small>
             {{ $orders->links() }}
         </div>
     </div>

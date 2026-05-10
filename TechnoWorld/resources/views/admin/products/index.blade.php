@@ -47,7 +47,7 @@
                         <th>Category</th>
                         <th>Brand</th>
                         <th>Price</th>
-                        <th>Stock</th>
+                        <th>Amount</th>
                         <th style="width:140px">Actions</th>
                     </tr>
                 </thead>
@@ -108,9 +108,6 @@
             </table>
         </div>
         <div class="admin-table-footer">
-            <span class="small text-muted">
-                Showing {{ $products->firstItem() }}–{{ $products->lastItem() }} of {{ $products->total() }} products
-            </span>
             {{ $products->links() }}
         </div>
     </div>

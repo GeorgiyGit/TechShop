@@ -11,7 +11,6 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-
         $categories = Category::withCount('products')
             ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
             ->orderByDesc('products_count')
@@ -35,7 +34,6 @@ class CategoryController extends Controller
         ]);
 
         Category::create($data);
-
         return redirect()->route('admin.categories.index')->with('success', 'Category created.');
     }
 
@@ -52,14 +50,12 @@ class CategoryController extends Controller
         ]);
 
         $category->update($data);
-
         return redirect()->route('admin.categories.index')->with('success', 'Category updated.');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-
         return redirect()->route('admin.categories.index')->with('success', 'Category deleted.');
     }
 }

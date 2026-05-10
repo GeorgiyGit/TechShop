@@ -15,10 +15,10 @@ function initCharacteristics() {
             <div class="col-5">
                 <input type="text" name="char_name[]" class="admin-form-control" placeholder="Name">
             </div>
-            <div class="col-6">
+            <div class="col-5">
                 <input type="text" name="char_value[]" class="admin-form-control" placeholder="Value">
             </div>
-            <div class="col-1">
+            <div class="col-2">
                 <button type="button" class="btn btn-admin-delete w-100 remove-spec">
                     <i class="bi bi-x-lg"></i>
                 </button>
@@ -39,7 +39,7 @@ function initImageUpload() {
 
     const form = input.closest('form');
     const isEdit = form?.querySelector('input[name="_method"]') !== null;
-    const MIN_IMAGES = 3;
+    const MIN_IMAGES = 2;
 
     const dt = new DataTransfer();
 

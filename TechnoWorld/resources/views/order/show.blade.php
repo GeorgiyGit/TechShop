@@ -122,10 +122,6 @@
                             <span>{{ ucfirst($order->status) }}</span>
                         </div>
                     </div>
-
-                    <a href="{{ route('account') }}" class="step-btn step-btn-prev w-100 d-flex justify-content-center mt-3">
-                        <i class="bi bi-arrow-left me-2"></i> Back to My Orders
-                    </a>
                 </aside>
             </div>
         </section>

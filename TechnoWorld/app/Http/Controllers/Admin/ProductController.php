@@ -28,7 +28,6 @@ class ProductController extends Controller
             ->orderByDesc('products_count')
             ->orderBy('name')
             ->get();
-
         return view('admin.products.index', compact('products', 'categories', 'search', 'categoryId'));
     }
 
@@ -39,7 +38,6 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
         $brands = Brand::orderBy('name')->get();
-
         return view('admin.products.form', [
             'product' => null,
             'categories' => $categories,
@@ -57,11 +55,11 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'images' => 'required|array|min:3',
+            'images' => 'required|array|min:2',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ], [
-            'images.required' => 'Please upload at least 3 product images.',
-            'images.min' => 'Please upload at least 3 product images.',
+            'images.required' => 'Please upload at least 2 product images.',
+            'images.min' => 'Please upload at least 2 product images.',
             'images.*.image' => 'Each file must be a valid image.',
             'images.*.max' => 'Each image must not exceed 5 MB.',
         ]);
@@ -70,7 +68,6 @@ class ProductController extends Controller
 
         $this->saveImages($product, $request);
         $this->saveCharacteristics($product, $request);
-
         return redirect()->route('admin.products.index')->with('success', 'Product created.');
     }
 
@@ -82,7 +79,6 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
         $brands = Brand::orderBy('name')->get();
-
         return view('admin.products.form', compact('product', 'categories', 'brands'));
     }
 
@@ -101,13 +97,11 @@ class ProductController extends Controller
         ]);
 
         $product->update($data);
-
         if ($request->hasFile('images')) {
             $this->saveImages($product, $request);
         }
 
         $this->saveCharacteristics($product, $request);
-
         return redirect()->route('admin.products.index')->with('success', 'Product updated.');
     }
 
@@ -121,7 +115,6 @@ class ProductController extends Controller
         }
 
         $product->delete();
-
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');
     }
 
@@ -133,9 +126,7 @@ class ProductController extends Controller
         if (file_exists($path)) {
             unlink($path);
         }
-
         $image->delete();
-
         return redirect()->route('admin.products.edit', $productId)->with('success', 'Image deleted.');
     }
 
@@ -144,7 +135,6 @@ class ProductController extends Controller
         if (!$request->hasFile('images')) {
             return;
         }
-
         $position = $product->images()->max('position') ?? 0;
 
         foreach ($request->file('images') as $file) {
@@ -165,7 +155,6 @@ class ProductController extends Controller
         $values = $request->input('char_value', []);
 
         $product->characteristics()->delete();
-
         foreach ($names as $i => $name) {
             $name = trim($name);
             $value = trim($values[$i] ?? '');

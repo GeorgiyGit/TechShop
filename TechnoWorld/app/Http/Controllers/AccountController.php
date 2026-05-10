@@ -18,7 +18,6 @@ class AccountController extends Controller
             ->with(['payment', 'address', 'items'])
             ->orderByDesc('created_at')
             ->paginate(10);
-
         return view('dashboard', compact('orders'));
     }
 }

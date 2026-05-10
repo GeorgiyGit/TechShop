@@ -10,9 +10,14 @@
                 #{{ substr($order->id, -8) }}
             </p>
         </div>
-        <a href="{{ route('admin.orders.index') }}" class="btn btn-clear-filters fw-500">
-            <i class="bi bi-arrow-left me-1"></i>Back to Orders
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.orders.editStatus', $order) }}" class="btn btn-primary-brand fw-500">
+                <i class="bi bi-arrow-repeat me-1"></i>Change Status
+            </a>
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-clear-filters fw-500">
+                <i class="bi bi-arrow-left me-1"></i>Back to Orders
+            </a>
+        </div>
     </div>
 
     @if (session('success'))
@@ -20,45 +25,45 @@
     @endif
 
     <div class="row g-4">
-        <div class="col-lg-7">
-            <div class="admin-form-card mb-4">
+        <div class="col-lg-8 d-flex flex-column gap-4">
+            <div class="admin-form-card">
                 <p class="admin-form-section-title">Order Information</p>
-
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Order Reference</p>
-                        <p class="admin-form-control admin-readonly">#{{ substr($order->id, -8) }}</p>
+                        <p class="admin-form-control admin-readonly mb-0">#{{ substr($order->id, -8) }}</p>
                     </div>
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Order Date</p>
-                        <p class="admin-form-control admin-readonly">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y, H:i') }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="admin-form-label mb-1">Customer</p>
-                        <p class="admin-form-control admin-readonly">{{ $order->user?->email ?? 'Guest' }}</p>
+                        <p class="admin-form-control admin-readonly mb-0">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y, H:i') }}</p>
                     </div>
                     @if ($order->contact_first_name)
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Contact Name</p>
-                            <p class="admin-form-control admin-readonly">{{ $order->contact_first_name }} {{ $order->contact_last_name }}</p>
+                            <p class="admin-form-control admin-readonly mb-0">{{ $order->contact_first_name }} {{ $order->contact_last_name }}</p>
                         </div>
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Contact Email</p>
-                            <p class="admin-form-control admin-readonly">{{ $order->contact_email }}</p>
+                            <p class="admin-form-control admin-readonly mb-0">{{ $order->contact_email }}</p>
                         </div>
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Contact Phone</p>
-                            <p class="admin-form-control admin-readonly">{{ $order->contact_phone }}</p>
+                            <p class="admin-form-control admin-readonly mb-0">{{ $order->contact_phone }}</p>
+                        </div>
+                    @else
+                        <div class="col-sm-6">
+                            <p class="admin-form-label mb-1">Customer</p>
+                            <p class="admin-form-control admin-readonly mb-0">{{ $order->user?->email ?? 'Guest' }}</p>
                         </div>
                     @endif
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Delivery Method</p>
-                        <p class="admin-form-control admin-readonly">{{ $order->delivery_method === 'pickup' ? 'Store Pickup' : 'Courier' }}</p>
+                        <p class="admin-form-control admin-readonly mb-0">{{ $order->delivery_method === 'pickup' ? 'Store Pickup' : 'Courier' }}</p>
                     </div>
                     @if ($order->address)
                         <div class="col-12">
                             <p class="admin-form-label mb-1">Delivery Address</p>
-                            <p class="admin-form-control admin-readonly">
+                            <p class="admin-form-control admin-readonly mb-0">
                                 {{ $order->address->street }} {{ $order->address->house_number }},
                                 {{ $order->address->city }}, {{ $order->address->postal_code }},
                                 {{ $order->address->country }}
@@ -68,26 +73,24 @@
                     @if ($order->payment)
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Payment Method</p>
-                            <p class="admin-form-control admin-readonly">{{ ucfirst(str_replace('_', ' ', $order->payment->payment_method)) }}</p>
+                            <p class="admin-form-control admin-readonly mb-0">{{ ucfirst(str_replace('_', ' ', $order->payment->payment_method)) }}</p>
                         </div>
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Payment Amount</p>
-                            <p class="admin-form-control admin-readonly">€{{ number_format($order->payment->amount, 2) }}</p>
+                            <p class="admin-form-control admin-readonly mb-0">{{ number_format($order->payment->amount, 2) }} €</p>
                         </div>
                     @endif
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Items</p>
-                        <p class="admin-form-control admin-readonly">{{ $order->items->sum('quantity') }} items</p>
+                        <p class="admin-form-control admin-readonly mb-0">{{ $order->items->sum('quantity') }} {{ Str::plural('item', $order->items->sum('quantity')) }}</p>
                     </div>
-                    <div class="col-12">
+                    <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Total</p>
-                        <p class="admin-form-control admin-readonly fw-600">€{{ number_format($order->total_price, 2) }}</p>
+                        <p class="admin-form-control admin-readonly mb-0 fw-600">{{ number_format($order->total_price, 2) }} €</p>
                     </div>
-                    <div class="col-12">
-                        <p class="admin-form-label mb-1">Current Status</p>
-                        <span class="order-status-badge order-status-{{ $order->status }}">
-                            {{ ucfirst($order->status) }}
-                        </span>
+                    <div class="col-sm-6">
+                        <p class="admin-form-label mb-1">Status</p>
+                        <span class="order-status-badge order-status-{{ $order->status }}">{{ ucfirst($order->status) }}</span>
                     </div>
                 </div>
             </div>
@@ -95,7 +98,7 @@
             <div class="admin-form-card">
                 <p class="admin-form-section-title">Order Items</p>
                 <div class="table-responsive">
-                    <table class="admin-table">
+                    <table class="table admin-table mb-0">
                         <thead>
                             <tr>
                                 <th>Product</th>
@@ -116,42 +119,13 @@
                                         @endif
                                     </td>
                                     <td class="small">{{ $item->quantity }}</td>
-                                    <td class="small">€{{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="small fw-600">€{{ number_format($item->unit_price * $item->quantity, 2) }}</td>
+                                    <td class="small">{{ number_format($item->unit_price, 2) }} €</td>
+                                    <td class="small fw-600">{{ number_format($item->unit_price * $item->quantity, 2) }} €</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-lg-5">
-            <div class="admin-form-card">
-                <p class="admin-form-section-title">Update Status</p>
-
-                <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-
-                    <div class="mb-4">
-                        <label for="orderStatus" class="admin-form-label">New Status <span class="text-danger">*</span></label>
-                        <select id="orderStatus" name="status" class="admin-form-control" required>
-                            @foreach ($statuses as $value)
-                                <option value="{{ $value }}" {{ $order->status === $value ? 'selected' : '' }}>
-                                    {{ ucfirst($value) }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('status')
-                            <p class="admin-form-hint text-danger">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="admin-form-actions">
-                        <button type="submit" class="btn btn-primary-brand fw-600">Update Status</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
