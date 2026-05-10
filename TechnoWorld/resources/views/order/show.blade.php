@@ -41,6 +41,27 @@
                 <aside class="order-details-panel" aria-label="Order details">
                     <h2 class="order-details-title">Order details</h2>
 
+                    @if ($order->contact_first_name)
+                        <div class="order-details-group">
+                            <h3 class="order-details-group-title">Contact Information</h3>
+                            <div class="order-detail-row">
+                                <span>Name</span>
+                                <span class="order-detail-dots"></span>
+                                <span>{{ $order->contact_first_name }} {{ $order->contact_last_name }}</span>
+                            </div>
+                            <div class="order-detail-row">
+                                <span>Email</span>
+                                <span class="order-detail-dots"></span>
+                                <span>{{ $order->contact_email }}</span>
+                            </div>
+                            <div class="order-detail-row">
+                                <span>Phone</span>
+                                <span class="order-detail-dots"></span>
+                                <span>{{ $order->contact_phone }}</span>
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="order-details-group">
                         <h3 class="order-details-group-title">Delivery</h3>
                         <div class="order-detail-row">

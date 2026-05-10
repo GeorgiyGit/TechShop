@@ -22,6 +22,10 @@ class Order extends Model
         'status',
         'delivery_method',
         'total_price',
+        'contact_first_name',
+        'contact_last_name',
+        'contact_email',
+        'contact_phone',
     ];
 
     protected function casts(): array

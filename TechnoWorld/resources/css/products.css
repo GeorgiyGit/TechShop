@@ -592,6 +592,11 @@ main {
     margin-top: auto;
 }
 
+.product-card-action {
+    position: relative;
+    z-index: 1;
+}
+
 .product-img {
     width: 100%;
     aspect-ratio: 1 / 1;

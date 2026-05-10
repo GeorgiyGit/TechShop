@@ -30,8 +30,44 @@ class OrderController extends Controller
         return view('order.create-items', compact('cart', 'subtotal', 'itemsCount'));
     }
 
+    public function contact(Request $request): View|RedirectResponse
+    {
+        $cart = $this->resolveCart($request);
+
+        if (!$cart || $cart->items()->count() === 0) {
+            return redirect()->route('cart.index');
+        }
+
+        $contact = $request->session()->get('order_contact', [
+            'first_name' => '',
+            'last_name' => '',
+            'email' => Auth::user()?->email ?? '',
+            'phone' => '',
+        ]);
+
+        return view('order.create-contact', compact('contact'));
+    }
+
+    public function storeContact(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:40',
+        ]);
+
+        $request->session()->put('order_contact', $request->only('first_name', 'last_name', 'email', 'phone'));
+
+        return redirect()->route('order.create.delivery');
+    }
+
     public function delivery(Request $request): View|RedirectResponse
     {
+        if (!$request->session()->has('order_contact')) {
+            return redirect()->route('order.create.contact');
+        }
+
         if (!$request->session()->has('order_delivery')) {
             $delivery = [
                 'delivery_method' => 'courier',
@@ -78,6 +114,10 @@ class OrderController extends Controller
 
     public function payment(Request $request): View|RedirectResponse
     {
+        if (!$request->session()->has('order_contact')) {
+            return redirect()->route('order.create.contact');
+        }
+
         if (!$request->session()->has('order_delivery')) {
             return redirect()->route('order.create.delivery');
         }
@@ -109,13 +149,18 @@ class OrderController extends Controller
             return redirect()->route('cart.index');
         }
 
+        $contact = $request->session()->get('order_contact');
         $delivery = $request->session()->get('order_delivery');
+
+        if (!$contact) {
+            return redirect()->route('order.create.contact');
+        }
 
         if (!$delivery) {
             return redirect()->route('order.create.delivery');
         }
 
-        $order = DB::transaction(function () use ($request, $cart, $delivery) {
+        $order = DB::transaction(function () use ($request, $cart, $contact, $delivery) {
             $address = null;
             if (($delivery['delivery_method'] ?? 'courier') === 'courier') {
                 $address = Address::create([
@@ -135,6 +180,10 @@ class OrderController extends Controller
                 'delivery_method' => $delivery['delivery_method'],
                 'status' => 'processing',
                 'total_price' => round($totalPrice, 2),
+                'contact_first_name' => $contact['first_name'],
+                'contact_last_name' => $contact['last_name'],
+                'contact_email' => $contact['email'],
+                'contact_phone' => $contact['phone'],
             ]);
 
             foreach ($cart->items as $item) {
@@ -160,14 +209,14 @@ class OrderController extends Controller
             return $order;
         });
 
-        $request->session()->forget('order_delivery');
+        $request->session()->forget(['order_contact', 'order_delivery']);
 
         return redirect()->route('order.success', $order);
     }
 
     public function show(Order $order): View
     {
-        if ($order->user_id !== Auth::id()) {
+        if ($order->user_id !== null && $order->user_id !== Auth::id()) {
             abort(403);
         }
 

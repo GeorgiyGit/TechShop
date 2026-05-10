@@ -30,6 +30,8 @@ Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.rem
 
 Route::prefix('create-order')->name('order.create.')->group(function () {
     Route::get('/', [OrderController::class, 'items'])->name('items');
+    Route::get('/contact', [OrderController::class, 'contact'])->name('contact');
+    Route::post('/contact', [OrderController::class, 'storeContact'])->name('contact.store');
     Route::get('/delivery', [OrderController::class, 'delivery'])->name('delivery');
     Route::post('/delivery', [OrderController::class, 'storeDelivery'])->name('delivery.store');
     Route::get('/payment', [OrderController::class, 'payment'])->name('payment');
@@ -45,10 +47,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 });
 
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'account'])->name('account');
     Route::get('/dashboard', [AccountController::class, 'dashboard'])->name('dashboard');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
 

@@ -15,7 +15,7 @@
                 <li class="breadcrumb-item"><a href="{{ route('products') }}" class="blue-text text-decoration-none">Products</a></li>
                 @if ($product->category)
                     <li class="breadcrumb-item">
-                        <a href="{{ route('products', ['category' => $product->category_id]) }}" class="blue-text text-decoration-none">{{ $product->category->name }}</a>
+                        <a href="{{ route('products', ['categories' => [$product->category_id]]) }}" class="blue-text text-decoration-none">{{ $product->category->name }}</a>
                     </li>
                 @endif
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
@@ -52,12 +52,12 @@
                 <h1 class="fw-bold mb-2">{{ $product->name }}</h1>
                 <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                     @if ($product->brand)
-                        <a href="{{ route('products', ['brands[]' => [$product->brand->name]]) }}" class="product-detail-tag">
+                        <a href="{{ route('products', ['brands' => [$product->brand->name]]) }}" class="product-detail-tag">
                             {{ $product->brand->name }}
                         </a>
                     @endif
                     @if ($product->category)
-                        <a href="{{ route('products', ['category' => $product->category_id]) }}" class="product-detail-tag">
+                        <a href="{{ route('products', ['categories' => [$product->category_id]]) }}" class="product-detail-tag">
                             <i class="bi bi-grid me-1"></i>{{ $product->category->name }}
                         </a>
                     @endif

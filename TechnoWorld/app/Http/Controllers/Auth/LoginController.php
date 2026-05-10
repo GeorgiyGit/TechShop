@@ -45,14 +45,12 @@ class LoginController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
-        $redirectTo = $this->resolveReturnTo($request, $request->input('return_to'));
-
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->to($redirectTo);
+        return redirect()->route('products');
     }
 
 }

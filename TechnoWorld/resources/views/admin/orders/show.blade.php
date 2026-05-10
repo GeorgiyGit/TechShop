@@ -27,24 +27,38 @@
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Order Reference</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">#{{ substr($order->id, -8) }}</p>
+                        <p class="admin-form-control admin-readonly">#{{ substr($order->id, -8) }}</p>
                     </div>
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Order Date</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y, H:i') }}</p>
+                        <p class="admin-form-control admin-readonly">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y, H:i') }}</p>
                     </div>
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Customer</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->user?->email ?? 'Guest' }}</p>
+                        <p class="admin-form-control admin-readonly">{{ $order->user?->email ?? 'Guest' }}</p>
                     </div>
+                    @if ($order->contact_first_name)
+                        <div class="col-sm-6">
+                            <p class="admin-form-label mb-1">Contact Name</p>
+                            <p class="admin-form-control admin-readonly">{{ $order->contact_first_name }} {{ $order->contact_last_name }}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="admin-form-label mb-1">Contact Email</p>
+                            <p class="admin-form-control admin-readonly">{{ $order->contact_email }}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="admin-form-label mb-1">Contact Phone</p>
+                            <p class="admin-form-control admin-readonly">{{ $order->contact_phone }}</p>
+                        </div>
+                    @endif
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Delivery Method</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->delivery_method === 'pickup' ? 'Store Pickup' : 'Courier' }}</p>
+                        <p class="admin-form-control admin-readonly">{{ $order->delivery_method === 'pickup' ? 'Store Pickup' : 'Courier' }}</p>
                     </div>
                     @if ($order->address)
                         <div class="col-12">
                             <p class="admin-form-label mb-1">Delivery Address</p>
-                            <p class="admin-form-control" style="background:var(--gray-soft)">
+                            <p class="admin-form-control admin-readonly">
                                 {{ $order->address->street }} {{ $order->address->house_number }},
                                 {{ $order->address->city }}, {{ $order->address->postal_code }},
                                 {{ $order->address->country }}
@@ -54,20 +68,20 @@
                     @if ($order->payment)
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Payment Method</p>
-                            <p class="admin-form-control" style="background:var(--gray-soft)">{{ ucfirst(str_replace('_', ' ', $order->payment->payment_method)) }}</p>
+                            <p class="admin-form-control admin-readonly">{{ ucfirst(str_replace('_', ' ', $order->payment->payment_method)) }}</p>
                         </div>
                         <div class="col-sm-6">
                             <p class="admin-form-label mb-1">Payment Amount</p>
-                            <p class="admin-form-control" style="background:var(--gray-soft)">€{{ number_format($order->payment->amount, 2) }}</p>
+                            <p class="admin-form-control admin-readonly">€{{ number_format($order->payment->amount, 2) }}</p>
                         </div>
                     @endif
                     <div class="col-sm-6">
                         <p class="admin-form-label mb-1">Items</p>
-                        <p class="admin-form-control" style="background:var(--gray-soft)">{{ $order->items->sum('quantity') }} items</p>
+                        <p class="admin-form-control admin-readonly">{{ $order->items->sum('quantity') }} items</p>
                     </div>
                     <div class="col-12">
                         <p class="admin-form-label mb-1">Total</p>
-                        <p class="admin-form-control fw-600" style="background:var(--gray-soft)">€{{ number_format($order->total_price, 2) }}</p>
+                        <p class="admin-form-control admin-readonly fw-600">€{{ number_format($order->total_price, 2) }}</p>
                     </div>
                     <div class="col-12">
                         <p class="admin-form-label mb-1">Current Status</p>
@@ -96,7 +110,7 @@
                                     <td>
                                         @if ($item->product)
                                             <div class="fw-600 small">{{ $item->product->name }}</div>
-                                            <div class="text-muted" style="font-size:0.78rem">{{ $item->product->brand?->name }}</div>
+                                            <div class="admin-form-hint">{{ $item->product->brand?->name }}</div>
                                         @else
                                             <div class="fw-600 small text-muted">[Product deleted]</div>
                                         @endif
