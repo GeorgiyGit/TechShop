@@ -17,7 +17,7 @@
         <div class="d-flex justify-content-start align-items-center mb-4 flex-wrap gap-3">
             <div class="d-flex align-items-center gap-2">
                 <label class="text-muted small me-1 text-nowrap" for="sort">Sort by</label>
-                <select class="form-select form-select-sm select-brand" id="sort" name="sort" form="productsFiltersForm" style="min-width: 180px" onchange="this.form.submit()">
+                <select class="form-select form-select-sm" id="sort" name="sort" form="productsFiltersForm" style="min-width: 180px" onchange="this.form.submit()">
                     <option value="newest" @selected($filters['sort'] === 'newest')>New First</option>
                     <option value="price_asc" @selected($filters['sort'] === 'price_asc')>Low Price First</option>
                     <option value="price_desc" @selected($filters['sort'] === 'price_desc')>High Price First</option>
@@ -32,6 +32,7 @@
                     @if ($filters['search'])
                         <input type="hidden" name="search" value="{{ $filters['search'] }}">
                     @endif
+                    <input type="hidden" name="price_changed" value="{{ $filters['price_changed'] ? '1' : '' }}">
                     <div class="filter-sidebar">
                         <h6 class="filter-sidebar-title"><i class="bi bi-sliders2 me-2"></i>Filters</h6>
                         <div class="accordion accordion-flush" id="filterAccordion">
@@ -50,7 +51,7 @@
                                                     name="categories[]"
                                                     value="{{ $category->id }}"
                                                     @checked(in_array($category->id, $filters['categories'], true))
-                                                    onchange="this.form.submit()">
+                                                    onchange="this.form.querySelector('[name=price_changed]').value=''; this.form.submit()">
                                                 <label class="form-check-label" for="cat{{ $category->id }}">{{ $category->name }}</label>
                                             </div>
                                         @endforeach
@@ -203,6 +204,22 @@
                                         <p class="card-text text-muted">{{ $product->short_description }}</p>
                                         <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
                                             <span class="product-price">{{ number_format((float) $product->price, 2) }} €</span>
+                                            <div class="product-card-action">
+                                                @if (($product->stock_quantity ?? 0) <= 0)
+                                                    <button type="button" class="btn btn-add-cart btn-sm" disabled>
+                                                        <i class="bi bi-cart-x me-1"></i>Unavailable
+                                                    </button>
+                                                @else
+                                                    <form method="POST" action="{{ route('cart.add') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                        <input type="hidden" name="quantity" value="1">
+                                                        <button type="submit" class="btn btn-add-cart btn-sm">
+                                                            <i class="bi bi-cart-plus me-1"></i>Add
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </article>
@@ -227,7 +244,6 @@ document.querySelectorAll('.stock-status-check').forEach(cb => {
         document.querySelectorAll('.stock-status-check').forEach(other => {
             if (other !== this) other.checked = false;
         });
-        this.form.submit();
     });
 });
 </script>

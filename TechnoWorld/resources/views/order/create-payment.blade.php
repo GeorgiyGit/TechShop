@@ -1,6 +1,6 @@
 @extends('layouts.storefront', [
     'title' => 'TechnoWorld - Payment',
-    'vite' => ['resources/css/create-order.css'],
+    'vite' => ['resources/css/create-order.css', 'resources/js/create-order-payment.js'],
 ])
 
 @section('bodyClass', 'products-page')
@@ -14,7 +14,7 @@
         <section class="create-order-section">
             <h1 class="create-order-title">Create Order</h1>
 
-            @include('order.partials.stepper', ['currentStep' => 3])
+            @include('order.partials.stepper', ['currentStep' => 4])
 
             <h2 class="step-heading">Payment &amp; Confirmation</h2>
 
@@ -64,31 +64,6 @@
             </form>
         </section>
     </main>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const group = document.querySelector('.payment-method-group');
-            const submitLabel = document.querySelector('[data-payment-submit-label]');
-            if (!group) return;
-
-            const refreshSelection = () => {
-                const selectedRadio = group.querySelector('input[type="radio"]:checked');
-                group.querySelectorAll('.payment-method-card').forEach((card) => {
-                    const input = card.querySelector('input[type="radio"]');
-                    card.classList.toggle('selected', !!input && input.checked);
-                });
-                if (submitLabel) {
-                    submitLabel.textContent = selectedRadio && selectedRadio.value === 'cash' ? 'Place Order' : 'Pay for Order';
-                }
-            };
-
-            group.querySelectorAll('input[type="radio"]').forEach((input) => {
-                input.addEventListener('change', refreshSelection);
-            });
-
-            refreshSelection();
-        });
-    </script>
 
     @include('partials.storefront-footer')
 @endsection

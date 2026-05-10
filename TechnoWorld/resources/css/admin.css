@@ -459,6 +459,10 @@ body.admin-body .admin-wrapper {
     margin-bottom: 0;
 }
 
+.admin-readonly {
+    background: var(--gray-soft);
+}
+
 .admin-form-control {
     width: 100%;
     border: 1px solid #c9d6e8;

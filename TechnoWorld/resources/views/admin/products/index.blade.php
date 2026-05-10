@@ -68,7 +68,7 @@
                             <td>
                                 <div class="fw-600 small">{{ $product->name }}</div>
                                 @if ($product->short_description)
-                                    <div class="text-muted" style="font-size:0.78rem">{{ Str::limit($product->short_description, 60) }}</div>
+                                    <div class="admin-form-hint">{{ Str::limit($product->short_description, 60) }}</div>
                                 @endif
                             </td>
                             <td class="small">{{ $product->category?->name ?? '—' }}</td>

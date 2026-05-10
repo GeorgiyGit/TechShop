@@ -28,8 +28,9 @@ class ProductController extends Controller
             ->values()
             ->all();
 
-        $minPrice = $request->filled('min_price') ? (float) $request->input('min_price') : null;
-        $maxPrice = $request->filled('max_price') ? (float) $request->input('max_price') : null;
+        $priceChanged = $request->boolean('price_changed');
+        $minPrice = ($priceChanged && $request->filled('min_price')) ? (float) $request->input('min_price') : null;
+        $maxPrice = ($priceChanged && $request->filled('max_price')) ? (float) $request->input('max_price') : null;
 
         $stockStatus = $request->input('stock_status');
         if (!in_array($stockStatus, ['in_stock', 'low_stock', 'unavailable'], true)) {
@@ -40,7 +41,7 @@ class ProductController extends Controller
 
         $openCategoryFilter = $selectedCategories !== [];
         $openBrandFilter = $selectedBrands !== [];
-        $openPriceFilter = $minPrice !== null || $maxPrice !== null;
+        $openPriceFilter = $priceChanged;
         $openStockFilter = $stockStatus !== null;
 
         $categories = Category::withCount('products')
@@ -100,13 +101,14 @@ class ProductController extends Controller
             ->withQueryString();
 
         $filters = [
-            'categories'   => $selectedCategories,
-            'brands'       => $selectedBrands,
-            'min_price'    => $minPrice,
-            'max_price'    => $maxPrice,
-            'stock_status' => $stockStatus,
-            'search'       => $search,
-            'sort'         => $sort,
+            'categories'    => $selectedCategories,
+            'brands'        => $selectedBrands,
+            'min_price'     => $minPrice,
+            'max_price'     => $maxPrice,
+            'price_changed' => $priceChanged,
+            'stock_status'  => $stockStatus,
+            'search'        => $search,
+            'sort'          => $sort,
         ];
 
         return view('products', compact(

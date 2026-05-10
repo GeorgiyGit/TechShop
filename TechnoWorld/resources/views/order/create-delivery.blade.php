@@ -1,6 +1,6 @@
 @extends('layouts.storefront', [
     'title' => 'TechnoWorld - Delivery Method',
-    'vite' => ['resources/css/create-order.css'],
+    'vite' => ['resources/css/create-order.css', 'resources/js/create-order-delivery.js'],
 ])
 
 @section('bodyClass', 'products-page')
@@ -14,7 +14,7 @@
         <section class="create-order-section">
             <h1 class="create-order-title">Create Order</h1>
 
-            @include('order.partials.stepper', ['currentStep' => 2])
+            @include('order.partials.stepper', ['currentStep' => 3])
 
             <h2 class="step-heading">Delivery Method</h2>
 
@@ -29,7 +29,7 @@
 
                 <div class="delivery-method-group" role="radiogroup" aria-label="Delivery method">
                     <label @class(['delivery-method-card', 'selected' => $selectedMethod === 'courier'])>
-                        <input type="radio" name="delivery_method" value="courier" class="visually-hidden" @checked($selectedMethod === 'courier') onchange="this.closest('form').querySelectorAll('.delivery-method-card').forEach(c=>c.classList.toggle('selected',c.querySelector('input').checked)); document.getElementById('courierFields').style.display='block';">
+                        <input type="radio" name="delivery_method" value="courier" class="visually-hidden" @checked($selectedMethod === 'courier')>
                         <span class="delivery-method-icon"><i class="bi bi-truck"></i></span>
                         <span class="delivery-method-info">
                             <span class="delivery-method-name">Courier Delivery</span>
@@ -39,7 +39,7 @@
                     </label>
 
                     <label @class(['delivery-method-card', 'selected' => $selectedMethod === 'pickup'])>
-                        <input type="radio" name="delivery_method" value="pickup" class="visually-hidden" @checked($selectedMethod === 'pickup') onchange="this.closest('form').querySelectorAll('.delivery-method-card').forEach(c=>c.classList.toggle('selected',c.querySelector('input').checked)); document.getElementById('courierFields').style.display='none';">
+                        <input type="radio" name="delivery_method" value="pickup" class="visually-hidden" @checked($selectedMethod === 'pickup')>
                         <span class="delivery-method-icon"><i class="bi bi-shop"></i></span>
                         <span class="delivery-method-info">
                             <span class="delivery-method-name">Store Pickup</span>
@@ -49,9 +49,8 @@
                     </label>
                 </div>
 
-                <div id="courierFields" style="{{ $selectedMethod === 'pickup' ? 'display:none;' : '' }}">
+                <div id="courierFields" @style(['display:none' => $selectedMethod === 'pickup'])>
                     <h3 class="step-subheading">Shipping Address</h3>
-
                     <div class="step-form-grid">
                         <div class="form-field">
                             <label class="form-field-label" for="addr-country">Country</label>
@@ -76,8 +75,34 @@
                     </div>
                 </div>
 
+                <div id="pickupFields" @style(['display:none' => $selectedMethod === 'courier'])>
+                    <h3 class="step-subheading">Pickup Location</h3>
+                    <div class="step-form-grid">
+                        <div class="form-field">
+                            <label class="form-field-label">Country</label>
+                            <div class="create-order-readonly">Slovakia</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field-label">City</label>
+                            <div class="create-order-readonly">Bratislava</div>
+                        </div>
+                        <div class="form-field full-width">
+                            <label class="form-field-label">Street</label>
+                            <div class="create-order-readonly">Star&eacute; Grunty, Karlova Ves</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field-label">House Number</label>
+                            <div class="create-order-readonly">53</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field-label">Post Code</label>
+                            <div class="create-order-readonly">841 04</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="step-nav">
-                    <a href="{{ route('order.create.items') }}" class="step-btn step-btn-prev">
+                    <a href="{{ route('order.create.contact') }}" class="step-btn step-btn-prev">
                         <i class="bi bi-arrow-left"></i> Back
                     </a>
                     <button type="submit" class="step-btn step-btn-next">

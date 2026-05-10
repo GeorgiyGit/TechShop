@@ -44,6 +44,7 @@
             </form>
 
             <p class="signup-footer-text">Already have an account? <a href="{{ route('login', ['return_to' => $returnTo]) }}">Log In</a></p>
+        </div>
     </section>
 </body>
 </html>

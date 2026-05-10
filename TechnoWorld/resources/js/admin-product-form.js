@@ -37,17 +37,94 @@ function initImageUpload() {
     const preview = document.getElementById('imagePreviewContainer');
     if (!input || !preview) return;
 
-    input.addEventListener('change', () => {
+    const form = input.closest('form');
+    const isEdit = form?.querySelector('input[name="_method"]') !== null;
+    const MIN_IMAGES = 3;
+
+    const dt = new DataTransfer();
+
+    let errorEl = null;
+
+    function getExistingCount() {
+        return document.querySelectorAll('.admin-image-previews .admin-image-preview-item').length;
+    }
+
+    function updateCounter() {
+        const newCount = dt.files.length;
+        const existingCount = isEdit ? getExistingCount() : 0;
+        const total = isEdit ? newCount : newCount;
+
+        if (!isEdit) {
+            let counter = document.getElementById('imageCounter');
+            if (!counter) {
+                counter = document.createElement('p');
+                counter.id = 'imageCounter';
+                counter.className = 'admin-form-hint mt-2 mb-0';
+                preview.parentElement.insertBefore(counter, preview);
+            }
+            const enough = total >= MIN_IMAGES;
+            counter.className = `admin-form-hint mt-2 mb-0${enough ? '' : ' text-danger'}`;
+            counter.textContent = `${total} of ${MIN_IMAGES} required images selected`;
+        }
+    }
+
+    function showError(msg) {
+        if (!errorEl) {
+            errorEl = document.createElement('p');
+            errorEl.className = 'admin-form-hint text-danger mt-2';
+            preview.parentElement.appendChild(errorEl);
+        }
+        errorEl.textContent = msg;
+    }
+
+    function clearError() {
+        if (errorEl) errorEl.textContent = '';
+    }
+
+    function renderPreviews() {
         preview.innerHTML = '';
-        Array.from(input.files).forEach(file => {
+        Array.from(dt.files).forEach((file, idx) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const item = document.createElement('div');
                 item.className = 'admin-image-preview-item';
-                item.innerHTML = `<img src="${e.target.result}" alt="">`;
+                item.innerHTML = `
+                    <img src="${e.target.result}" alt="">
+                    <button type="button" class="remove-image" data-idx="${idx}" title="Remove">
+                        <i class="bi bi-x"></i>
+                    </button>`;
                 preview.appendChild(item);
             };
             reader.readAsDataURL(file);
         });
+        updateCounter();
+        clearError();
+    }
+
+    input.addEventListener('change', () => {
+        Array.from(input.files).forEach(f => dt.items.add(f));
+        input.files = dt.files;
+        renderPreviews();
     });
+
+    preview.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-idx]');
+        if (!btn) return;
+        const idx = parseInt(btn.dataset.idx, 10);
+        dt.items.remove(idx);
+        input.files = dt.files;
+        renderPreviews();
+    });
+
+    if (!isEdit && form) {
+        form.addEventListener('submit', (e) => {
+            if (dt.files.length < MIN_IMAGES) {
+                e.preventDefault();
+                showError(`Please upload at least ${MIN_IMAGES} product images.`);
+                input.closest('.admin-form-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+
+    updateCounter();
 }

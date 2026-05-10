@@ -1,7 +1,7 @@
-@extends('layouts.storefront')
-
-@php $title = 'My Account'; @endphp
-@php $vite = ['resources/css/account.css']; @endphp
+@extends('layouts.storefront', [
+    'title' => 'My Account',
+    'vite' => ['resources/css/account.css'],
+])
 
 @section('bodyClass', 'products-page')
 
@@ -9,7 +9,7 @@
     @include('partials.storefront-header')
 
     <main class="account-main">
-        <section class="account-section container py-5">
+        <section class="account-section container-fluid px-0">
             <h1 class="account-title">Account Information</h1>
 
             @if ($orders->isEmpty())
@@ -21,10 +21,10 @@
             @else
                 <div class="account-orders-list">
                     @foreach ($orders as $order)
-                        <div class="account-order-card">
+                        <article class="account-order-card">
                             <div class="account-order-info">
                                 <div class="account-order-topline">
-                                    <h2 class="account-order-code">#{{ substr($order->id, -8) }}</h2>
+                                    <p class="account-order-code">#{{ substr($order->id, -8) }}</p>
                                     <p class="account-order-status">
                                         <span class="order-status-badge order-status-{{ $order->status }}">
                                             {{ ucfirst($order->status) }}
@@ -52,11 +52,11 @@
                                     <p class="account-order-total-label">Total Price</p>
                                     <p class="account-order-total-value">€{{ number_format($order->total_price, 2) }}</p>
                                 </div>
-                                <a href="{{ route('order.success', $order) }}" class="account-order-details-btn">
+                                <a href="{{ route('order.show', $order) }}" class="account-order-details-btn">
                                     Order details
                                 </a>
                             </div>
-                        </div>
+                        </article>
                     @endforeach
                 </div>
 

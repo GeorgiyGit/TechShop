@@ -53,11 +53,17 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|exists:categories,id',
-            'short_description' => 'nullable|string',
+            'short_description' => 'required|string|max:80',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'images.*' => 'nullable|image|max:5120',
+            'images' => 'required|array|min:3',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ], [
+            'images.required' => 'Please upload at least 3 product images.',
+            'images.min' => 'Please upload at least 3 product images.',
+            'images.*.image' => 'Each file must be a valid image.',
+            'images.*.max' => 'Each image must not exceed 5 MB.',
         ]);
 
         $product = Product::create($data);
@@ -86,11 +92,12 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|exists:categories,id',
-            'short_description' => 'nullable|string',
+            'short_description' => 'required|string|max:80',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'images.*' => 'nullable|image|max:5120',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
         $product->update($data);

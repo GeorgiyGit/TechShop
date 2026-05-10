@@ -41,7 +41,7 @@
                 <a href="{{ route('cart.index') }}" class="step-btn step-btn-prev">
                     <i class="bi bi-arrow-left"></i> Back to Cart
                 </a>
-                <a href="{{ route('order.create.delivery') }}" class="step-btn step-btn-next">
+                <a href="{{ route('order.create.contact') }}" class="step-btn step-btn-next">
                     Continue <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
