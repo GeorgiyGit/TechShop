@@ -12,12 +12,11 @@ class BrandSeeder extends Seeder
         $brands = [
             'Apple', 'Samsung', 'Google', 'Motorola', 'Xiaomi',
             'Lenovo', 'Microsoft', 'Sony', 'LG', 'HP',
-            'Panasonic', 'Philips', 'Dyson', 'Nespresso', 'Bosch',
+            'Panasonic', 'Philips', 'Nespresso', 'Bosch',
             'DeLonghi', 'Canon', 'Insta360', 'Osaka', 'JLab',
             'Tronsmart', 'Cooler Master', 'Raidmax', 'Wacom', 'Indesit',
             'Zanussi', 'Deye', 'Molicel', 'Langzeit', 'La Marzocco',
-            'Profi Cook', 'ASUS', 'General Mobile', 'Bissell', 'Ecovacs',
-            'Roborock', 'Rowenta', 'ZooZee', 'Garmin',
+            'Profi Cook', 'ASUS', 'General Mobile', 'Rowenta', 'Garmin', 'Electrolux',
         ];
 
         foreach ($brands as $name) {
