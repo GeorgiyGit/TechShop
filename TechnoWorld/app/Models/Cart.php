@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Cart extends Model
+{
+    use HasUuids;
+
+    const CREATED_AT = null;
+
+    protected $fillable = [
+        'user_id',
+        'session_id',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public static function mergeGuestCart(string $guestSessionId, string $userId): void
+    {
+        $guestCart = self::where('session_id', $guestSessionId)->with('items.product')->first();
+
+        if (!$guestCart || $guestCart->items->isEmpty()) {
+            $guestCart?->delete();
+            return;
+        }
+
+        $userCart = self::firstOrCreate(
+            ['user_id' => $userId],
+            ['session_id' => null]
+        );
+
+        foreach ($guestCart->items as $guestItem) {
+            $existing = $userCart->items()->where('product_id', $guestItem->product_id)->first();
+
+            if ($existing) {
+                $maxStock = $guestItem->product->stock_quantity ?? PHP_INT_MAX;
+                $existing->update([
+                    'quantity' => min($existing->quantity + $guestItem->quantity, $maxStock),
+                ]);
+            } else {
+                $guestItem->update(['cart_id' => $userCart->id]);
+            }
+        }
+
+        $guestCart->delete();
+    }
+}
