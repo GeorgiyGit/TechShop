@@ -18,7 +18,7 @@ class ProductController extends Controller
         $categoryId = $request->input('category_id');
 
         $products = Product::with(['brand', 'category', 'firstImage'])
-            ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->when($search, fn($q) => $q->where('name', 'ILIKE', "%{$search}%"))
             ->when($categoryId, fn($q) => $q->where('category_id', $categoryId))
             ->orderBy('name')
             ->paginate(15)
@@ -95,6 +95,15 @@ class ProductController extends Controller
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
+
+        $existingCount = $product->images()->count();
+        $newCount = $request->hasFile('images') ? count($request->file('images')) : 0;
+
+        if ($existingCount + $newCount < 2) {
+            return back()->withInput()->withErrors([
+                'images' => 'The product must have at least 2 images.',
+            ]);
+        }
 
         $product->update($data);
         if ($request->hasFile('images')) {

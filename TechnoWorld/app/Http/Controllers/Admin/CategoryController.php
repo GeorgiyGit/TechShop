@@ -12,7 +12,7 @@ class CategoryController extends Controller
     {
         $search = $request->input('search');
         $categories = Category::withCount('products')
-            ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->when($search, fn($q) => $q->where('name', 'ILIKE', "%{$search}%"))
             ->orderByDesc('products_count')
             ->orderBy('name')
             ->paginate(15)

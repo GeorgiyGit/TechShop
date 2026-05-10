@@ -52,20 +52,20 @@ function initImageUpload() {
     function updateCounter() {
         const newCount = dt.files.length;
         const existingCount = isEdit ? getExistingCount() : 0;
-        const total = isEdit ? newCount : newCount;
+        const total = existingCount + newCount;
 
-        if (!isEdit) {
-            let counter = document.getElementById('imageCounter');
-            if (!counter) {
-                counter = document.createElement('p');
-                counter.id = 'imageCounter';
-                counter.className = 'admin-form-hint mt-2 mb-0';
-                preview.parentElement.insertBefore(counter, preview);
-            }
-            const enough = total >= MIN_IMAGES;
-            counter.className = `admin-form-hint mt-2 mb-0${enough ? '' : ' text-danger'}`;
-            counter.textContent = `${total} of ${MIN_IMAGES} required images selected`;
+        let counter = document.getElementById('imageCounter');
+        if (!counter) {
+            counter = document.createElement('p');
+            counter.id = 'imageCounter';
+            counter.className = 'admin-form-hint mt-2 mb-0';
+            preview.parentElement.insertBefore(counter, preview);
         }
+        const enough = total >= MIN_IMAGES;
+        counter.className = `admin-form-hint mt-2 mb-0${enough ? '' : ' text-danger'}`;
+        counter.textContent = isEdit
+            ? `${existingCount} existing + ${newCount} new = ${total} image${total !== 1 ? 's' : ''} (min ${MIN_IMAGES} required)`
+            : `${total} of ${MIN_IMAGES} required images selected`;
     }
 
     function showError(msg) {
@@ -116,9 +116,10 @@ function initImageUpload() {
         renderPreviews();
     });
 
-    if (!isEdit && form) {
+    if (form) {
         form.addEventListener('submit', (e) => {
-            if (dt.files.length < MIN_IMAGES) {
+            const total = (isEdit ? getExistingCount() : 0) + dt.files.length;
+            if (total < MIN_IMAGES) {
                 e.preventDefault();
                 showError(`Please upload at least ${MIN_IMAGES} product images.`);
                 input.closest('.admin-form-card').scrollIntoView({ behavior: 'smooth', block: 'center' });

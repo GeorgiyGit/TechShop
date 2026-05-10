@@ -16,7 +16,7 @@ class OrderController extends Controller
         $status = $request->input('status');
 
         $orders = Order::with(['user', 'payment', 'items'])
-            ->when($search, fn($q) => $q->where('id', 'like', "%{$search}%"))
+            ->when($search, fn($q) => $q->where('id', 'ILIKE', "%{$search}%"))
             ->when($status, fn($q) => $q->where('status', $status))
             ->orderByDesc('created_at')
             ->paginate(15)

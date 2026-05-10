@@ -12,7 +12,7 @@ class BrandController extends Controller
     {
         $search = $request->input('search');
         $brands = Brand::withCount('products')
-            ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->when($search, fn($q) => $q->where('name', 'ILIKE', "%{$search}%"))
             ->orderBy('name')
             ->get();
 

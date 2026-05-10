@@ -111,14 +111,13 @@
                             @foreach ($product->images as $img)
                                 <div class="admin-image-preview-item">
                                     <img src="{{ route('images.products', $img->url) }}" alt="">
-                                    <form action="{{ route('admin.product-images.destroy', $img) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="remove-image"
-                                            onclick="return confirm('Delete this image?')" title="Delete image">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    </form>
+                                    <button type="submit"
+                                        form="delete-img-{{ $img->id }}"
+                                        class="remove-image"
+                                        onclick="return confirm('Delete this image?')"
+                                        title="Delete image">
+                                        <i class="bi bi-x"></i>
+                                    </button>
                                 </div>
                             @endforeach
                         </div>
@@ -215,4 +214,15 @@
             </div>
         </div>
     </form>
+
+    @if ($editing && $product->images->isNotEmpty())
+        @foreach ($product->images as $img)
+            <form id="delete-img-{{ $img->id }}"
+                  action="{{ route('admin.product-images.destroy', $img) }}"
+                  method="POST" style="display:none">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endforeach
+    @endif
 @endsection
